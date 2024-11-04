@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="8dp"
-                    android:text="University of Michigan - "
+                    android:text="University of Michigan - Flint"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
 
