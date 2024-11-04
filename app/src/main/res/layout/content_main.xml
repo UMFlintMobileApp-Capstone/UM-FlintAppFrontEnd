@@ -9,7 +9,7 @@
 
     <?xml version="1.0" encoding="utf-8"?>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF">
@@ -25,8 +25,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#00274C"
-                android:orientation="horizontal"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingBottom="16dp">
 
                 <!--        <ImageView-->
@@ -37,12 +37,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="University of Michigan - Flint"
+                    android:paddingStart="8dp"
+                    android:text="University of Michigan - "
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
-                    android:textStyle="bold"
 
-                    android:paddingStart="8dp" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <View
