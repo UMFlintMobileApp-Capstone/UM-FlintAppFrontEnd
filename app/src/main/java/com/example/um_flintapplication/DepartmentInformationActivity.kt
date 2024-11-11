@@ -12,6 +12,13 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.um_flintapplication.databinding.ActivityDepartmentInformationBinding
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.jsoup.Jsoup
 
 class DepartmentInformationActivity : AppCompatActivity() {
 
@@ -43,6 +50,53 @@ class DepartmentInformationActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        // Start the scraping task
+        fetchDepartmentData()
+    }
+
+    private fun fetchDepartmentData() {
+
+        lifecycleScope.launch {
+            val departmentData = scrapeDepartmentData() // Fetch data with scraping function
+            displayData(departmentData) // Display the fetched data in the UI
+        }
+    }
+
+    private suspend fun scrapeDepartmentData(): List<String> = withContext(Dispatchers.IO) {
+        val departmentList = mutableListOf<String>()
+        try {
+            // Connect to the web page and parse content
+            val doc = Jsoup.connect("https://www.umflint.edu/departments/").get()
+            val elements = doc.select("CSS_SELECTOR_OF_DEPARTMENT_INFO") // Select elements
+
+            for (element in elements) {
+                departmentList.add(element.text()) // Add text to list
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        departmentList
+    }
+
+    private fun displayData(departmentData: List<String>) {
+        // Access your LinearLayout where you want to add dynamic data
+        val containerLayout = findViewById<LinearLayout>(R.id.containerLayout) // Replace with actual ID
+
+        departmentData.forEach { data ->
+            // Create a new TextView for each piece of data
+            val textView = TextView(this)
+            textView.text = data
+            textView.setTextColor(resources.getColor(R.color.white, theme))
+            textView.setTextSize(18f)
+            textView.setPadding(16, 16, 16, 16)
+
+            // Optional: add background, margins, etc., similar to XML design
+            textView.setBackgroundColor(resources.getColor(R.color.blue, theme))
+            textView.elevation = 4f
+
+            // Add TextView to the layout
+            containerLayout.addView(textView)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
