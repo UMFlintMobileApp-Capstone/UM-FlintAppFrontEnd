@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Alerts Section -->
+    <TextView
+        android:id="@+id/alertsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alerts"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp"
+        android:onClick="openAlertsPage" />
+
+    <!-- Sign In Section -->
+    <TextView
+        android:id="@+id/signInTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        android:textSize="18sp"
+        android:layout_below="@id/alertsTextView"
+        android:layout_marginTop="16dp"
+        android:onClick="openSignInPage" />
+
+    <!-- Events Section -->
+    <TextView
+        android:id="@+id/eventsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Events"
+        android:textSize="18sp"
+        android:layout_below="@id/signInTextView"
+        android:layout_marginTop="16dp"
+        android:onClick="openEventsPage" />
+
+    <!-- News Section -->
+    <TextView
+        android:id="@+id/newsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="News"
+        android:textSize="18sp"
+        android:layout_below="@id/eventsTextView"
+        android:layout_marginTop="16dp"
+        android:onClick="openNewsPage" />
+
+    <!-- Maps Section -->
+    <TextView
+        android:id="@+id/mapsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maps"
+        android:textSize="18sp"
+        android:layout_below="@id/newsTextView"
+        android:layout_marginTop="16dp"
+        android:onClick="openMapsPage" />
+
+</RelativeLayout>

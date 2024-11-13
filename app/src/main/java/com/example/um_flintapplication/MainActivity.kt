@@ -1,8 +1,10 @@
 package com.example.um_flintapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -66,5 +68,34 @@ class MainActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    fun openAlertsPage(view: View) {
+        val intent = Intent(this, AlertsActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Function to open the Sign In page
+    fun openSignInPage(view: View) {
+        val intent = Intent(this, SignInActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Function to open the Events page
+    fun openEventsPage(view: View) {
+        val intent = Intent(this, EventsActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Function to open the News page
+    fun openNewsPage(view: View) {
+        val intent = Intent(this, NewsActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Function to open the Maps page
+    fun openMapsPage(view: View) {
+        val intent = Intent(this, MapsActivity::class.java)
+        startActivity(intent)
     }
 }
