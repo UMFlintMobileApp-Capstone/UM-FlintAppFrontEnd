@@ -13,12 +13,27 @@
         android:theme="@style/Theme.UMFlintApplication"
         tools:targetApi="31">
         <activity
+            android:name=".AlertsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_alerts"
+            android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
+        <activity
+            android:name=".NewsActivity"
+            android:exported="false"
+            android:label="@string/title_news"
+            android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
+        <activity
+            android:name=".SignInActivity"
+            android:exported="false"
+            android:label="@string/title_sign_in"
+            android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
+        <activity
             android:name=".DepartmentInformationActivity"
             android:exported="false"
             android:label="@string/title_activity_department_information"
             android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
         <activity
-            android:name=".MapsPage"
+            android:name=".MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps_page"
             android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
@@ -27,6 +42,7 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.UMFlintApplication.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

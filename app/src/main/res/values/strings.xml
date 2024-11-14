@@ -13,4 +13,7 @@
     <string name="main_menu">Main Menu</string>
     <string name="title_activity_department_information">Department Information</string>
     <string name="title_activity_maps_page">Campus Maps</string>
+    <string name="title_activity_alerts">Alerts</string>
+    <string name="title_news">News</string>
+    <string name="title_sign_in">Sign In</string>
 </resources>
