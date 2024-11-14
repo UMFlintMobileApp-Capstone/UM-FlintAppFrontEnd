@@ -13,4 +13,15 @@
     <string name="main_menu">Main Menu</string>
     <string name="title_activity_department_information">Department Information</string>
     <string name="title_activity_maps_page">Campus Maps</string>
+    <string name="department_information">Department Information</string>
+    <string name="group_meetings">Group Meetings</string>
+    <string name="academic_calendar">Academic Calendar</string>
+    <string name="departments">Departments</string>
+    <string name="maps">Maps</string>
+    <string name="scheduling">Scheduling</string>
+    <string name="reserve_room">Reserve Room</string>
+    <string name="schedule_advisor">Schedule Advisor</string>
+    <string name="messaging">Messaging</string>
+    <string name="announcements">Announcements</string>
+    <string name="discord">Discord</string>
 </resources>

@@ -6,16 +6,50 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_resources"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:title="@string/department_information" >
+            <!--Submenu items-->
+            <menu>
+                <item
+                    android:id="@+id/nav_resources_academic_calendar"
+                    android:title="@string/academic_calendar" />
+                <item
+                    android:id="@+id/nav_resources_departments"
+                    android:title="@string/departments" />
+                <item
+                    android:id="@+id/nav_resources_maps"
+                    android:title="@string/maps" />
+            </menu>
+        </item>
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_scheduling"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/scheduling">
+            <menu>
+                <item
+                    android:id="@+id/nav_scheduling_reserve_room"
+                    android:title="@string/reserve_room" />
+                <item
+                    android:id="@+id/nav_scheduling_schedule_advisor"
+                    android:title="@string/schedule_advisor" />
+                <item
+                    android:id="@+id/nav_scheduling_group_meetings"
+                    android:title="@string/group_meetings" />
+            </menu>
+        </item>
+        <item
+            android:id="@+id/nav_messaging"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="@string/messaging" >
+            <menu>
+                <item
+                    android:id="@+id/nav_messaging_announcements"
+                    android:title="@string/announcements" />
+                <item
+                    android:id="@+id/nav_messaging_discord"
+                    android:title="@string/discord" />
+            </menu>
+        </item>
     </group>
 </menu>
