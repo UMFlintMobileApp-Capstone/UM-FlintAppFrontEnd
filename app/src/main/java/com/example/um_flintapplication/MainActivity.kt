@@ -76,9 +76,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     // Function to open the Sign In page
-//    fun openSignInPage(view: View) {
-//        val intent = Intent(this, SignInActivity::class.java)
-//        startActivity(intent)
+    fun openSignInPage(view: View) {
+        val intent = Intent(this, SignInActivity::class.java)
+        startActivity(intent)
     }
 
     // Function to open the Events page

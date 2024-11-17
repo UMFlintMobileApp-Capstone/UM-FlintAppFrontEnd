@@ -49,9 +49,6 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation("org.jsoup:jsoup:1.14.3")
-    implementation(libs.play.services.gcm)
-    implementation(libs.play.services.tasks)
-    implementation(libs.transportation.driver)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
