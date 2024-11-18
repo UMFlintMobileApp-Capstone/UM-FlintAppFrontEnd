@@ -23,11 +23,11 @@
             android:exported="false"
             android:label="@string/title_news"
             android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
-        <activity
-            android:name=".SignInActivity"
-            android:exported="false"
-            android:label="@string/title_sign_in"
-            android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
+<!--        <activity-->
+<!--            android:name=".SignInActivity"-->
+<!--            android:exported="false"-->
+<!--            android:label="@string/title_sign_in"-->
+<!--            android:theme="@style/Theme.UMFlintApplication.NoActionBar" />-->
         <activity
             android:name=".DepartmentInformationActivity"
             android:exported="false"
