@@ -2,7 +2,6 @@ package com.example.um_flintapplication
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.google.android.material.navigation.NavigationView
@@ -15,6 +14,15 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.um_flintapplication.databinding.ActivityMainBinding
+import com.example.um_flintapplication.apiRequests.Retrofit
+import android.util.Log
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.core.content.ContextCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,7 +63,32 @@ class MainActivity : AppCompatActivity() {
         // Add DrawerListener to DrawerLayout and sync state
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-    }
+
+
+        CoroutineScope(Dispatchers.IO).launch {
+                val items = Retrofit.api.getNews(3)
+
+                withContext(Dispatchers.Main) {
+                    val layout = findViewById<LinearLayout>(R.id.NewsSection)
+
+                    items.forEach { item ->
+                        val textView = TextView(this@MainActivity)
+
+                        textView.text = item.title
+                        textView.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
+                        textView.setPadding(0, 8, 0, 0)
+
+                        val layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+                        )
+                        textView.layoutParams = layoutParams
+
+                        layout.addView(textView)
+                    }
+                }
+            }
+        }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
