@@ -3,23 +3,80 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_home"
+    android:background="#00274C"
+    app:itemTextColor="#FFFFFF">
 
+    <!-- Home -->
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.um_flintapplication.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
-    <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.um_flintapplication.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+    <!-- Resources -->
+    <navigation
+        android:id="@+id/nav_resources"
+        android:label="@string/department_information">
 
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.um_flintapplication.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        <fragment
+            android:id="@+id/nav_resources_academic_calendar"
+            android:name="com.example.um_flintapplication.ui.resources.AcademicCalendarFragment"
+            android:label="@string/academic_calendar"
+            tools:layout="@layout/fragment_academic_calendar" />
+
+        <fragment
+            android:id="@+id/nav_resources_departments"
+            android:name="com.example.um_flintapplication.ui.resources.DepartmentsFragment"
+            android:label="@string/departments"
+            tools:layout="@layout/fragment_departments" />
+
+        <fragment
+            android:id="@+id/nav_resources_maps"
+            android:name="com.example.um_flintapplication.ui.resources.MapsFragment"
+            android:label="@string/maps"
+            tools:layout="@layout/fragment_maps" />
+    </navigation>
+
+    <!-- Scheduling -->
+    <navigation
+        android:id="@+id/nav_scheduling"
+        android:label="@string/scheduling">
+
+        <fragment
+            android:id="@+id/nav_scheduling_reserve_room"
+            android:name="com.example.um_flintapplication.ui.scheduling.ReserveRoomFragment"
+            android:label="@string/reserve_room"
+            tools:layout="@layout/fragment_reserve_room" />
+
+        <fragment
+            android:id="@+id/nav_scheduling_schedule_advisor"
+            android:name="com.example.um_flintapplication.ui.scheduling.ScheduleAdvisorFragment"
+            android:label="@string/schedule_advisor"
+            tools:layout="@layout/fragment_schedule_advisor" />
+
+        <fragment
+            android:id="@+id/nav_scheduling_group_meetings"
+            android:name="com.example.um_flintapplication.ui.scheduling.GroupMeetingsFragment"
+            android:label="@string/group_meetings"
+            tools:layout="@layout/fragment_group_meetings" />
+    </navigation>
+
+    <!-- Messaging -->
+    <navigation
+        android:id="@+id/nav_messaging"
+        android:label="@string/messaging">
+
+        <activity
+            android:id="@+id/nav_announcements"
+            android:name="com.example.um_flintapplication.AlertsActivity"
+            android:label="@string/announcements"
+            tools:layout="@layout/activity_announcements" />
+
+        <fragment
+            android:id="@+id/nav_messaging_discord"
+            android:name="com.example.um_flintapplication.ui.messaging.DiscordFragment"
+            android:label="@string/discord"
+            tools:layout="@layout/fragment_discord" />
+    </navigation>
 </navigation>

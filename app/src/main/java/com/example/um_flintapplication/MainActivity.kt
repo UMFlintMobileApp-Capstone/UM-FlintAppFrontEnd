@@ -64,6 +64,49 @@ class MainActivity : AppCompatActivity() {
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_home -> {
+                    // Navigate to the Home page
+                    val intent = Intent(this, MainActivity::class.java) // Replace with your Home activity
+                    startActivity(intent)
+                    true
+                }
+//                R.id.nav_resources_academic_calendar -> {
+//                    // Navigate to Academic Calendar page
+//                    val intent = Intent(this, AcademicCalendarActivity::class.java)
+//                    startActivity(intent)
+//                    true
+//                }
+                R.id.nav_resources_departments -> {
+                    // Navigate to Departments page
+                    val intent = Intent(this, DepartmentInformationActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_resources_maps -> {
+                    // Navigate to Maps page
+                    val intent = Intent(this, MapsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+//                R.id.nav_scheduling_reserve_room -> {
+//                    // Navigate to Reserve Room page
+//                    val intent = Intent(this, ReserveRoomActivity::class.java)
+//                    startActivity(intent)
+//                    true
+//                }
+                R.id.nav_announcements -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, AlertsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+
 
 //        CoroutineScope(Dispatchers.IO).launch {
 //                val items = Retrofit.api.getNews(3)
