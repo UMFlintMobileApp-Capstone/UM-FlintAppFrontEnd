@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="NavMenuGroupText">
+        <![CDATA[<resources> <style name="NavMenuGroupText" parent="TextAppearance.MaterialComponents.Body1">     <item name="android:textColor">#FFD700</item> <!-- Gold color for headings -->     <item name="android:textSize">14sp</item> <!-- Adjust size if needed --> </style> </resources>]]></style>
+</resources>

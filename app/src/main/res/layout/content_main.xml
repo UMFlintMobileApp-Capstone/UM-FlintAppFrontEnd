@@ -154,7 +154,7 @@
                     android:text="NEWS"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
-                <!--
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -178,7 +178,7 @@
                     android:paddingTop="8dp"
                     android:textColor="@color/white"
                     android:onClick="openNews3"/>
-                    !-->
+
             </LinearLayout>
 
             <View
