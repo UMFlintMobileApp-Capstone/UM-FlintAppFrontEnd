@@ -132,18 +132,19 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            }
 
-        CoroutineScope(Dispatchers.IO).launch{
-            val events = Retrofit.api.getEvents(3)
-
-            withContext(Dispatchers.Main){
-                val layout = findViewById<LinearLayout>(R.id.EventsSection)
-
-                events.forEach{ item ->
-                    val bgImage = item.photo
-
-                }
-            }
-        }
+//        Begin events
+//        CoroutineScope(Dispatchers.IO).launch{
+//            val events = Retrofit.api.getEvents(3)
+//
+//            withContext(Dispatchers.Main){
+//                val layout = findViewById<LinearLayout>(R.id.EventsSection)
+//
+//                events.forEach{ item ->
+//                    val bgImage = item.photo
+//
+//                }
+//            }
+//        }
 
 
 
