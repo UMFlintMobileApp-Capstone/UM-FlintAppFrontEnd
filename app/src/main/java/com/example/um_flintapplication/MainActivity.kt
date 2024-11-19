@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         // Initialize AppBarConfiguration with top-level destinations
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_home, R.id.nav_resources_departments, R.id.nav_resources_maps, R.id.nav_announcements, R.id.nav_scheduling_reserve_room, R.id.nav_scheduling_schedule_advisor, R.id.nav_scheduling_group_meetings, R.id.nav_messaging_discord
             ), drawerLayout
         )
 

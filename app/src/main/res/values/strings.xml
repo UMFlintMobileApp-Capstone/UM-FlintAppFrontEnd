@@ -27,4 +27,6 @@
     <string name="title_activity_alerts">Alerts</string>
     <string name="title_news">News</string>
     <string name="home">Home</string>
+    <string name="app_logo_description">App Logo</string>
+    <string name="umflint_logo_description">UM-Flint Logo</string>
 </resources>
