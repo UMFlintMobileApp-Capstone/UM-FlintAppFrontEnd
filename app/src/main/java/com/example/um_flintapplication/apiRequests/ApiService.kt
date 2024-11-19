@@ -15,4 +15,7 @@ interface ApiService {
      */
     @GET("/news/get/{items}")
     suspend fun getNews(@Path("items") num: Int): List<NewsItem>
+
+    @GET("/events/get/{items}")
+    suspend fun getEvents(@Path("items") num: Int): List<EventItem>
 }

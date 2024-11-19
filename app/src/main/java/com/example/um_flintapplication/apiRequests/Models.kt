@@ -11,3 +11,9 @@ data class NewsItem(
     val title: String,
     val excerpt: String
 )
+
+data class EventItem(
+    val id: Int,
+    val title: String,
+    val photo: String
+)
