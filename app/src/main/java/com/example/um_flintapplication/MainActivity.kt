@@ -1,34 +1,29 @@
 package com.example.um_flintapplication
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import com.google.android.material.navigation.NavigationView
+import android.widget.LinearLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.um_flintapplication.databinding.ActivityMainBinding
-import com.example.um_flintapplication.apiRequests.Retrofit
-import android.util.Log
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var googleSignIn : Auth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -172,11 +167,24 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 
+        // Basically to sign in you have to create an instance of the Auth class, making sure to
+        // pass the activity to it (via 'this').
+        // You can then call the login function, which has a callback that will give you the JWT
+        // token.
+        //
+        // If the user has already logged in, then the JWT token will be passed automatically.
+        // Else it will try to login the user automatically (given they have a umich.edu account
+        // signed in.)
+        //
+        // You can see here I'm just displaying in the logs what the token is for now. Need to make
+        // it so it fetches the user's name for instance here.
+        googleSignIn = Auth(this)
 
-
-
-
+        var signInButton = findViewById<LinearLayout>(R.id.SignIn)
+        signInButton.setOnClickListener{
+            googleSignIn.login { cred -> Log.d(TAG, "Token is $cred")}
         }
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
