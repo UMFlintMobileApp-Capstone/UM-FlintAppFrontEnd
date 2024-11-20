@@ -1,5 +1,6 @@
 package com.example.um_flintapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import com.google.android.material.snackbar.Snackbar
@@ -14,15 +15,22 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.um_flintapplication.databinding.ActivityDepartmentInformationBinding
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.jsoup.Jsoup
+import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.um_flintapplication.databinding.ActivityAnnouncementsBinding
+import com.example.um_flintapplication.Announcement
+
 
 class DepartmentInformationActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityDepartmentInformationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +60,66 @@ class DepartmentInformationActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         // Start the scraping task
         fetchDepartmentData()
+    }
+
+    private fun setupNavigationDrawer() {
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navView: NavigationView = binding.navView
+
+        // Initialize ActionBarDrawerToggle for the navigation drawer
+        toggle = ActionBarDrawerToggle(
+            this, drawerLayout, binding.toolbar,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        // Set up NavigationView to work with navigation destinations
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_home -> {
+                    // Navigate to the Home page
+                    val intent =
+                        Intent(this, MainActivity::class.java) // Replace with your Home activity
+                    startActivity(intent)
+                    true
+                }
+//                R.id.nav_resources_academic_calendar -> {
+//                    // Navigate to Academic Calendar page
+//                    val intent = Intent(this, AcademicCalendarActivity::class.java)
+//                    startActivity(intent)
+//                    true
+//                }
+                R.id.nav_resources_departments -> {
+                    // Navigate to Departments page
+                    val intent = Intent(this, DepartmentInformationActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_resources_maps -> {
+                    // Navigate to Maps page
+                    val intent = Intent(this, MapsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+//                R.id.nav_scheduling_reserve_room -> {
+//                    // Navigate to Reserve Room page
+//                    val intent = Intent(this, ReserveRoomActivity::class.java)
+//                    startActivity(intent)
+//                    true
+//                }
+                R.id.nav_announcements -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, AlertsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 
     private fun fetchDepartmentData() {
