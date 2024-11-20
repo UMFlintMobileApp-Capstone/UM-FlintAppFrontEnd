@@ -17,10 +17,13 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 class Auth(private val ctx: Context) {
     private var credentialManager = CredentialManager.create(ctx)
-    lateinit var sharedPreferences: SharedPreferences
+    private var sharedPreferences: SharedPreferences =
+        ctx.getSharedPreferences("loginPref", Context.MODE_PRIVATE)
 
     private val request: GetCredentialRequest = GetGoogleIdOption.Builder()
         .setFilterByAuthorizedAccounts(false)
@@ -32,32 +35,59 @@ class Auth(private val ctx: Context) {
                 .build()
         }
 
+    fun silentLogin(callback: (String?) -> Unit){
+        checkIfValid { valid ->
+            if(valid){
+                callback(sharedPreferences.getString("GoogleIdTokenCredential", ""))
+            }else {
+                callback(null)
+            }
+        }
+    }
+
     fun login(callback: (cred: String?) -> Unit){
         if (ctx !is AppCompatActivity) {
             throw Exception("Please use the activity context")
         }
-        sharedPreferences = ctx.getSharedPreferences("loginPref", Context.MODE_PRIVATE)
 
-        if(sharedPreferences.contains("GoogleIdTokenCredential")){
-            callback(sharedPreferences.getString("GoogleIdTokenCredential", ""))
-            Toast.makeText(ctx,"Already logged in, passed the JWT token!", Toast.LENGTH_LONG).show()
-        }else {
-            CoroutineScope(Dispatchers.IO).launch {
-                try {
-                    Log.i(TAG, "credentialManager.getCredential")
+        checkIfValid { valid ->
+            if(valid){
+                callback(sharedPreferences.getString("GoogleIdTokenCredential", ""))
+                Toast.makeText(ctx,"Already logged in, passed the JWT token!",
+                    Toast.LENGTH_LONG).show()
+            }else {
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        Log.i(TAG, "credentialManager.getCredential")
 
-                    val result = credentialManager.getCredential(
-                        context = ctx,
-                        request = request
-                    )
+                        val result = credentialManager.getCredential(
+                            context = ctx,
+                            request = request
+                        )
 
-                    handleLogin(callback, result)
+                        handleLogin(callback, result)
 
-                    Toast.makeText(ctx,"Just logged in, passed the JWT token!", Toast.LENGTH_LONG).show()
-                } catch (e: Exception) {
-                    e.printStackTrace()
+                        Toast.makeText(ctx,"Just logged in, passed the JWT token!",
+                            Toast.LENGTH_LONG).show()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
             }
+        }
+    }
+
+    fun logout(callback: (Boolean) -> Unit){
+        if(sharedPreferences.contains("GoogleIdTokenCredential")){
+            val editor: SharedPreferences.Editor = sharedPreferences.edit()
+
+            editor.remove("GoogleIdTokenCredential")
+            editor.remove("GoogleIdTokenCredentialTime")
+            editor.apply()
+
+            callback(true)
+        }else{
+            callback(false)
         }
     }
 
@@ -74,7 +104,9 @@ class Auth(private val ctx: Context) {
                     .createFrom(credential.data)
 
                 val editor: SharedPreferences.Editor = sharedPreferences.edit()
+
                 editor.putString("GoogleIdTokenCredential", googleIdTokenCredential.idToken)
+                editor.putLong("GoogleIdTokenCredentialTime", Instant.now().toEpochMilli())
                 editor.apply()
 
                 callback(googleIdTokenCredential.idToken)
@@ -82,6 +114,24 @@ class Auth(private val ctx: Context) {
             } catch (e: GoogleIdTokenParsingException) {
                 Log.e(TAG, "Received an invalid google id token response", e)
             }
+        }
+    }
+
+    private fun checkIfValid(callback: (Boolean) -> Unit){
+        if(sharedPreferences.contains("GoogleIdTokenCredential")){
+            val l = Instant.now().toEpochMilli()
+            sharedPreferences.getLong("GoogleIdTokenCredentialTime", l)
+            val lInstant = Instant.ofEpochMilli(l)
+
+            if ((!lInstant.isBefore(Instant.now().minus(24,ChronoUnit.HOURS)))
+                && (lInstant.isBefore(Instant.now()))
+            ){
+                callback(true)
+            }else{
+                callback(false)
+            }
+        }else {
+            callback(false)
         }
     }
 }

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -183,6 +184,12 @@ class MainActivity : AppCompatActivity() {
         var signInButton = findViewById<LinearLayout>(R.id.SignIn)
         signInButton.setOnClickListener{
             googleSignIn.login { cred -> Log.d(TAG, "Token is $cred")}
+        }
+
+        googleSignIn.silentLogin { cred ->
+            if(cred!=null){
+                Toast.makeText(this, "Logged in silently!", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
