@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
+//        //Begin News
 //        CoroutineScope(Dispatchers.IO).launch {
 //                val items = Retrofit.api.getNews(3)
 //
@@ -132,7 +132,33 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            }
 
-//        Begin events
+//        //Begin events (NO IMAGE) !! TEMPORARY !!
+//        CoroutineScope(Dispatchers.IO).launch{
+//            val events = Retrofit.api.getEvents(3)
+//
+//            withContext(Dispatchers.Main){
+//                val layout = findViewById<LinearLayout>(R.id.EventsSection)
+//
+//                events.forEach{ item ->
+//                    val textview = TextView(this@MainActivity)
+//                    textview.text = item.title
+//                    textview.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
+//                    textview.setPadding(0, 8, 0, 0)
+//
+//                    val layoutParams = LinearLayout.LayoutParams(
+//                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+//                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+//                    )
+//                    textview.layoutParams = layoutParams
+//
+//                    layout.addView(textview)
+//
+//
+//                }
+//            }
+//        }
+
+//        Begin events (WITH IMAGE) !! TO DO !!
 //        CoroutineScope(Dispatchers.IO).launch{
 //            val events = Retrofit.api.getEvents(3)
 //
@@ -145,6 +171,8 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            }
 //        }
+
+
 
 
 
