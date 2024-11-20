@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getString
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -23,7 +24,7 @@ class Auth(private val ctx: Context) {
 
     private val request: GetCredentialRequest = GetGoogleIdOption.Builder()
         .setFilterByAuthorizedAccounts(false)
-        .setServerClientId("178916369142-chblq5qgi571g6jmjmcgirit4tgpit25.apps.googleusercontent.com")
+        .setServerClientId(getString(ctx, R.string.googleClientId))
         .setAutoSelectEnabled(true)
         .build().let {
             GetCredentialRequest.Builder()
