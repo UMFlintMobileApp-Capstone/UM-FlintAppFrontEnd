@@ -151,7 +151,7 @@
 <!--                    android:orientation="horizontal"-->
 <!--                    android:paddingTop="8dp">-->
 
-<!--                    <View-->
+<!--                    <ImageView-->
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
@@ -159,7 +159,7 @@
 <!--                        android:padding="8dp"-->
 <!--                        android:onClick="openEvent1"/>-->
 
-<!--                    <View-->
+<!--                    <ImageView-->
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
@@ -168,7 +168,7 @@
 <!--                        android:layout_marginStart="8dp"-->
 <!--                        android:onClick="openEvent2"/>-->
 
-<!--                    <View-->
+<!--                    <ImageView-->
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->

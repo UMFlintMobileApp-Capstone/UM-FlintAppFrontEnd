@@ -8,6 +8,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import android.widget.ImageView
+import coil.load
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -18,6 +20,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.um_flintapplication.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -161,12 +164,43 @@ class MainActivity : AppCompatActivity() {
 //            withContext(Dispatchers.Main){
 //                val layout = findViewById<LinearLayout>(R.id.EventsSection)
 //
+//                events.forEach{item ->
+//                    val bgImage = item.photo
+//
+//                    val imgview = ImagewView(this@MainActivity)
+//                    imgview.setPadding(0, 8, 0, 0)
+//                    imgview.layoutParams = LinearLayout.LayoutParams(0, 80)
+//                    imgview.load(bgImage){}
+//                    layout.addImageView(imgview)
+//                }
+
 //                events.forEach{ item ->
 //                    val bgImage = item.photo
+//                    String bgURL = item.photo
+//
+//
+//                    val view = View(this@MainActivity)
+//                    view.setPadding(0, 8, 0, 0)
+//
+//                    view.layoutParams = LinearLayout.LayoutParams(0, 80)
+//
+//                    view.background(bgImage)
+//
+//
+//                    layout.addView(view)
+//
 //
 //                }
 //            }
 //        }
+
+//        <View-->
+//        <!--                        android:layout_width="0dp"-->
+//        <!--                        android:layout_height="80dp"-->
+//        <!--                        android:layout_weight="1"-->
+//        <!--                        android:background="@color/maize"-->
+//        <!--                        android:padding="8dp"-->
+//        <!--                        android:onClick="openEvent1"/>-->
 
         // Basically to sign in you have to create an instance of the Auth class, making sure to
         // pass the activity to it (via 'this').
