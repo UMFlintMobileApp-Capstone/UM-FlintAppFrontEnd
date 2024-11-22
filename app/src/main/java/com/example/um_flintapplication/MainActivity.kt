@@ -1,15 +1,11 @@
 package com.example.um_flintapplication
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
-import android.widget.ImageView
-import coil.load
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -217,7 +213,10 @@ class MainActivity : AppCompatActivity() {
 
         var signInButton = findViewById<LinearLayout>(R.id.SignIn)
         signInButton.setOnClickListener{
-            googleSignIn.login { cred -> Log.d(TAG, "Token is $cred")}
+            googleSignIn.login { cred ->
+                if(cred!=null)
+                    Toast.makeText(this, "Token is $cred", Toast.LENGTH_LONG).show()
+            }
         }
 
         googleSignIn.silentLogin { cred ->
