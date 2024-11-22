@@ -4,6 +4,8 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Looper
+import android.os.Handler
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -28,8 +30,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import androidx.core.content.ContextCompat
-
-
+import java.util.concurrent.Executors
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -140,7 +143,7 @@ class MainActivity : AppCompatActivity() {
 //                }
 //            }
 
-//        //Begin events (NO IMAGE) !! TEMPORARY !!
+        //Begin events (NO IMAGE) !! TEMPORARY !!
 //        CoroutineScope(Dispatchers.IO).launch{
 //            val events = Retrofit.api.getEvents(3)
 //
@@ -149,6 +152,7 @@ class MainActivity : AppCompatActivity() {
 //
 //                events.forEach{ item ->
 //                    val textview = TextView(this@MainActivity)
+//
 //                    textview.text = item.title
 //                    textview.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
 //                    textview.setPadding(0, 8, 0, 0)
@@ -160,8 +164,6 @@ class MainActivity : AppCompatActivity() {
 //                    textview.layoutParams = layoutParams
 //
 //                    layout.addView(textview)
-//
-//
 //                }
 //            }
 //        }
@@ -173,43 +175,42 @@ class MainActivity : AppCompatActivity() {
 //            withContext(Dispatchers.Main){
 //                val layout = findViewById<LinearLayout>(R.id.EventsSection)
 //
-//                events.forEach{item ->
-//                    val bgImage = item.photo
+//                events.forEach { item ->
+//                    val imgview = ImageView(this@MainActivity)
 //
-//                    val imgview = ImagewView(this@MainActivity)
+//                    val executor = Executors.newSingleThreadExecutor()
+//
+//                    val handler = Handler(Looper.getMainLooper())
+//
+//                    var image: Bitmap? = null
+//
+//                    executor.execute {
+//                        //val bgImageURL = item.photo
+//                        val bgImageURL = "https://www-s3.umflint.edu/wp/uploads/2021/06/GBG.WebLogo-1024x208.png"
+//                        try{
+//                            val `in` = java.net.URL(bgImageURL).openStream()
+//                            image = BitmapFactory.decodeStream(`in`)
+//
+//                            handler.post{
+//                                imgview.setImageBitmap(image)
+//                            }
+//                        }catch(e: Exception){
+//                            e.printStackTrace()
+//                        }
+//                    }
+//
+//
+//
+//                    //imgview.load("https://www-s3.umflint.edu/wp/uploads/2021/06/GBG.WebLogo-1024x208.png"){
+//                    //    crossfade(true)
+//                    //}
 //                    imgview.setPadding(0, 8, 0, 0)
 //                    imgview.layoutParams = LinearLayout.LayoutParams(0, 80)
-//                    imgview.load(bgImage){}
-//                    layout.addImageView(imgview)
-//                }
-
-//                events.forEach{ item ->
-//                    val bgImage = item.photo
-//                    String bgURL = item.photo
 //
-//
-//                    val view = View(this@MainActivity)
-//                    view.setPadding(0, 8, 0, 0)
-//
-//                    view.layoutParams = LinearLayout.LayoutParams(0, 80)
-//
-//                    view.background(bgImage)
-//
-//
-//                    layout.addView(view)
-//
-//
+//                    layout.addView(imgview)
 //                }
 //            }
 //        }
-
-//        <View-->
-//        <!--                        android:layout_width="0dp"-->
-//        <!--                        android:layout_height="80dp"-->
-//        <!--                        android:layout_weight="1"-->
-//        <!--                        android:background="@color/maize"-->
-//        <!--                        android:padding="8dp"-->
-//        <!--                        android:onClick="openEvent1"/>-->
 
         // Basically to sign in you have to create an instance of the Auth class, making sure to
         // pass the activity to it (via 'this').

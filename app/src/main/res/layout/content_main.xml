@@ -138,6 +138,7 @@
 <!--                android:elevation="4dp"-->
 <!--                android:onClick="openEventsPage">-->
 
+
 <!--                <TextView-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
@@ -155,6 +156,7 @@
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
+<!--                        android:layout_centerInParent="true"-->
 <!--                        android:background="@color/maize"-->
 <!--                        android:padding="8dp"-->
 <!--                        android:onClick="openEvent1"/>-->
@@ -163,6 +165,7 @@
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
+<!--                        android:layout_centerInParent="true"-->
 <!--                        android:background="@color/maize"-->
 <!--                        android:padding="8dp"-->
 <!--                        android:layout_marginStart="8dp"-->
@@ -172,6 +175,7 @@
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
+<!--                        android:layout_centerInParent="true"-->
 <!--                        android:background="@color/maize"-->
 <!--                        android:padding="8dp"-->
 <!--                        android:layout_marginStart="8dp"-->
@@ -202,6 +206,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
+                <!--Comment these out when using the DB-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
