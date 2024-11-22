@@ -173,13 +173,31 @@ class MainActivity : AppCompatActivity() {
 //                val layout = findViewById<LinearLayout>(R.id.EventsSection)
 //
 //                events.forEach{item ->
-//                    val bgImage: String = item.photo
+//                    val bgImage = item.photo
 //
-//                    val imgview = ImageView(this@MainActivity)
+//                    val imgview = ImagewView(this@MainActivity)
 //                    imgview.setPadding(0, 8, 0, 0)
 //                    imgview.layoutParams = LinearLayout.LayoutParams(0, 80)
 //                    imgview.load(bgImage){}
-//                    layout.addView(imgview)
+//                    layout.addImageView(imgview)
+//                }
+
+//                events.forEach{ item ->
+//                    val bgImage = item.photo
+//                    String bgURL = item.photo
+//
+//
+//                    val view = View(this@MainActivity)
+//                    view.setPadding(0, 8, 0, 0)
+//
+//                    view.layoutParams = LinearLayout.LayoutParams(0, 80)
+//
+//                    view.background(bgImage)
+//
+//
+//                    layout.addView(view)
+//
+//
 //                }
 //            }
 //        }

@@ -52,7 +52,7 @@ class Auth(private val ctx: Context) {
 
         checkIfValid { valid ->
             if(valid){
-                callback(sharedPreferences.getString("GoogleIdTokenCredential", ""))
+                callback(sharedPreferences.getString("GoogleIdTokenCredential", "").toString())
                 Toast.makeText(ctx,"Already logged in, passed the JWT token!",
                     Toast.LENGTH_LONG).show()
             }else {
@@ -71,6 +71,8 @@ class Auth(private val ctx: Context) {
                             Toast.LENGTH_LONG).show()
                     } catch (e: Exception) {
                         e.printStackTrace()
+
+                        callback(null)
                     }
                 }
             }
@@ -113,6 +115,7 @@ class Auth(private val ctx: Context) {
                 Log.i(TAG, "handleSignIn: $googleIdTokenCredential")
             } catch (e: GoogleIdTokenParsingException) {
                 Log.e(TAG, "Received an invalid google id token response", e)
+                callback(null)
             }
         }
     }
