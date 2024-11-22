@@ -270,7 +270,9 @@ class MainActivity : AppCompatActivity() {
 
     // Function to open the News page
     fun openNewsPage(view: View) {
-        val intent = Intent(this, NewsActivity::class.java)
+        val url = "https://news.umflint.edu/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
         startActivity(intent)
     }
 
