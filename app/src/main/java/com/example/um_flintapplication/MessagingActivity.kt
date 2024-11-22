@@ -1,92 +1,130 @@
 package com.example.um_flintapplication
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Spinner
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.um_flintapplication.databinding.ActivityMessagingBinding
 import com.google.android.material.navigation.NavigationView
 
 class MessagingActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMessagingBinding
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var userSpinner: Spinner
-    private lateinit var messageRecyclerView: RecyclerView
-    private lateinit var messageInput: EditText
-    private lateinit var sendButton: ImageButton
-    private val users = listOf("User A", "User B", "User C")
+    private val users = listOf("User A", "User B", "User C") // Sample users
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_messaging)
 
-        // Initialize Toolbar
-        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+        // Inflate the layout using View Binding
+        binding = ActivityMessagingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Set up the toolbar
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.title = "Messaging"
 
-        // Set up DrawerLayout and NavigationView
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        val navView: NavigationView = findViewById(R.id.nav_view)
+        // Initialize DrawerLayout and NavigationView
+        setupNavigationDrawer()
 
-        // Initialize Drawer Toggle
+        // Initialize the Spinner for User Selection
+        setupUserSpinner()
+
+        // Initialize RecyclerView for messages
+        setupRecyclerView()
+
+        // Set up message sending functionality
+        setupMessageSending()
+    }
+
+    private fun setupNavigationDrawer() {
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navView: NavigationView = binding.navView
+
+        // Initialize ActionBarDrawerToggle for the navigation drawer
         toggle = ActionBarDrawerToggle(
-            this, drawerLayout, toolbar,
+            this, drawerLayout, binding.toolbar,
             R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Handle Navigation Menu Item Clicks
+        // Set up NavigationView to handle menu item clicks
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> {
                     startActivity(Intent(this, MainActivity::class.java))
                     true
                 }
+                R.id.nav_resources_academic_calendar -> {
+                    startActivity(Intent(this, AcademicCalendar::class.java))
+                    true
+                }
+                R.id.nav_resources_departments -> {
+                    startActivity(Intent(this, DepartmentInformationActivity::class.java))
+                    true
+                }
+                R.id.nav_resources_maps -> {
+                    startActivity(Intent(this, MapsActivity::class.java))
+                    true
+                }
                 R.id.nav_announcements -> {
                     startActivity(Intent(this, AlertsActivity::class.java))
                     true
                 }
-                R.id.nav_messaging_student_messaging -> true // Stay on this page
+                R.id.nav_messaging_discord -> {
+                    val url = "https://discord.gg/AEefzfqSB9"
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_student_messaging -> {
+                    // Stay on the current page
+                    true
+                }
                 else -> false
             }
         }
+    }
 
-        // Initialize Spinner for User Selection
-        userSpinner = findViewById(R.id.spinnerUsers)
+    private fun setupUserSpinner() {
+        val userSpinner = binding.spinnerUsers
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, users)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         userSpinner.adapter = adapter
 
-        // Handle Spinner Selection
+        // Handle user selection from the spinner
         userSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
-                // Load messages for selected user
+                // Logic to load messages for the selected user
+                val selectedUser = users[position]
+                // Load messages for this user
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+    }
 
-        // Initialize RecyclerView
-        messageRecyclerView = findViewById(R.id.recyclerMessages)
+    private fun setupRecyclerView() {
+        val messageRecyclerView = binding.recyclerMessages
         messageRecyclerView.layoutManager = LinearLayoutManager(this)
+        // Set up your adapter for messages (if implemented)
+    }
 
-        // Initialize Message Input and Send Button
-        messageInput = findViewById(R.id.etMessageInput)
-        sendButton = findViewById(R.id.btnSendMessage)
+    private fun setupMessageSending() {
+        val messageInput = binding.etMessageInput
+        val sendButton = binding.btnSendMessage
+
         sendButton.setOnClickListener {
             val message = messageInput.text.toString()
             if (message.isNotBlank()) {
-                // Handle sending the message
+                // Logic to send the message
                 messageInput.text.clear()
             }
         }

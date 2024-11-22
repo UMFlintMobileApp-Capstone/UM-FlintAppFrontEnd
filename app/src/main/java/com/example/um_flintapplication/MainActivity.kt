@@ -115,8 +115,9 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_messaging_discord-> {
-                    // Navigate to Announcements page
-                    val intent = Intent(this, AlertsActivity::class.java)
+                    val url = "https://discord.gg/AEefzfqSB9"
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
                     startActivity(intent)
                     true
                 }
@@ -295,11 +296,3 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
-
-// Function to open the Discord page
-//fun openDiscordPage(view: View) {
-//    val url = "https://discord.gg/AEefzfqSB9"
-//    val intent = Intent(Intent.ACTION_VIEW)
-//    intent.data = Uri.parse(url)
-//    startActivity(intent)
-//}
