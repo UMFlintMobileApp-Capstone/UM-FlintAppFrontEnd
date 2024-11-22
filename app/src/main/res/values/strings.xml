@@ -29,4 +29,5 @@
     <string name="home">Home</string>
     <string name="app_logo_description">App Logo</string>
     <string name="umflint_logo_description">UM-Flint Logo</string>
+    <string name="title_activity_academic_calendar">AcademicCalendar</string>
 </resources>
