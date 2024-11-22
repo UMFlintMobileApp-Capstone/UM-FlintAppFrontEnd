@@ -1,11 +1,17 @@
 package com.example.um_flintapplication
 
+import android.content.ContentValues.TAG
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import android.widget.ImageView
+import android.widget.TextView
+import coil.load
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
@@ -15,7 +21,14 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.um_flintapplication.databinding.ActivityMainBinding
+import com.example.um_flintapplication.apiRequests.Retrofit
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import androidx.core.content.ContextCompat
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -213,10 +226,7 @@ class MainActivity : AppCompatActivity() {
 
         var signInButton = findViewById<LinearLayout>(R.id.SignIn)
         signInButton.setOnClickListener{
-            googleSignIn.login { cred ->
-                if(cred!=null)
-                    Toast.makeText(this, "Token is $cred", Toast.LENGTH_LONG).show()
-            }
+            googleSignIn.login { cred -> Log.d(TAG, "Token is $cred")}
         }
 
         googleSignIn.silentLogin { cred ->
@@ -252,13 +262,17 @@ class MainActivity : AppCompatActivity() {
 
     // Function to open the Events page
     fun openEventsPage(view: View) {
-        val intent = Intent(this, EventsActivity::class.java)
+        val url = "https://events.umflint.edu/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
         startActivity(intent)
     }
 
     // Function to open the News page
     fun openNewsPage(view: View) {
-        val intent = Intent(this, NewsActivity::class.java)
+        val url = "https://news.umflint.edu/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
         startActivity(intent)
     }
 
