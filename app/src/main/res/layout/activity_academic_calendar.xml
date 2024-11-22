@@ -25,11 +25,11 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <include
-        android:id="@+id/app_bar_academic_calendar"
-        layout="@layout/app_bar_academic_calendar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<!--    <include-->
+<!--        android:id="@+id/app_bar_academic_calendar"-->
+<!--        layout="@layout/app_bar_academic_calendar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
     <!-- Navigation Drawer -->
     <com.google.android.material.navigation.NavigationView
