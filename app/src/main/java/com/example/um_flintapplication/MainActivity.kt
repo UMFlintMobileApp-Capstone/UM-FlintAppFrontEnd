@@ -1,6 +1,7 @@
 package com.example.um_flintapplication
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -252,7 +253,9 @@ class MainActivity : AppCompatActivity() {
 
     // Function to open the Events page
     fun openEventsPage(view: View) {
-        val intent = Intent(this, EventsActivity::class.java)
+        val url = "https://events.umflint.edu/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
         startActivity(intent)
     }
 
