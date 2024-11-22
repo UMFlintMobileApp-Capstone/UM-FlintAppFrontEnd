@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import android.widget.ImageView
+import android.widget.TextView
 import coil.load
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +20,14 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.um_flintapplication.databinding.ActivityMainBinding
+import com.example.um_flintapplication.apiRequests.Retrofit
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import androidx.core.content.ContextCompat
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -165,31 +173,13 @@ class MainActivity : AppCompatActivity() {
 //                val layout = findViewById<LinearLayout>(R.id.EventsSection)
 //
 //                events.forEach{item ->
-//                    val bgImage = item.photo
+//                    val bgImage: String = item.photo
 //
-//                    val imgview = ImagewView(this@MainActivity)
+//                    val imgview = ImageView(this@MainActivity)
 //                    imgview.setPadding(0, 8, 0, 0)
 //                    imgview.layoutParams = LinearLayout.LayoutParams(0, 80)
 //                    imgview.load(bgImage){}
-//                    layout.addImageView(imgview)
-//                }
-
-//                events.forEach{ item ->
-//                    val bgImage = item.photo
-//                    String bgURL = item.photo
-//
-//
-//                    val view = View(this@MainActivity)
-//                    view.setPadding(0, 8, 0, 0)
-//
-//                    view.layoutParams = LinearLayout.LayoutParams(0, 80)
-//
-//                    view.background(bgImage)
-//
-//
-//                    layout.addView(view)
-//
-//
+//                    layout.addView(imgview)
 //                }
 //            }
 //        }
