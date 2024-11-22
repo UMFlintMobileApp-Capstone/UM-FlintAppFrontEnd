@@ -81,12 +81,12 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
-//                R.id.nav_resources_academic_calendar -> {
-//                    // Navigate to Academic Calendar page
-//                    val intent = Intent(this, AcademicCalendarActivity::class.java)
-//                    startActivity(intent)
-//                    true
-//                }
+                R.id.nav_resources_academic_calendar -> {
+                    // Navigate to Academic Calendar page
+                    val intent = Intent(this, AcademicCalendar::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_resources_departments -> {
                     // Navigate to Departments page
                     val intent = Intent(this, DepartmentInformationActivity::class.java)
