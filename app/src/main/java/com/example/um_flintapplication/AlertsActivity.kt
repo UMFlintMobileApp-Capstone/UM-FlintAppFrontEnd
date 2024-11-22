@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.um_flintapplication.databinding.ActivityAnnouncementsBinding
-import com.example.um_flintapplication.Announcement
 import com.google.android.material.navigation.NavigationView
 
 class AlertsActivity : AppCompatActivity() {

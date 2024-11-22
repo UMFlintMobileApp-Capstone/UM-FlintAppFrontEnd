@@ -30,6 +30,10 @@
             android:exported="false"
             android:label="@string/title_news"
             android:theme="@style/Theme.UMFlintApplication.NoActionBar" /> <!-- <activity -->
+        <activity android:name=".MessagingActivity"
+            android:exported="false"
+            android:label="@string/title_student_messaging"
+            android:theme="@style/Theme.UMFlintApplication.NoActionBar"/>
         <!-- android:name=".SignInActivity" -->
         <!-- android:exported="false" -->
         <!-- android:label="@string/title_sign_in" -->

@@ -12,7 +12,6 @@
             android:title="@string/home" />
         <item
             android:id="@+id/nav_resources"
-            android:icon="@drawable/ic_menu_gallery"
             android:title="@string/department_information"
             android:titleTextAppearance="@style/NavMenuGroupText">
             <!--Submenu items-->
@@ -30,7 +29,6 @@
         </item>
         <item
             android:id="@+id/nav_scheduling"
-            android:icon="@drawable/ic_menu_gallery"
             android:title="@string/scheduling"
             android:titleTextAppearance="@style/NavMenuGroupText">
             <menu>
@@ -47,7 +45,6 @@
         </item>
         <item
             android:id="@+id/nav_messaging"
-            android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/messaging"
             android:titleTextAppearance="@style/NavMenuGroupText">
             <menu>
@@ -57,6 +54,9 @@
                 <item
                     android:id="@+id/nav_messaging_discord"
                     android:title="@string/discord" />
+                <item
+                    android:id="@+id/nav_messaging_student_messaging"
+                    android:title="@string/student_messaging" />
             </menu>
         </item>
     </group>

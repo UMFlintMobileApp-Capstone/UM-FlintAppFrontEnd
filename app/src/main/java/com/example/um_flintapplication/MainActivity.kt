@@ -114,6 +114,18 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+                R.id.nav_messaging_discord-> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, AlertsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_student_messaging-> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, MessagingActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 else -> false
             }
         }
@@ -283,3 +295,11 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 }
+
+// Function to open the Discord page
+//fun openDiscordPage(view: View) {
+//    val url = "https://discord.gg/AEefzfqSB9"
+//    val intent = Intent(Intent.ACTION_VIEW)
+//    intent.data = Uri.parse(url)
+//    startActivity(intent)
+//}

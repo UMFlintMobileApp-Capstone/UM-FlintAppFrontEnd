@@ -30,4 +30,6 @@
     <string name="app_logo_description">App Logo</string>
     <string name="umflint_logo_description">UM-Flint Logo</string>
     <string name="title_activity_academic_calendar">AcademicCalendar</string>
+    <string name="student_messaging">Student Messaging</string>
+    <string name="title_student_messaging">Student Messaging</string>
 </resources>
