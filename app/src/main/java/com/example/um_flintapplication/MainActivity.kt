@@ -33,6 +33,9 @@ import androidx.core.content.ContextCompat
 import java.util.concurrent.Executors
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.FutureTarget
+import com.example.um_flintapplication.apiRequests.EventItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -182,46 +185,29 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        Begin events (WITH IMAGE) !! TO DO !!
-//        CoroutineScope(Dispatchers.IO).launch{
+//        CoroutineScope(Dispatchers.IO).launch {
 //            val events = Retrofit.api.getEvents(3)
 //
+//            val event1url = events[0].photo
+//            val event2url = events[1].photo
+//            val event3url = events[2].photo
+//
+//            val eventimg1 = findViewById<ImageView>(R.id.event1)
+//            val eventimg2 = findViewById<ImageView>(R.id.event2)
+//            val eventimg3 = findViewById<ImageView>(R.id.event3)
+//
 //            withContext(Dispatchers.Main){
-//                val layout = findViewById<LinearLayout>(R.id.EventsSection)
+//                Glide.with(this@MainActivity)
+//                    .load(event1url)
+//                    .into(eventimg1)
 //
-//                events.forEach { item ->
-//                    val imgview = ImageView(this@MainActivity)
+//                Glide.with(this@MainActivity)
+//                    .load(event2url)
+//                    .into(eventimg2)
 //
-//                    val executor = Executors.newSingleThreadExecutor()
-//
-//                    val handler = Handler(Looper.getMainLooper())
-//
-//                    var image: Bitmap? = null
-//
-//                    executor.execute {
-//                        //val bgImageURL = item.photo
-//                        val bgImageURL = "https://www-s3.umflint.edu/wp/uploads/2021/06/GBG.WebLogo-1024x208.png"
-//                        try{
-//                            val `in` = java.net.URL(bgImageURL).openStream()
-//                            image = BitmapFactory.decodeStream(`in`)
-//
-//                            handler.post{
-//                                imgview.setImageBitmap(image)
-//                            }
-//                        }catch(e: Exception){
-//                            e.printStackTrace()
-//                        }
-//                    }
-//
-//
-//
-//                    //imgview.load("https://www-s3.umflint.edu/wp/uploads/2021/06/GBG.WebLogo-1024x208.png"){
-//                    //    crossfade(true)
-//                    //}
-//                    imgview.setPadding(0, 8, 0, 0)
-//                    imgview.layoutParams = LinearLayout.LayoutParams(0, 80)
-//
-//                    layout.addView(imgview)
-//                }
+//                Glide.with(this@MainActivity)
+//                    .load(event3url)
+//                    .into(eventimg3)
 //            }
 //        }
 

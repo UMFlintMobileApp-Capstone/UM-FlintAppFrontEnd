@@ -153,18 +153,22 @@
 <!--                    android:paddingTop="8dp">-->
 
 <!--                    <ImageView-->
+<!--                        android:id="@+id/event1"-->
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
+<!--                        android:scaleType="centerCrop"-->
 <!--                        android:layout_centerInParent="true"-->
 <!--                        android:background="@color/maize"-->
 <!--                        android:padding="8dp"-->
 <!--                        android:onClick="openEvent1"/>-->
 
 <!--                    <ImageView-->
+<!--                        android:id="@+id/event2"-->
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
+<!--                        android:scaleType="centerCrop"-->
 <!--                        android:layout_centerInParent="true"-->
 <!--                        android:background="@color/maize"-->
 <!--                        android:padding="8dp"-->
@@ -172,9 +176,11 @@
 <!--                        android:onClick="openEvent2"/>-->
 
 <!--                    <ImageView-->
+<!--                        android:id="@+id/event3"-->
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
+<!--                        android:scaleType="centerCrop"-->
 <!--                        android:layout_centerInParent="true"-->
 <!--                        android:background="@color/maize"-->
 <!--                        android:padding="8dp"-->
