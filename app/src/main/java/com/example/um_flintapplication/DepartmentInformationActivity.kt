@@ -39,7 +39,7 @@ class DepartmentInformationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Academic Calendar"
+        supportActionBar?.title = "Department Information"
 
         setupNavigationDrawer()
     }
