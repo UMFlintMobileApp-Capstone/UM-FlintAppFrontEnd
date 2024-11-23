@@ -1,21 +1,33 @@
 package com.example.um_flintapplication
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Html
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
+import android.webkit.WebView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class MainActivity : AppCompatActivity() {
@@ -126,6 +138,37 @@ class MainActivity : AppCompatActivity() {
 //                    }
 //                }
 //            }
+
+        //Begin Alerts
+        CoroutineScope(Dispatchers.IO).launch {
+                val items = Retrofit.api.getAnnouncements(1)
+
+                withContext(Dispatchers.Main) {
+                    val layout = findViewById<LinearLayout>(R.id.AlertSection)
+
+                    items.forEach { item ->
+                        val alertHeader = TextView(this@MainActivity)
+                        alertHeader.text = item.title
+                        alertHeader.setTypeface(null, Typeface.BOLD)
+                        alertHeader.textSize = 16f
+                        alertHeader.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
+
+                        val linearLayout = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+                        )
+                        alertHeader.layoutParams = linearLayout
+                        layout.addView(alertHeader)
+
+                        val alertBody = TextView(this@MainActivity)
+                        alertBody.text = Html.fromHtml(item.description.substring(0, 150) + "...", Html.FROM_HTML_MODE_LEGACY).trim()
+                        alertBody.layoutParams = linearLayout
+                        alertBody.setOnClickListener{openAlertsPage(alertBody)}
+
+                        layout.addView(alertBody)
+                    }
+                }
+            }
 
 //        //Begin events (NO IMAGE) !! TEMPORARY !!
 //        CoroutineScope(Dispatchers.IO).launch{

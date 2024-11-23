@@ -1,5 +1,7 @@
 package com.example.um_flintapplication.apiRequests
 
+import android.text.Html
+
 /*
     This is what is used to map the responses from the API so that we can reference them
         Each response will give a list of JSON objects back
@@ -16,4 +18,10 @@ data class EventItem(
     val id: Int,
     val title: String,
     val photo: String
+)
+
+data class AnnouncementItem(
+    var title: String,
+    var description: String,
+    var dateStart: String
 )

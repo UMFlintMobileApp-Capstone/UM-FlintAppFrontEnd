@@ -22,6 +22,7 @@
 
             <!-- Alert Section -->
             <LinearLayout
+                android:id="@+id/AlertSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/maize"
@@ -31,18 +32,18 @@
                 android:elevation="4dp"
                 android:onClick="openAlertsPage">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Alert Title"
-                    android:textStyle="bold"
-                    android:textColor="@color/black" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Alert Title"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/black" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="This is an example alert to showcase the alert/announcement function."
-                    android:textColor="@color/black" />
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="This is an example alert to showcase the alert/announcement function."-->
+<!--                    android:textColor="@color/black" />-->
             </LinearLayout>
 
             <View

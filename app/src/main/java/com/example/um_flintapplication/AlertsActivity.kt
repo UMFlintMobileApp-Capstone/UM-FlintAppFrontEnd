@@ -1,15 +1,27 @@
 package com.example.um_flintapplication
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Html
 import android.view.MenuItem
+import android.webkit.WebView
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.um_flintapplication.databinding.ActivityAnnouncementsBinding
 import com.example.um_flintapplication.Announcement
+import com.example.um_flintapplication.apiRequests.AnnouncementItem
+import com.example.um_flintapplication.apiRequests.Retrofit
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AlertsActivity : AppCompatActivity() {
 
@@ -33,27 +45,39 @@ class AlertsActivity : AppCompatActivity() {
 
         // Initialize the RecyclerView for announcements
         setupRecyclerView()
-
-        // Load announcements into the RecyclerView
-        val announcements = listOf(
-            Announcement(
-                title = "Campus Closed on Nov 24",
-                description = "Due to severe weather, the campus will remain closed on November 24.",
-                timestamp = "Posted on: 2024-11-17"
-            ),
-            Announcement(
-                title = "Upcoming Event: Career Fair",
-                description = "Join us for the career fair on November 30. Meet recruiters from top companies.",
-                timestamp = "Posted on: 2024-11-15"
-            ),
-            Announcement(
-                title = "Library Hours Updated",
-                description = "The library will now be open from 7 AM to 10 PM on weekdays.",
-                timestamp = "Posted on: 2024-11-10"
-            )
-        )
-        adapter.submitList(announcements)
+        CoroutineScope(Dispatchers.IO).launch {
+            val announcements = Retrofit.api.getAnnouncements(3)
+            announcements.forEach{item ->
+                // convert html out to actual text
+                item.description = Html.fromHtml(item.description, Html.FROM_HTML_MODE_LEGACY).toString()
+                // concat display_start with Posted on: for display
+                item.dateStart = "Posted on: " + item.dateStart
+            }
+            withContext(Dispatchers.Main) {
+                adapter.submitList(announcements)
+            }
+        }
     }
+    // Load announcements into the RecyclerView
+//        val announcements = listOf(
+//            Announcement(
+//                title = "Campus Closed on Nov 24",
+//                description = "Due to severe weather, the campus will remain closed on November 24.",
+//                timestamp = "Posted on: 2024-11-17"
+//            ),
+//            Announcement(
+//                title = "Upcoming Event: Career Fair",
+//                description = "Join us for the career fair on November 30. Meet recruiters from top companies.",
+//                timestamp = "Posted on: 2024-11-15"
+//            ),
+//            Announcement(
+//                title = "Library Hours Updated",
+//                description = "The library will now be open from 7 AM to 10 PM on weekdays.",
+//                timestamp = "Posted on: 2024-11-10"
+//            )
+//        )
+//        adapter.submitList(announcements)
+// }
 
     private fun setupNavigationDrawer() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
