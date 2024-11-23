@@ -1,7 +1,10 @@
 package com.example.um_flintapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -11,48 +14,90 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.example.um_flintapplication.databinding.ActivityAcademicCalendarBinding
 import com.example.um_flintapplication.databinding.ActivityMapsPageBinding
 
 class MapsActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMapsPageBinding
+    private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var binding: ActivityAcademicCalendarBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMapsPageBinding.inflate(layoutInflater)
+        binding = ActivityAcademicCalendarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.appBarMapsPage.toolbar)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = "Academic Calendar"
 
-        binding.appBarMapsPage.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }
+        setupNavigationDrawer()
+    }
+
+    private fun setupNavigationDrawer() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
-        val navController = findNavController(R.id.nav_host_fragment_content_maps_page)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
-            ), drawerLayout
+
+        // Initialize ActionBarDrawerToggle for the navigation drawer
+        toggle = ActionBarDrawerToggle(
+            this, drawerLayout, binding.toolbar,
+            R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
-    }
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.maps_page, menu)
-        return true
-    }
+        // Set up NavigationView to work with navigation destinations
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navigationView.setNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.nav_home -> {
+                    // Navigate to the Home page
+                    val intent =
+                        Intent(this, MainActivity::class.java) // Replace with your Home activity
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_resources_academic_calendar -> {
+                    // Navigate to Academic Calendar page
+                    val intent = Intent(this, AcademicCalendar::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_resources_departments -> {
+                    // Navigate to Departments page
+                    val intent = Intent(this, DepartmentInformationActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_maps_page)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+                R.id.nav_resources_maps -> {
+                    // Navigate to Maps page
+                    val intent = Intent(this, MapsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+//                R.id.nav_scheduling_reserve_room -> {
+//                    // Navigate to Reserve Room page
+//                    val intent = Intent(this, ReserveRoomActivity::class.java)
+//                    startActivity(intent)
+//                    true
+//                }
+                R.id.nav_announcements -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, AlertsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

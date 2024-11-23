@@ -2,8 +2,8 @@ package com.example.um_flintapplication
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -11,35 +11,25 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
-import com.example.um_flintapplication.databinding.ActivityDepartmentInformationBinding
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.jsoup.Jsoup
+import com.example.um_flintapplication.databinding.ActivityAcademicCalendarBinding
 
-
-
-
-class DepartmentInformationActivity : AppCompatActivity() {
+class AcademicCalendar : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var binding: ActivityDepartmentInformationBinding
+    private lateinit var binding: ActivityAcademicCalendarBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityDepartmentInformationBinding.inflate(layoutInflater)
+        binding = ActivityAcademicCalendarBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Department Information"
+        supportActionBar?.title = "Academic Calendar"
 
         setupNavigationDrawer()
     }
@@ -103,52 +93,6 @@ class DepartmentInformationActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun fetchDepartmentData() {
-
-        lifecycleScope.launch {
-            val departmentData = scrapeDepartmentData() // Fetch data with scraping function
-            displayData(departmentData) // Display the fetched data in the UI
-        }
-    }
-
-    private suspend fun scrapeDepartmentData(): List<String> = withContext(Dispatchers.IO) {
-        val departmentList = mutableListOf<String>()
-        try {
-            // Connect to the web page and parse content
-            val doc = Jsoup.connect("https://www.umflint.edu/departments/").get()
-            val elements = doc.select("CSS_SELECTOR_OF_DEPARTMENT_INFO") // Select elements
-
-            for (element in elements) {
-                departmentList.add(element.text()) // Add text to list
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        departmentList
-    }
-
-    private fun displayData(departmentData: List<String>) {
-        // Access your LinearLayout where you want to add dynamic data
-        val containerLayout = findViewById<LinearLayout>(R.id.containerLayout) // Replace with actual ID
-
-        departmentData.forEach { data ->
-            // Create a new TextView for each piece of data
-            val textView = TextView(this)
-            textView.text = data
-            textView.setTextColor(resources.getColor(R.color.white, theme))
-            textView.setTextSize(18f)
-            textView.setPadding(16, 16, 16, 16)
-
-            // Optional: add background, margins, etc., similar to XML design
-            textView.setBackgroundColor(resources.getColor(R.color.blue, theme))
-            textView.elevation = 4f
-
-            // Add TextView to the layout
-            containerLayout.addView(textView)
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             return true
@@ -156,3 +100,4 @@ class DepartmentInformationActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 }
+

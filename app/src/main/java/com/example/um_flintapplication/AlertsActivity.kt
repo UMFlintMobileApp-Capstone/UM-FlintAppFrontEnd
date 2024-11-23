@@ -2,6 +2,7 @@ package com.example.um_flintapplication
 
 import android.content.Intent
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Bundle
 import android.text.Html
 import android.view.MenuItem
@@ -97,24 +98,22 @@ class AlertsActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_home -> {
                     // Navigate to the Home page
-                    val intent =
-                        Intent(this, MainActivity::class.java) // Replace with your Home activity
+                    val intent = Intent(this, MainActivity::class.java) // Replace with your Home activity
                     startActivity(intent)
                     true
                 }
-//                R.id.nav_resources_academic_calendar -> {
-//                    // Navigate to Academic Calendar page
-//                    val intent = Intent(this, AcademicCalendarActivity::class.java)
-//                    startActivity(intent)
-//                    true
-//                }
+                R.id.nav_resources_academic_calendar -> {
+                    // Navigate to Academic Calendar page
+                    val intent = Intent(this, AcademicCalendar::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_resources_departments -> {
                     // Navigate to Departments page
                     val intent = Intent(this, DepartmentInformationActivity::class.java)
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_resources_maps -> {
                     // Navigate to Maps page
                     val intent = Intent(this, MapsActivity::class.java)
@@ -133,7 +132,19 @@ class AlertsActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
-
+                R.id.nav_messaging_discord-> {
+                    val url = "https://discord.gg/AEefzfqSB9"
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_student_messaging-> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, MessagingActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 else -> false
             }
         }

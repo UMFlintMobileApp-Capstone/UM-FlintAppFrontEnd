@@ -1,17 +1,22 @@
 package com.example.um_flintapplication
-
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Html
 import android.view.Gravity
+import android.content.ContentValues.TAG
+import android.net.Uri
+import android.os.Looper
+import android.os.Handler
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.webkit.WebView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.ImageView
+import coil.load
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -28,7 +33,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+import java.util.concurrent.Executors
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.FutureTarget
+import com.example.um_flintapplication.apiRequests.EventItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -80,12 +90,12 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
-//                R.id.nav_resources_academic_calendar -> {
-//                    // Navigate to Academic Calendar page
-//                    val intent = Intent(this, AcademicCalendarActivity::class.java)
-//                    startActivity(intent)
-//                    true
-//                }
+                R.id.nav_resources_academic_calendar -> {
+                    // Navigate to Academic Calendar page
+                    val intent = Intent(this, AcademicCalendar::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_resources_departments -> {
                     // Navigate to Departments page
                     val intent = Intent(this, DepartmentInformationActivity::class.java)
@@ -107,6 +117,19 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_announcements -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, AlertsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_discord-> {
+                    val url = "https://discord.gg/AEefzfqSB9"
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_student_messaging-> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, MessagingActivity::class.java)
                     startActivity(intent)
                     true
                 }
@@ -179,6 +202,7 @@ class MainActivity : AppCompatActivity() {
 //
 //                events.forEach{ item ->
 //                    val textview = TextView(this@MainActivity)
+//
 //                    textview.text = item.title
 //                    textview.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
 //                    textview.setPadding(0, 8, 0, 0)
@@ -190,56 +214,36 @@ class MainActivity : AppCompatActivity() {
 //                    textview.layoutParams = layoutParams
 //
 //                    layout.addView(textview)
-//
-//
 //                }
 //            }
 //        }
 
 //        Begin events (WITH IMAGE) !! TO DO !!
-//        CoroutineScope(Dispatchers.IO).launch{
+//        CoroutineScope(Dispatchers.IO).launch {
 //            val events = Retrofit.api.getEvents(3)
 //
+//            val event1url = events[0].photo
+//            val event2url = events[1].photo
+//            val event3url = events[2].photo
+//
+//            val eventimg1 = findViewById<ImageView>(R.id.event1)
+//            val eventimg2 = findViewById<ImageView>(R.id.event2)
+//            val eventimg3 = findViewById<ImageView>(R.id.event3)
+//
 //            withContext(Dispatchers.Main){
-//                val layout = findViewById<LinearLayout>(R.id.EventsSection)
+//                Glide.with(this@MainActivity)
+//                    .load(event1url)
+//                    .into(eventimg1)
 //
-//                events.forEach{item ->
-//                    val bgImage = item.photo
+//                Glide.with(this@MainActivity)
+//                    .load(event2url)
+//                    .into(eventimg2)
 //
-//                    val imgview = ImagewView(this@MainActivity)
-//                    imgview.setPadding(0, 8, 0, 0)
-//                    imgview.layoutParams = LinearLayout.LayoutParams(0, 80)
-//                    imgview.load(bgImage){}
-//                    layout.addImageView(imgview)
-//                }
-
-//                events.forEach{ item ->
-//                    val bgImage = item.photo
-//                    String bgURL = item.photo
-//
-//
-//                    val view = View(this@MainActivity)
-//                    view.setPadding(0, 8, 0, 0)
-//
-//                    view.layoutParams = LinearLayout.LayoutParams(0, 80)
-//
-//                    view.background(bgImage)
-//
-//
-//                    layout.addView(view)
-//
-//
-//                }
+//                Glide.with(this@MainActivity)
+//                    .load(event3url)
+//                    .into(eventimg3)
 //            }
 //        }
-
-//        <View-->
-//        <!--                        android:layout_width="0dp"-->
-//        <!--                        android:layout_height="80dp"-->
-//        <!--                        android:layout_weight="1"-->
-//        <!--                        android:background="@color/maize"-->
-//        <!--                        android:padding="8dp"-->
-//        <!--                        android:onClick="openEvent1"/>-->
 
         // Basically to sign in you have to create an instance of the Auth class, making sure to
         // pass the activity to it (via 'this').
@@ -256,10 +260,7 @@ class MainActivity : AppCompatActivity() {
 
         var signInButton = findViewById<LinearLayout>(R.id.SignIn)
         signInButton.setOnClickListener{
-            googleSignIn.login { cred ->
-                if(cred!=null)
-                    Toast.makeText(this, "Token is $cred", Toast.LENGTH_LONG).show()
-            }
+            googleSignIn.login { cred -> Log.d(TAG, "Token is $cred")}
         }
 
         googleSignIn.silentLogin { cred ->
@@ -295,13 +296,17 @@ class MainActivity : AppCompatActivity() {
 
     // Function to open the Events page
     fun openEventsPage(view: View) {
-        val intent = Intent(this, EventsActivity::class.java)
+        val url = "https://events.umflint.edu/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
         startActivity(intent)
     }
 
     // Function to open the News page
     fun openNewsPage(view: View) {
-        val intent = Intent(this, NewsActivity::class.java)
+        val url = "https://news.umflint.edu/"
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(url)
         startActivity(intent)
     }
 

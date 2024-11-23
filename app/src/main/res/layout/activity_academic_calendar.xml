@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".MapsPage">
+    tools:context=".AcademicCalendar">
 
     <!-- Main Content Layout -->
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -29,12 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <!-- Content layout from content.xml -->
-            <include layout="@layout/content_maps_page" />
+            <include layout="@layout/content_academic_calendar" />
         </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 <!--    <include-->
-<!--        android:id="@+id/app_bar_maps_page"-->
-<!--        layout="@layout/app_bar_maps_page"-->
+<!--        android:id="@+id/app_bar_academic_calendar"-->
+<!--        layout="@layout/app_bar_academic_calendar"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->
 
@@ -50,3 +51,4 @@
         app:itemTextColor="#FFFFFF"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
+

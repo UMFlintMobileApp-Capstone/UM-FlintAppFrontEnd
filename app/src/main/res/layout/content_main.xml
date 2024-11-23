@@ -91,7 +91,7 @@
                 android:padding="16dp"
                 android:layout_marginBottom="16dp"
                 android:elevation="4dp"
-                android:onClick="openNewsPage">
+                android:onClick="openEventsPage">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -139,6 +139,7 @@
 <!--                android:elevation="4dp"-->
 <!--                android:onClick="openEventsPage">-->
 
+
 <!--                <TextView-->
 <!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
@@ -153,26 +154,35 @@
 <!--                    android:paddingTop="8dp">-->
 
 <!--                    <ImageView-->
+<!--                        android:id="@+id/event1"-->
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
+<!--                        android:scaleType="centerCrop"-->
+<!--                        android:layout_centerInParent="true"-->
 <!--                        android:background="@color/maize"-->
 <!--                        android:padding="8dp"-->
 <!--                        android:onClick="openEvent1"/>-->
 
 <!--                    <ImageView-->
+<!--                        android:id="@+id/event2"-->
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
+<!--                        android:scaleType="centerCrop"-->
+<!--                        android:layout_centerInParent="true"-->
 <!--                        android:background="@color/maize"-->
 <!--                        android:padding="8dp"-->
 <!--                        android:layout_marginStart="8dp"-->
 <!--                        android:onClick="openEvent2"/>-->
 
 <!--                    <ImageView-->
+<!--                        android:id="@+id/event3"-->
 <!--                        android:layout_width="0dp"-->
 <!--                        android:layout_height="80dp"-->
 <!--                        android:layout_weight="1"-->
+<!--                        android:scaleType="centerCrop"-->
+<!--                        android:layout_centerInParent="true"-->
 <!--                        android:background="@color/maize"-->
 <!--                        android:padding="8dp"-->
 <!--                        android:layout_marginStart="8dp"-->
@@ -203,6 +213,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
+                <!--Comment these out when using the DB-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
