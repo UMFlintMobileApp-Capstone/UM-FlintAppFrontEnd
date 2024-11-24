@@ -236,6 +236,9 @@ class MainActivity : AppCompatActivity() {
         // However it uses the silent option, so make sure the user is logged in first.
         googleSignIn = Auth(this)
 
+        // need to create a launcher if you are using login() in onCreate directly
+        googleSignIn.createLauncher()
+
         var signInButton = findViewById<LinearLayout>(R.id.SignIn)
         signInButton.setOnClickListener{
             googleSignIn.login()

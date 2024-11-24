@@ -3,9 +3,11 @@ package com.example.um_flintapplication
 import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getString
@@ -18,6 +20,7 @@ import com.google.android.gms.tasks.Task
 
 class Auth(private val ctx: Context) {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     private val gso =
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -42,15 +45,17 @@ class Auth(private val ctx: Context) {
         }
     }
 
-    fun login(){
-        if (ctx !is AppCompatActivity) {
-            throw Exception("Please use the activity context")
-        }
-
-        val launcher = (ctx as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+    fun createLauncher(){
+        launcher = (ctx as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 handleLogin(GoogleSignIn.getSignedInAccountFromIntent(result.data))
             }
+        }
+    }
+
+    fun login(){
+        if (ctx !is AppCompatActivity) {
+            throw Exception("Please use the activity context")
         }
 
         mGoogleSignInClient = GoogleSignIn.getClient(ctx, gso)
