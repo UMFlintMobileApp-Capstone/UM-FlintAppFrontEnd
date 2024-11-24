@@ -1,44 +1,21 @@
 package com.example.um_flintapplication
-import android.content.Context
 import android.content.Intent
-import android.graphics.Typeface
-import android.os.Bundle
-import android.text.Html
-import android.view.Gravity
-import android.content.ContentValues.TAG
 import android.net.Uri
-import android.os.Looper
-import android.os.Handler
-import android.util.Log
+import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
-import android.widget.ImageView
-import coil.load
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.concurrent.Executors
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.FutureTarget
-import com.example.um_flintapplication.apiRequests.EventItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -139,7 +116,7 @@ class MainActivity : AppCompatActivity() {
 
 //        //Begin News
 //        CoroutineScope(Dispatchers.IO).launch {
-//                val items = Retrofit.api.getNews(3)
+//                val items = Retrofit(this@MainActivity).api.getNews(3)
 //
 //                withContext(Dispatchers.Main) {
 //                    val layout = findViewById<LinearLayout>(R.id.NewsSection)
@@ -163,39 +140,39 @@ class MainActivity : AppCompatActivity() {
 //            }
 
         //Begin Alerts
-        CoroutineScope(Dispatchers.IO).launch {
-                val items = Retrofit.api.getAnnouncements(1)
-
-                withContext(Dispatchers.Main) {
-                    val layout = findViewById<LinearLayout>(R.id.AlertSection)
-
-                    items.forEach { item ->
-                        val alertHeader = TextView(this@MainActivity)
-                        alertHeader.text = item.title
-                        alertHeader.setTypeface(null, Typeface.BOLD)
-                        alertHeader.textSize = 16f
-                        alertHeader.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
-
-                        val linearLayout = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
-                        )
-                        alertHeader.layoutParams = linearLayout
-                        layout.addView(alertHeader)
-
-                        val alertBody = TextView(this@MainActivity)
-                        alertBody.text = Html.fromHtml(item.description.substring(0, 150) + "...", Html.FROM_HTML_MODE_LEGACY).trim()
-                        alertBody.layoutParams = linearLayout
-                        alertBody.setOnClickListener{openAlertsPage(alertBody)}
-
-                        layout.addView(alertBody)
-                    }
-                }
-            }
+//        CoroutineScope(Dispatchers.IO).launch {
+//                val items = Retrofit(this@MainActivity).api.getAnnouncements(1)
+//
+//                withContext(Dispatchers.Main) {
+//                    val layout = findViewById<LinearLayout>(R.id.AlertSection)
+//
+//                    items.forEach { item ->
+//                        val alertHeader = TextView(this@MainActivity)
+//                        alertHeader.text = item.title
+//                        alertHeader.setTypeface(null, Typeface.BOLD)
+//                        alertHeader.textSize = 16f
+//                        alertHeader.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
+//
+//                        val linearLayout = LinearLayout.LayoutParams(
+//                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+//                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+//                        )
+//                        alertHeader.layoutParams = linearLayout
+//                        layout.addView(alertHeader)
+//
+//                        val alertBody = TextView(this@MainActivity)
+//                        alertBody.text = Html.fromHtml(item.description.substring(0, 150) + "...", Html.FROM_HTML_MODE_LEGACY).trim()
+//                        alertBody.layoutParams = linearLayout
+//                        alertBody.setOnClickListener{openAlertsPage(alertBody)}
+//
+//                        layout.addView(alertBody)
+//                    }
+//                }
+//            }
 
 //        //Begin events (NO IMAGE) !! TEMPORARY !!
 //        CoroutineScope(Dispatchers.IO).launch{
-//            val events = Retrofit.api.getEvents(3)
+//            val events = Retrofit(this@MainActivity).api.getEvents(3)
 //
 //            withContext(Dispatchers.Main){
 //                val layout = findViewById<LinearLayout>(R.id.EventsSection)
@@ -220,7 +197,7 @@ class MainActivity : AppCompatActivity() {
 
 //        Begin events (WITH IMAGE) !! TO DO !!
 //        CoroutineScope(Dispatchers.IO).launch {
-//            val events = Retrofit.api.getEvents(3)
+//            val events = Retrofit(this@MainActivity).api.getEvents(3)
 //
 //            val event1url = events[0].photo
 //            val event2url = events[1].photo
@@ -247,25 +224,26 @@ class MainActivity : AppCompatActivity() {
 
         // Basically to sign in you have to create an instance of the Auth class, making sure to
         // pass the activity to it (via 'this').
-        // You can then call the login function, which has a callback that will give you the JWT
-        // token.
+
+        // You can then call the silentLogin function, which has a callback that will give you a
+        // GoogleSignInAccount where you can get email, names, profile picture, token, and id.
         //
-        // If the user has already logged in, then the JWT token will be passed automatically.
-        // Else it will try to login the user automatically (given they have a umich.edu account
-        // signed in.)
-        //
-        // You can see here I'm just displaying in the logs what the token is for now. Need to make
-        // it so it fetches the user's name for instance here.
+        // Call the login function to force a sign in.
+        // If the user has already logged in, then it just logs in automatically.
+        // Else it will try to login the user.
+
+        // Retrofit has an interceptor that will do this all for you, automatically adding a token.
+        // However it uses the silent option, so make sure the user is logged in first.
         googleSignIn = Auth(this)
 
         var signInButton = findViewById<LinearLayout>(R.id.SignIn)
         signInButton.setOnClickListener{
-            googleSignIn.login { cred -> Log.d(TAG, "Token is $cred")}
+            googleSignIn.login()
         }
 
         googleSignIn.silentLogin { cred ->
             if(cred!=null){
-                Toast.makeText(this, "Logged in silently!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Logged in silently as "+cred.email, Toast.LENGTH_LONG).show()
             }
         }
     }

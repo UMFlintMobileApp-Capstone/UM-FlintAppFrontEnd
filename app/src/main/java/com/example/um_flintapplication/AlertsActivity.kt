@@ -1,23 +1,16 @@
 package com.example.um_flintapplication
 
 import android.content.Intent
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.text.Html
 import android.view.MenuItem
-import android.webkit.WebView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.um_flintapplication.databinding.ActivityAnnouncementsBinding
-import com.example.um_flintapplication.Announcement
-import com.example.um_flintapplication.apiRequests.AnnouncementItem
 import com.example.um_flintapplication.apiRequests.Retrofit
+import com.example.um_flintapplication.databinding.ActivityAnnouncementsBinding
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +40,7 @@ class AlertsActivity : AppCompatActivity() {
         // Initialize the RecyclerView for announcements
         setupRecyclerView()
         CoroutineScope(Dispatchers.IO).launch {
-            val announcements = Retrofit.api.getAnnouncements(3)
+            val announcements = Retrofit(this@AlertsActivity).api.getAnnouncements(3)
             announcements.forEach{item ->
                 // convert html out to actual text
                 item.description = Html.fromHtml(item.description, Html.FROM_HTML_MODE_LEGACY).toString()

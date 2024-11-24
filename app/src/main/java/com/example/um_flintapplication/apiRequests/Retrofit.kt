@@ -1,5 +1,7 @@
 package com.example.um_flintapplication.apiRequests
 
+import android.content.Context
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -9,15 +11,19 @@ import retrofit2.converter.gson.GsonConverterFactory
     The BASE_URL may need to change for you
     10.0.2.2 is the default IP for android emulators (thanks google)
  */
+private const val BASE_URL = "http://10.0.2.2:8000/"
 
-object Retrofit {
-    private const val BASE_URL = "http://10.0.2.2:8000/"
+class Retrofit(context: Context) {
+    val authClient = OkHttpClient.Builder()
+        .addInterceptor(AuthInterceptor(context))
+        .build()
 
     val api: ApiService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(authClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiService::class.java)
     }
 }

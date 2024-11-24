@@ -1,6 +1,6 @@
 package com.example.um_flintapplication.apiRequests
-import com.example.um_flintapplication.Announcement
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface ApiService {
@@ -22,4 +22,7 @@ interface ApiService {
 
     @GET("/announcements/{items}")
     suspend fun getAnnouncements(@Path("items") num: Int): List<AnnouncementItem>
+
+    @POST("/auth/callback")
+    suspend fun getCallback(): AuthCallback
 }
