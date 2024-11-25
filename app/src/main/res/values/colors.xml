@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#00274C</color>
     <color name="maize">#FFCB05</color>
+    <color name="college_blue">#00274C</color>
+    <color name="college_gold">#FFCB05</color>
 </resources>

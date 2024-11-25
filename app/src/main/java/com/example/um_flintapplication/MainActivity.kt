@@ -85,12 +85,18 @@ class MainActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
-//                R.id.nav_scheduling_reserve_room -> {
-//                    // Navigate to Reserve Room page
-//                    val intent = Intent(this, ReserveRoomActivity::class.java)
-//                    startActivity(intent)
-//                    true
-//                }
+                R.id.nav_scheduling_reserve_room -> {
+                    // Navigate to Reserve Room page
+                    val intent = Intent(this, ScheduleGroupMeetingActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_scheduling_schedule_advisor -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, ScheduleAdvisorActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_announcements -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, AlertsActivity::class.java)

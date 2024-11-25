@@ -32,4 +32,6 @@
     <string name="title_activity_academic_calendar">AcademicCalendar</string>
     <string name="student_messaging">Student Messaging</string>
     <string name="title_student_messaging">Student Messaging</string>
+    <string name="title_schedule_advisor">Schedule Advisor</string>
+    <string name="title_schedule_group_meeting">Schedule Group Meeting</string>
 </resources>
