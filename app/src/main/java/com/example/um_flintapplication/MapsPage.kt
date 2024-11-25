@@ -2,19 +2,16 @@ package com.example.um_flintapplication
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.um_flintapplication.databinding.ActivityMapsPageBinding
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 
 class MapsPage : AppCompatActivity() {
 
@@ -32,6 +29,15 @@ class MapsPage : AppCompatActivity() {
         supportActionBar?.title = "Campus Map"
 
         setupNavigationDrawer()
+
+        val webView: WebView = findViewById(R.id.webView)
+        webView.webViewClient = WebViewClient() // Ensures links open in the WebView instead of a browser.
+        val webSettings: WebSettings = webView.settings
+        webSettings.javaScriptEnabled = true // Enable JavaScript for maps like Google Maps.
+
+        // Load the map URL
+        webView.loadUrl("https://www.umflint.edu/campus-map/")
+
     }
 
     private fun setupNavigationDrawer() {

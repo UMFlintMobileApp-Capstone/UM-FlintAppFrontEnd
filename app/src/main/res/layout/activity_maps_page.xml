@@ -30,7 +30,16 @@
             android:layout_height="match_parent">
             <!-- Content layout from content.xml -->
             <include layout="@layout/content_maps_page" />
+
         </FrameLayout>
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="611dp"
+            app:layout_anchor="@+id/content_frame"
+            app:layout_anchorGravity="center" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 <!--    <include-->
 <!--        android:id="@+id/app_bar_maps_page"-->
