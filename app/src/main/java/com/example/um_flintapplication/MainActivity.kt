@@ -2,20 +2,30 @@ package com.example.um_flintapplication
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
+import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -201,7 +211,7 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 
-//        Begin events (WITH IMAGE) !! TO DO !!
+//        Begin events (WITH IMAGE) (and titles now too)
 //        CoroutineScope(Dispatchers.IO).launch {
 //            val events = Retrofit(this@MainActivity).api.getEvents(3)
 //
@@ -212,6 +222,8 @@ class MainActivity : AppCompatActivity() {
 //            val eventimg1 = findViewById<ImageView>(R.id.event1)
 //            val eventimg2 = findViewById<ImageView>(R.id.event2)
 //            val eventimg3 = findViewById<ImageView>(R.id.event3)
+//
+//            val layout = findViewById<LinearLayout>(R.id.EventTitles)
 //
 //            withContext(Dispatchers.Main){
 //                Glide.with(this@MainActivity)
@@ -225,8 +237,30 @@ class MainActivity : AppCompatActivity() {
 //                Glide.with(this@MainActivity)
 //                    .load(event3url)
 //                    .into(eventimg3)
+//
+//                events.forEach{item ->
+//                    val textview = TextView(this@MainActivity)
+//
+//                    textview.text = item.title
+//                    textview.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
+//                    textview.setPadding(0, 8, 0, 0)
+//                    textview.width = layout.measuredWidth / 3
+//                    textview.maxLines = 3
+//                    textview.ellipsize = TextUtils.TruncateAt.END
+//
+//
+//                    val layoutParams = LinearLayout.LayoutParams(
+//                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+//                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+//                    )
+//                    textview.layoutParams = layoutParams
+//
+//                    layout.addView(textview)
+//                }
 //            }
 //        }
+
+
 
         // Basically to sign in you have to create an instance of the Auth class, making sure to
         // pass the activity to it (via 'this').
