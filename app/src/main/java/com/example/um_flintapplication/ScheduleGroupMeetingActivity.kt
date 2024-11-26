@@ -67,15 +67,9 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
     private fun loadRoomData(building: String) {
         binding.roomSection.removeAllViews()
 
-        val rooms = ArrayList<Room>()
-
         CoroutineScope(Dispatchers.IO).launch {
-            val room = Retrofit(this@ScheduleGroupMeetingActivity).api.getRooms(building)
-
-            room.forEach { item ->
-                val times = Retrofit(this@ScheduleGroupMeetingActivity).api.getRoomTimes(item.id)
-                    .forEach{ time ->
-
+            Retrofit(this@ScheduleGroupMeetingActivity).api.getRooms(building).forEach{item ->
+                Retrofit(this@ScheduleGroupMeetingActivity).api.getRoomTimes(item.id).forEach{time ->
                     val roomView = layoutInflater.inflate(R.layout.room_card, null)
                     roomView.findViewById<TextView>(R.id.room_name).text = item.name
                     roomView.findViewById<TextView>(R.id.timings).text =
@@ -96,8 +90,6 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
             }
         }
     }
-
-    data class Room(val id: Int, val name: String, val timings: String)
 
     private fun setupNavigationDrawer() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
