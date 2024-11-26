@@ -253,7 +253,10 @@ class MainActivity : AppCompatActivity() {
 //                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
 //                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
 //                    )
+//                    layoutParams.leftMargin = 4
+//
 //                    textview.layoutParams = layoutParams
+//
 //
 //                    layout.addView(textview)
 //                }
