@@ -3,7 +3,6 @@ package com.example.um_flintapplication
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
@@ -11,8 +10,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.databinding.ActivityScheduleGroupMeetingBinding
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ScheduleGroupMeetingActivity : AppCompatActivity() {
 
@@ -24,6 +28,8 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
         binding = ActivityScheduleGroupMeetingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val buildings = ArrayList<String>()
+
         // Set up the toolbar
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = "Reserve a Room"
@@ -31,15 +37,24 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
         // Initialize DrawerLayout and NavigationView
         setupNavigationDrawer()
 
-        // Dropdown Options
-        val buildings = listOf("MSB", "School of Management (Riverfront)", "Library")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, buildings)
+        val adapter: ArrayAdapter<String?> = ArrayAdapter<String?>(this, android.R.layout.simple_dropdown_item_1line, buildings as List<String?>)
         binding.buildingDropdown.setAdapter(adapter)
+        adapter.setNotifyOnChange(true)
 
         // Handle Dropdown Selection
         binding.buildingDropdown.setOnItemClickListener { _, _, position, _ ->
             binding.roomSection.isVisible = true
             loadRoomData(buildings[position])
+        }
+
+        // Dropdown Options
+        CoroutineScope(Dispatchers.IO).launch {
+            val building = Retrofit(this@ScheduleGroupMeetingActivity).api.getBuildings()
+
+            building.forEach { item ->
+                buildings.add(item.name)
+                adapter.notifyDataSetChanged()
+            }
         }
 
         // Reset Button
@@ -52,34 +67,37 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
     private fun loadRoomData(building: String) {
         binding.roomSection.removeAllViews()
 
-        val rooms = when (building) {
-            "MSB" -> listOf(
-                Room("Room 101", "9:00 AM - 11:00 AM"),
-                Room("Room 102", "11:30 AM - 1:30 PM")
-            )
-            "School of Management (Riverfront)" -> listOf(
-                Room("Conference Room A", "10:00 AM - 12:00 PM"),
-                Room("Conference Room B", "2:00 PM - 4:00 PM")
-            )
-            "Library" -> listOf(
-                Room("Study Room 1", "8:00 AM - 10:00 AM"),
-                Room("Study Room 2", "12:00 PM - 2:00 PM")
-            )
-            else -> emptyList()
-        }
+        val rooms = ArrayList<Room>()
 
-        for (room in rooms) {
-            val roomView = layoutInflater.inflate(R.layout.room_card, null)
-            roomView.findViewById<TextView>(R.id.room_name).text = room.name
-            roomView.findViewById<TextView>(R.id.timings).text = "Available Timings: ${room.timings}"
-            roomView.findViewById<Button>(R.id.select_room_button).setOnClickListener {
-                // Handle room selection
+        CoroutineScope(Dispatchers.IO).launch {
+            val room = Retrofit(this@ScheduleGroupMeetingActivity).api.getRooms(building)
+
+            room.forEach { item ->
+                val times = Retrofit(this@ScheduleGroupMeetingActivity).api.getRoomTimes(item.id)
+                    .forEach{ time ->
+
+                    val roomView = layoutInflater.inflate(R.layout.room_card, null)
+                    roomView.findViewById<TextView>(R.id.room_name).text = item.name
+                    roomView.findViewById<TextView>(R.id.timings).text =
+                        buildString {
+                            append("Time: ")
+                            append(time.startTime)
+                            append(" - ")
+                            append(time.endTime)
+                        }
+                    roomView.findViewById<Button>(R.id.select_room_button).setOnClickListener {
+                        // Handle room selection
+                    }
+
+                    withContext(Dispatchers.Main){
+                        binding.roomSection.addView(roomView)
+                    }
+                }
             }
-            binding.roomSection.addView(roomView)
         }
     }
 
-    data class Room(val name: String, val timings: String)
+    data class Room(val id: Int, val name: String, val timings: String)
 
     private fun setupNavigationDrawer() {
         val drawerLayout: DrawerLayout = binding.drawerLayout

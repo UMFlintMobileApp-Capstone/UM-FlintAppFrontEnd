@@ -25,4 +25,13 @@ interface ApiService {
 
     @POST("/auth/callback")
     suspend fun getCallback(): AuthCallback
+
+    @GET("/schedule/locations/buildings")
+    suspend fun getBuildings(): List<Buildings>
+
+    @GET("/schedule/locations/building/{building}/rooms")
+    suspend fun getRooms(@Path("building") building: String): List<BuildingRooms>
+
+    @GET("/schedule/room/{room}/availabilities")
+    suspend fun getRoomTimes(@Path("room") room: Int): List<RoomAvailable>
 }

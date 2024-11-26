@@ -28,3 +28,17 @@ data class AuthCallback(
     var status: String = "failure",
     var details: String
 )
+
+data class Buildings(
+    var name: String
+)
+
+data class BuildingRooms(
+    var name: String,
+    var id: Int
+)
+
+data class RoomAvailable(
+    var startTime: String,
+    var endTime: String
+)
