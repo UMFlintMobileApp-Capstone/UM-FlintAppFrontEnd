@@ -38,9 +38,6 @@
                 <item
                     android:id="@+id/nav_scheduling_schedule_advisor"
                     android:title="@string/schedule_advisor" />
-                <item
-                    android:id="@+id/nav_scheduling_group_meetings"
-                    android:title="@string/group_meetings" />
             </menu>
         </item>
         <item
