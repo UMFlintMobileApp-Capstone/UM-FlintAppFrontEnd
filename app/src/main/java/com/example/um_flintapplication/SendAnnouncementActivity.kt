@@ -129,6 +129,12 @@ class SendAnnouncementActivity : AppCompatActivity() {
             val group = binding.spinnerGroup.selectedItem.toString()
 
             if (subject.isNotBlank() && message.isNotBlank() && date.isNotBlank()) {
+                // Reset fields after successful submission
+                binding.etSubject.text.clear()
+                binding.etMessage.text.clear()
+                binding.tvDate.text = "" // Clear the date TextView
+                binding.spinnerGroup.setSelection(0) // Reset the Spinner to the first item
+
                 Toast.makeText(this, "Announcement Sent!", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show()
