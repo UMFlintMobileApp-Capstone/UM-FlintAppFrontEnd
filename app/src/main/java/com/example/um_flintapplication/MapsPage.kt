@@ -1,6 +1,7 @@
 package com.example.um_flintapplication
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -58,8 +59,7 @@ class MapsPage : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_home -> {
                     // Navigate to the Home page
-                    val intent =
-                        Intent(this, MainActivity::class.java) // Replace with your Home activity
+                    val intent = Intent(this, MainActivity::class.java) // Replace with your Home activity
                     startActivity(intent)
                     true
                 }
@@ -75,26 +75,49 @@ class MapsPage : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_resources_maps -> {
                     // Navigate to Maps page
-                    val intent = Intent(this, MapsActivity::class.java)
+                    val intent = Intent(this, MapsPage::class.java)
                     startActivity(intent)
                     true
                 }
-//                R.id.nav_scheduling_reserve_room -> {
-//                    // Navigate to Reserve Room page
-//                    val intent = Intent(this, ReserveRoomActivity::class.java)
-//                    startActivity(intent)
-//                    true
-//                }
+                R.id.nav_scheduling_reserve_room -> {
+                    // Navigate to Reserve Room page
+                    val intent = Intent(this, ScheduleGroupMeetingActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_scheduling_schedule_advisor -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, ScheduleAdvisorActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_announcements -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, AlertsActivity::class.java)
                     startActivity(intent)
                     true
                 }
-
+                R.id.nav_send_announcements -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, SendAnnouncementActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_discord-> {
+                    val url = "https://discord.gg/AEefzfqSB9"
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_student_messaging-> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, MessagingActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 else -> false
             }
         }

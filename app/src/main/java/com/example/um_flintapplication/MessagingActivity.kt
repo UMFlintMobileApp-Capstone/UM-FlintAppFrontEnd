@@ -59,33 +59,64 @@ class MessagingActivity : AppCompatActivity() {
         navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home -> {
-                    startActivity(Intent(this, MainActivity::class.java))
-                    true
-                }
-                R.id.nav_resources_academic_calendar -> {
-                    startActivity(Intent(this, AcademicCalendar::class.java))
-                    true
-                }
-                R.id.nav_resources_departments -> {
-                    startActivity(Intent(this, DepartmentInformationActivity::class.java))
-                    true
-                }
-                R.id.nav_resources_maps -> {
-                    startActivity(Intent(this, MapsActivity::class.java))
-                    true
-                }
-                R.id.nav_announcements -> {
-                    startActivity(Intent(this, AlertsActivity::class.java))
-                    true
-                }
-                R.id.nav_messaging_discord -> {
-                    val url = "https://discord.gg/AEefzfqSB9"
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    // Navigate to the Home page
+                    val intent = Intent(this, MainActivity::class.java) // Replace with your Home activity
                     startActivity(intent)
                     true
                 }
-                R.id.nav_messaging_student_messaging -> {
-                    // Stay on the current page
+                R.id.nav_resources_academic_calendar -> {
+                    // Navigate to Academic Calendar page
+                    val intent = Intent(this, AcademicCalendar::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_resources_departments -> {
+                    // Navigate to Departments page
+                    val intent = Intent(this, DepartmentInformationActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_resources_maps -> {
+                    // Navigate to Maps page
+                    val intent = Intent(this, MapsPage::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_scheduling_reserve_room -> {
+                    // Navigate to Reserve Room page
+                    val intent = Intent(this, ScheduleGroupMeetingActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_scheduling_schedule_advisor -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, ScheduleAdvisorActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_announcements -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, AlertsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_send_announcements -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, SendAnnouncementActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_discord-> {
+                    val url = "https://discord.gg/AEefzfqSB9"
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_student_messaging-> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, MessagingActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false
