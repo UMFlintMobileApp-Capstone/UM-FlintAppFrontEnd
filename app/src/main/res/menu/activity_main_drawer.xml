@@ -49,6 +49,9 @@
                     android:id="@+id/nav_announcements"
                     android:title="@string/announcements" />
                 <item
+                        android:id="@+id/nav_send_announcements"
+                        android:title="@string/send_announcements" />
+                <item
                     android:id="@+id/nav_messaging_discord"
                     android:title="@string/discord" />
                 <item

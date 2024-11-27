@@ -27,6 +27,11 @@
             android:label="@string/title_activity_alerts"
             android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
         <activity
+                android:name=".SendAnnouncementActivity"
+                android:exported="false"
+                android:label="@string/send_announcements"
+                android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
+        <activity
             android:name=".NewsActivity"
             android:exported="false"
             android:label="@string/title_news"
@@ -55,7 +60,7 @@
             android:label="@string/title_schedule_group_meeting"
             android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
         <activity
-            android:name=".MapsActivity"
+            android:name=".MapsPage"
             android:exported="false"
             android:label="@string/title_activity_maps_page"
             android:theme="@style/Theme.UMFlintApplication.NoActionBar" />

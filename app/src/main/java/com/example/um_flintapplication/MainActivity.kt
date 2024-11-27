@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_resources_maps -> {
                     // Navigate to Maps page
-                    val intent = Intent(this, MapsActivity::class.java)
+                    val intent = Intent(this, MapsPage::class.java)
                     startActivity(intent)
                     true
                 }
@@ -110,6 +110,12 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_announcements -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, AlertsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_send_announcements -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, SendAnnouncementActivity::class.java)
                     startActivity(intent)
                     true
                 }
