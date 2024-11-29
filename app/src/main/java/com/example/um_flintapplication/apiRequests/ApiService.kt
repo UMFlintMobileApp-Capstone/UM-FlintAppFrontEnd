@@ -1,4 +1,5 @@
 package com.example.um_flintapplication.apiRequests
+import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -15,23 +16,23 @@ interface ApiService {
                 ** See Models.kt for more info **
      */
     @GET("/news/get/{items}")
-    suspend fun getNews(@Path("items") num: Int): List<NewsItem>
+    suspend fun getNews(@Path("items") num: Int): ApiResponse<List<NewsItem>>
 
     @GET("/events/get/{items}")
-    suspend fun getEvents(@Path("items") num: Int): List<EventItem>
+    suspend fun getEvents(@Path("items") num: Int): ApiResponse<List<EventItem>>
 
     @GET("/announcements/{items}")
-    suspend fun getAnnouncements(@Path("items") num: Int): List<AnnouncementItem>
+    suspend fun getAnnouncements(@Path("items") num: Int): ApiResponse<List<AnnouncementItem>>
 
     @POST("/auth/callback")
-    suspend fun getCallback(): AuthCallback
+    suspend fun getCallback(): ApiResponse<AuthCallback>
 
     @GET("/schedule/locations/buildings")
-    suspend fun getBuildings(): List<Buildings>
+    suspend fun getBuildings(): ApiResponse<List<Buildings>>
 
     @GET("/schedule/locations/building/{building}/rooms")
-    suspend fun getRooms(@Path("building") building: String): List<BuildingRooms>
+    suspend fun getRooms(@Path("building") building: String): ApiResponse<List<BuildingRooms>>
 
     @GET("/schedule/room/{room}/availabilities")
-    suspend fun getRoomTimes(@Path("room") room: Int): List<RoomAvailable>
+    suspend fun getRoomTimes(@Path("room") room: Int): ApiResponse<List<RoomAvailable>>
 }

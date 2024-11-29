@@ -10,9 +10,12 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.um_flintapplication.apiRequests.BuildingRooms
 import com.example.um_flintapplication.apiRequests.Retrofit
+import com.example.um_flintapplication.apiRequests.RoomAvailable
 import com.example.um_flintapplication.databinding.ActivityScheduleGroupMeetingBinding
 import com.google.android.material.navigation.NavigationView
+import com.skydoves.sandwich.onSuccess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,11 +52,11 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
 
         // Dropdown Options
         CoroutineScope(Dispatchers.IO).launch {
-            val building = Retrofit(this@ScheduleGroupMeetingActivity).api.getBuildings()
-
-            building.forEach { item ->
-                buildings.add(item.name)
-                adapter.notifyDataSetChanged()
+            Retrofit(this@ScheduleGroupMeetingActivity).api.getBuildings().onSuccess {
+                data.forEach { item ->
+                    buildings.add(item.name)
+                    adapter.notifyDataSetChanged()
+                }
             }
         }
 
@@ -68,8 +71,19 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
         binding.roomSection.removeAllViews()
 
         CoroutineScope(Dispatchers.IO).launch {
-            Retrofit(this@ScheduleGroupMeetingActivity).api.getRooms(building).forEach{item ->
-                Retrofit(this@ScheduleGroupMeetingActivity).api.getRoomTimes(item.id).forEach{time ->
+            var rooms: List<BuildingRooms>? = null
+            Retrofit(this@ScheduleGroupMeetingActivity).api.getRooms(building).onSuccess {
+                rooms = data
+            }
+
+            rooms?.forEach{item ->
+                var times: List<RoomAvailable>? = null
+
+                Retrofit(this@ScheduleGroupMeetingActivity).api.getRoomTimes(item.id).onSuccess {
+                    times = data
+                }
+
+                times?.forEach { time ->
                     val roomView = layoutInflater.inflate(R.layout.room_card, null)
                     roomView.findViewById<TextView>(R.id.room_name).text = item.name
                     roomView.findViewById<TextView>(R.id.timings).text =
@@ -79,9 +93,10 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
                             append(" - ")
                             append(time.endTime)
                         }
-                    roomView.findViewById<Button>(R.id.select_room_button).setOnClickListener {
-                        // Handle room selection
-                    }
+                    roomView.findViewById<Button>(R.id.select_room_button)
+                        .setOnClickListener {
+                            // Handle room selection
+                        }
 
                     withContext(Dispatchers.Main){
                         binding.roomSection.addView(roomView)

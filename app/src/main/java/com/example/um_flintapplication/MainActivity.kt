@@ -1,7 +1,9 @@
 package com.example.um_flintapplication
 import android.content.Intent
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
@@ -19,9 +21,13 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
+import com.example.um_flintapplication.apiRequests.AnnouncementItem
+import com.example.um_flintapplication.apiRequests.EventItem
+import com.example.um_flintapplication.apiRequests.NewsItem
 import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
+import com.skydoves.sandwich.onSuccess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -136,61 +142,69 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        //Begin News
-//        CoroutineScope(Dispatchers.IO).launch {
-//                val items = Retrofit(this@MainActivity).api.getNews(3)
-//
-//                withContext(Dispatchers.Main) {
-//                    val layout = findViewById<LinearLayout>(R.id.NewsSection)
-//
-//                    items.forEach { item ->
-//                        val textView = TextView(this@MainActivity)
-//
-//                        textView.text = item.title
-//                        textView.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
-//                        textView.setPadding(0, 8, 0, 0)
-//
-//                        val layoutParams = LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-//                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
-//                        )
-//                        textView.layoutParams = layoutParams
-//
-//                        layout.addView(textView)
-//                    }
-//                }
-//            }
+        //Begin News
+        CoroutineScope(Dispatchers.IO).launch {
+            var news: List<NewsItem>? = null
+
+            Retrofit(this@MainActivity).api.getNews(3).onSuccess {
+                news = data
+            }
+
+            val layout = findViewById<LinearLayout>(R.id.NewsSection)
+
+            news?.forEach { item ->
+                val textView = TextView(this@MainActivity)
+
+                textView.text = item.title
+                textView.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
+                textView.setPadding(0, 8, 0, 0)
+
+                val layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+                    LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+                )
+                textView.layoutParams = layoutParams
+
+                withContext(Dispatchers.Main){
+                    layout.addView(textView)
+                }
+            }
+        }
 
         //Begin Alerts
-//        CoroutineScope(Dispatchers.IO).launch {
-//                val items = Retrofit(this@MainActivity).api.getAnnouncements(1)
-//
-//                withContext(Dispatchers.Main) {
-//                    val layout = findViewById<LinearLayout>(R.id.AlertSection)
-//
-//                    items.forEach { item ->
-//                        val alertHeader = TextView(this@MainActivity)
-//                        alertHeader.text = item.title
-//                        alertHeader.setTypeface(null, Typeface.BOLD)
-//                        alertHeader.textSize = 16f
-//                        alertHeader.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
-//
-//                        val linearLayout = LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-//                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
-//                        )
-//                        alertHeader.layoutParams = linearLayout
-//                        layout.addView(alertHeader)
-//
-//                        val alertBody = TextView(this@MainActivity)
-//                        alertBody.text = Html.fromHtml(item.description.substring(0, 150) + "...", Html.FROM_HTML_MODE_LEGACY).trim()
-//                        alertBody.layoutParams = linearLayout
-//                        alertBody.setOnClickListener{openAlertsPage(alertBody)}
-//
-//                        layout.addView(alertBody)
-//                    }
-//                }
-//            }
+        CoroutineScope(Dispatchers.IO).launch {
+            var announcements: List<AnnouncementItem>? = null
+
+            Retrofit(this@MainActivity).api.getAnnouncements(1).onSuccess {
+                announcements = data
+            }
+
+            withContext(Dispatchers.Main) {
+                val layout = findViewById<LinearLayout>(R.id.AlertSection)
+
+                announcements?.forEach { item ->
+                    val alertHeader = TextView(this@MainActivity)
+                    alertHeader.text = item.title
+                    alertHeader.setTypeface(null, Typeface.BOLD)
+                    alertHeader.textSize = 16f
+                    alertHeader.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
+
+                    val linearLayout = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+                        LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+                    )
+                    alertHeader.layoutParams = linearLayout
+                    layout.addView(alertHeader)
+
+                    val alertBody = TextView(this@MainActivity)
+                    alertBody.text = Html.fromHtml(item.description.substring(0, 150) + "...", Html.FROM_HTML_MODE_LEGACY).trim()
+                    alertBody.layoutParams = linearLayout
+                    alertBody.setOnClickListener{openAlertsPage(alertBody)}
+
+                    layout.addView(alertBody)
+                }
+            }
+        }
 
 //        //Begin events (NO IMAGE) !! TEMPORARY !!
 //        CoroutineScope(Dispatchers.IO).launch{
@@ -218,58 +232,63 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        Begin events (WITH IMAGE) (and titles now too)
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val events = Retrofit(this@MainActivity).api.getEvents(3)
-//
-//            val event1url = events[0].photo
-//            val event2url = events[1].photo
-//            val event3url = events[2].photo
-//
-//            val eventimg1 = findViewById<ImageView>(R.id.event1)
-//            val eventimg2 = findViewById<ImageView>(R.id.event2)
-//            val eventimg3 = findViewById<ImageView>(R.id.event3)
-//
-//            val layout = findViewById<LinearLayout>(R.id.EventTitles)
-//
-//            withContext(Dispatchers.Main){
-//                Glide.with(this@MainActivity)
-//                    .load(event1url)
-//                    .into(eventimg1)
-//
-//                Glide.with(this@MainActivity)
-//                    .load(event2url)
-//                    .into(eventimg2)
-//
-//                Glide.with(this@MainActivity)
-//                    .load(event3url)
-//                    .into(eventimg3)
-//
-//                events.forEach{item ->
-//                    val textview = TextView(this@MainActivity)
-//
-//                    textview.text = item.title
-//                    textview.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
-//                    textview.setPadding(0, 8, 0, 0)
-//                    textview.width = layout.measuredWidth / 3
-//                    textview.maxLines = 3
-//                    textview.ellipsize = TextUtils.TruncateAt.END
-//
-//
-//                    val layoutParams = LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-//                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
-//                    )
-//                    layoutParams.leftMargin = 4
-//
-//                    textview.layoutParams = layoutParams
-//
-//
-//                    layout.addView(textview)
-//                }
-//            }
-//        }
+        CoroutineScope(Dispatchers.IO).launch {
+            var events: List<EventItem>? = null
+
+            Retrofit(this@MainActivity).api.getEvents(3).onSuccess {
+                events = data
+            }
+
+            val finalEvents = events
+            if(finalEvents!=null){
+                val event1url = finalEvents[0].photo
+                val event2url = finalEvents[1].photo
+                val event3url = finalEvents[2].photo
+
+                val eventimg1 = findViewById<ImageView>(R.id.event1)
+                val eventimg2 = findViewById<ImageView>(R.id.event2)
+                val eventimg3 = findViewById<ImageView>(R.id.event3)
+
+                val layout = findViewById<LinearLayout>(R.id.EventTitles)
+
+                withContext(Dispatchers.Main){
+                    Glide.with(this@MainActivity)
+                        .load(event1url)
+                        .into(eventimg1)
+
+                    Glide.with(this@MainActivity)
+                        .load(event2url)
+                        .into(eventimg2)
+
+                    Glide.with(this@MainActivity)
+                        .load(event3url)
+                        .into(eventimg3)
+
+                    finalEvents.forEach{item ->
+                        val textview = TextView(this@MainActivity)
+
+                        textview.text = item.title
+                        textview.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
+                        textview.setPadding(0, 8, 0, 0)
+                        textview.width = layout.measuredWidth / 3
+                        textview.maxLines = 3
+                        textview.ellipsize = TextUtils.TruncateAt.END
 
 
+                        val layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+                        )
+                        layoutParams.leftMargin = 4
+
+                        textview.layoutParams = layoutParams
+
+
+                        layout.addView(textview)
+                    }
+                }
+            }
+        }
 
         // Basically to sign in you have to create an instance of the Auth class, making sure to
         // pass the activity to it (via 'this').

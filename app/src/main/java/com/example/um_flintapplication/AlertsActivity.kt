@@ -9,9 +9,11 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.um_flintapplication.apiRequests.AnnouncementItem
 import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.databinding.ActivityAnnouncementsBinding
 import com.google.android.material.navigation.NavigationView
+import com.skydoves.sandwich.onSuccess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,15 +42,23 @@ class AlertsActivity : AppCompatActivity() {
         // Initialize the RecyclerView for announcements
         setupRecyclerView()
         CoroutineScope(Dispatchers.IO).launch {
-            val announcements = Retrofit(this@AlertsActivity).api.getAnnouncements(3)
-            announcements.forEach{item ->
+            var announcements: List<AnnouncementItem>? = null
+
+            Retrofit(this@AlertsActivity).api.getAnnouncements(3).onSuccess {
+                announcements = data
+            }
+
+            announcements?.forEach{item ->
                 // convert html out to actual text
                 item.description = Html.fromHtml(item.description, Html.FROM_HTML_MODE_LEGACY).toString()
                 // concat display_start with Posted on: for display
                 item.dateStart = "Posted on: " + item.dateStart
             }
-            withContext(Dispatchers.Main) {
-                adapter.submitList(announcements)
+
+            if(announcements!=null){
+                withContext(Dispatchers.Main){
+                    adapter.submitList(announcements)
+                }
             }
         }
     }
