@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.um_flintapplication.apiRequests.ApiService
 import com.example.um_flintapplication.apiRequests.BuildingRooms
 import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.apiRequests.RoomAvailable
@@ -25,6 +26,7 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityScheduleGroupMeetingBinding
     private lateinit var toggle: ActionBarDrawerToggle
+    private lateinit var rf: ApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,7 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val buildings = ArrayList<String>()
+        rf = Retrofit(this@ScheduleGroupMeetingActivity).api
 
         // Set up the toolbar
         setSupportActionBar(binding.toolbar)
@@ -52,7 +55,7 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
 
         // Dropdown Options
         CoroutineScope(Dispatchers.IO).launch {
-            Retrofit(this@ScheduleGroupMeetingActivity).api.getBuildings().onSuccess {
+            rf.getBuildings().onSuccess {
                 data.forEach { item ->
                     buildings.add(item.name)
                     adapter.notifyDataSetChanged()
@@ -72,14 +75,14 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             var rooms: List<BuildingRooms>? = null
-            Retrofit(this@ScheduleGroupMeetingActivity).api.getRooms(building).onSuccess {
+            rf.getRooms(building).onSuccess {
                 rooms = data
             }
 
             rooms?.forEach{item ->
                 var times: List<RoomAvailable>? = null
 
-                Retrofit(this@ScheduleGroupMeetingActivity).api.getRoomTimes(item.id).onSuccess {
+                rf.getRoomTimes(item.id).onSuccess {
                     times = data
                 }
 

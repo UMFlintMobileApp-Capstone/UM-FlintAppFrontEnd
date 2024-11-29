@@ -22,6 +22,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.example.um_flintapplication.apiRequests.AnnouncementItem
+import com.example.um_flintapplication.apiRequests.ApiService
 import com.example.um_flintapplication.apiRequests.EventItem
 import com.example.um_flintapplication.apiRequests.NewsItem
 import com.example.um_flintapplication.apiRequests.Retrofit
@@ -39,9 +40,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var googleSignIn : Auth
+    private lateinit var rf: ApiService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        rf = Retrofit(this@MainActivity).api
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -146,7 +150,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             var news: List<NewsItem>? = null
 
-            Retrofit(this@MainActivity).api.getNews(3).onSuccess {
+            rf.getNews(3).onSuccess {
                 news = data
             }
 
@@ -175,7 +179,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             var announcements: List<AnnouncementItem>? = null
 
-            Retrofit(this@MainActivity).api.getAnnouncements(1).onSuccess {
+            rf.getAnnouncements(1).onSuccess {
                 announcements = data
             }
 
@@ -235,7 +239,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             var events: List<EventItem>? = null
 
-            Retrofit(this@MainActivity).api.getEvents(3).onSuccess {
+            rf.getEvents(3).onSuccess {
                 events = data
             }
 
