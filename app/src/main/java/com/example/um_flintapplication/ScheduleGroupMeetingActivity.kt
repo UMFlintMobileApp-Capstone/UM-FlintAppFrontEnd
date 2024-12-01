@@ -132,7 +132,7 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
                 }else{
                     withContext(Dispatchers.Main){
                         Toast.makeText(applicationContext,
-                            "Failed to booked ${room.name}!", Toast.LENGTH_SHORT).show()
+                            "Failed to book ${room.name}!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -140,7 +140,7 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
 
         builder.setNegativeButton(android.R.string.no) { dialog, which ->
             Toast.makeText(applicationContext,
-                "Ok room not booked.", Toast.LENGTH_SHORT).show()
+                "Ok, ${room.name} was not booked.", Toast.LENGTH_SHORT).show()
         }
         builder.show()
 
