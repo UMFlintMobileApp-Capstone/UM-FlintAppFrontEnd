@@ -42,3 +42,22 @@ data class RoomAvailable(
     var startTime: String,
     var endTime: String
 )
+
+data class Colleges(
+    var id: Int,
+    var name: String
+){
+    override fun toString(): String = name
+}
+
+data class AdvisorDegrees(
+    var id: Int,
+    var name: String
+)
+
+data class Advisors(
+    var id: Int,
+    var name: String,
+    var email: String,
+    var degrees: ArrayList<AdvisorDegrees>
+)

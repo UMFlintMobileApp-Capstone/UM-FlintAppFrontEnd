@@ -35,4 +35,10 @@ interface ApiService {
 
     @GET("/schedule/room/{room}/availabilities")
     suspend fun getRoomTimes(@Path("room") room: Int): ApiResponse<List<RoomAvailable>>
+
+    @GET("/schedule/colleges")
+    suspend fun getColleges(): ApiResponse<List<Colleges>>
+
+    @GET("/schedule/{college}/advisors")
+    suspend fun getAdvisors(@Path("college") college: Int): ApiResponse<List<Advisors>>
 }
