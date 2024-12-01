@@ -95,6 +95,35 @@
                             android:text="📅" />
                 </LinearLayout>
 
+                <!-- End Date Field -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="End Date"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/evDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Select date"
+                        android:padding="8dp"
+                        android:background="@android:drawable/edit_text" />
+                    <Button
+                        android:id="@+id/eBtnPickDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📅" />
+                </LinearLayout>
+
+
                 <!-- Group Dropdown -->
                 <TextView
                         android:layout_width="match_parent"

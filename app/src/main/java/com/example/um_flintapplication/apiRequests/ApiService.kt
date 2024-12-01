@@ -46,4 +46,11 @@ interface ApiService {
     @POST("/schedule/room")
     suspend fun scheduleRoom(@Query("location") location: Int, @Query("startTime") startTime: String,
                              @Query("endTime") endTime: String): ApiResponse<GenericResponse>
+
+    @POST("/announcements")
+    suspend fun addAnnouncement(@Query("title") title: String,
+                                @Query("description") description: String,
+                                @Query("dateStart") dateStart: String,
+                                @Query("dateEnd") dateEnd: String,
+                                @Query("role") role: Int): ApiResponse<GenericResponse>
 }
