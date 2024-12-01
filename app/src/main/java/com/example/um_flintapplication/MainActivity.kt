@@ -197,7 +197,12 @@ class MainActivity : AppCompatActivity() {
                     layout.addView(alertHeader)
 
                     val alertBody = TextView(this@MainActivity)
-                    alertBody.text = Html.fromHtml(item.description.substring(0, 150) + "...", Html.FROM_HTML_MODE_LEGACY).trim()
+                    try{
+                        alertBody.text = Html.fromHtml(item.description.substring(0, 150) + "...", Html.FROM_HTML_MODE_LEGACY).trim()
+                    }catch(e: StringIndexOutOfBoundsException){
+                        alertBody.text = Html.fromHtml(item.description, Html.FROM_HTML_MODE_LEGACY).trim()
+                    }
+
                     alertBody.layoutParams = linearLayout
                     alertBody.setOnClickListener{openAlertsPage(alertBody)}
 
