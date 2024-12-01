@@ -3,6 +3,7 @@ import com.skydoves.sandwich.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
     /*
@@ -41,4 +42,8 @@ interface ApiService {
 
     @GET("/schedule/{college}/advisors")
     suspend fun getAdvisors(@Path("college") college: Int): ApiResponse<List<Advisors>>
+
+    @POST("/schedule/room")
+    suspend fun scheduleRoom(@Query("location") location: Int, @Query("startTime") startTime: String,
+                             @Query("endTime") endTime: String): ApiResponse<GenericResponse>
 }

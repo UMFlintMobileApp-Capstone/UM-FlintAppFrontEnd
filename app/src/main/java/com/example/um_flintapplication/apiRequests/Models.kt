@@ -61,3 +61,8 @@ data class Advisors(
     var email: String,
     var degrees: ArrayList<AdvisorDegrees>
 )
+
+data class GenericResponse(
+    var status: String,
+    var message: String
+)

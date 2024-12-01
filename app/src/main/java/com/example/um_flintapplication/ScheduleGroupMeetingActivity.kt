@@ -6,11 +6,14 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.um_flintapplication.apiRequests.BuildingRooms
+import com.example.um_flintapplication.apiRequests.GenericResponse
 import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.apiRequests.RoomAvailable
 import com.example.um_flintapplication.databinding.ActivityScheduleGroupMeetingBinding
@@ -95,7 +98,7 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
                         }
                     roomView.findViewById<Button>(R.id.select_room_button)
                         .setOnClickListener {
-                            // Handle room selection
+                            schedule(item, time)
                         }
 
                     withContext(Dispatchers.Main){
@@ -104,6 +107,43 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun schedule(room: BuildingRooms, time: RoomAvailable){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confirm booking?")
+        builder.setMessage("Are you sure you want to book ${room.name} on ${time.startTime} to ${time.endTime}?")
+
+        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+            CoroutineScope(Dispatchers.IO).launch{
+                var response: GenericResponse? = null
+
+                Retrofit(this@ScheduleGroupMeetingActivity).api.scheduleRoom(
+                    room.id,time.startTime,time.endTime
+                ).onSuccess {
+                    response = data
+                }
+
+                if(response!=null){
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(applicationContext,
+                            "Successfully booked ${room.name}!", Toast.LENGTH_SHORT).show()
+                    }
+                }else{
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(applicationContext,
+                            "Failed to booked ${room.name}!", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
+        builder.setNegativeButton(android.R.string.no) { dialog, which ->
+            Toast.makeText(applicationContext,
+                "Ok room not booked.", Toast.LENGTH_SHORT).show()
+        }
+        builder.show()
+
     }
 
     private fun setupNavigationDrawer() {
