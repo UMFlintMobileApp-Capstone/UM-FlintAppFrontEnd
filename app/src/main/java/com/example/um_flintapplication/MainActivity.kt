@@ -172,28 +172,74 @@ class MainActivity : AppCompatActivity() {
 
             val layout = findViewById<LinearLayout>(R.id.NewsSection)
 
-            news?.forEach { item ->
-                val textView = TextView(this@MainActivity)
+            withContext(Dispatchers.Main) {
 
-                textView.text = item.title
-                textView.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
-                textView.setPadding(0, 8, 0, 0)
-                textView.setOnClickListener{
-                    val url = item.url
+                val newsurl1 = news?.get(0)?.image_url
+                val newsurl2 = news?.get(1)?.image_url
+                val newsurl3 = news?.get(2)?.image_url
+
+                val newsimg1 = findViewById<ImageView>(R.id.news1)
+                newsimg1.setOnClickListener{
+                    val url = news?.get(0)?.url
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(url)
                     startActivity(intent)
                 }
 
-                val layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-                    LinearLayout.LayoutParams.WRAP_CONTENT  // Height
-                )
-                textView.layoutParams = layoutParams
-
-                withContext(Dispatchers.Main){
-                    layout.addView(textView)
+                val newsimg2 = findViewById<ImageView>(R.id.news2)
+                newsimg2.setOnClickListener{
+                    val url = news?.get(1)?.url
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
                 }
+
+                val newsimg3 = findViewById<ImageView>(R.id.news3)
+                newsimg3.setOnClickListener{
+                    val url = news?.get(2)?.url
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                }
+
+                val news1Title = findViewById<TextView>(R.id.news1Title)
+                news1Title.text = news?.get(0)?.title
+                news1Title.setOnClickListener{
+                    val url = news?.get(0)?.url
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                }
+
+                val news2Title = findViewById<TextView>(R.id.news2Title)
+                news2Title.text = news?.get(1)?.title
+                news2Title.setOnClickListener{
+                    val url = news?.get(1)?.url
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                }
+
+                val news3Title = findViewById<TextView>(R.id.news3Title)
+                news3Title.text = news?.get(2)?.title
+                news3Title.setOnClickListener{
+                    val url = news?.get(2)?.url
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                }
+
+                Glide.with(this@MainActivity)
+                    .load(newsurl1)
+                    .into(newsimg1)
+
+                Glide.with(this@MainActivity)
+                    .load(newsurl2)
+                    .into(newsimg2)
+
+                Glide.with(this@MainActivity)
+                    .load(newsurl3)
+                    .into(newsimg3)
             }
         }
 
