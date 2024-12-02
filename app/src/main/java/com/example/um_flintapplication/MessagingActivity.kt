@@ -7,10 +7,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.um_flintapplication.apiRequests.CreateThread
+import com.example.um_flintapplication.apiRequests.GenericResponse
 import com.example.um_flintapplication.apiRequests.MessageThread
 import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.apiRequests.Thread
@@ -80,6 +85,8 @@ class MessagingActivity : AppCompatActivity() {
 
         // Initialize RecyclerView for messages
         setupRecyclerView()
+
+        setupThreadManager()
     }
 
     private fun setupNavigationDrawer() {
@@ -168,6 +175,8 @@ class MessagingActivity : AppCompatActivity() {
         val sAdapter: ArrayAdapter<Thread?> = ArrayAdapter<Thread?>(this, android.R.layout.simple_dropdown_item_1line, threads as List<Thread?>)
         binding.threadDropdown.setAdapter(sAdapter)
 
+        threads.clear()
+
         // Dropdown Options
         CoroutineScope(Dispatchers.IO).launch {
             Retrofit(this@MessagingActivity).api.getMessageThreads().onSuccess {
@@ -250,6 +259,81 @@ class MessagingActivity : AppCompatActivity() {
 
                 messageInput.text.clear()
             }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setupThreadManager(){
+        val deleteBtn = binding.deletebutton
+        val addBtn = binding.addbutton
+
+        deleteBtn.setOnClickListener {
+            if(::toUser.isInitialized){
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Confirm thread deletion?")
+                builder.setMessage("Are you sure you want to delete this thread with ${toUser}?")
+
+                builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                    CoroutineScope(Dispatchers.IO).launch{
+                        var response: GenericResponse? = null
+
+                        Retrofit(this@MessagingActivity).api.deleteMessageThread(
+                            toUser.uuid
+                        ).onSuccess {
+                            response = data
+                        }
+
+                        if(response!=null){
+                            withContext(Dispatchers.Main){
+                                Toast.makeText(applicationContext,
+                                    "Successfully deleted thread with $toUser!", Toast.LENGTH_SHORT).show()
+                            }
+                            threads.remove(toUser)
+                            withContext(Dispatchers.Main){
+                                setupUserSpinner()
+                                adapter.notifyDataSetChanged()
+                            }
+                        }else{
+                            withContext(Dispatchers.Main){
+                                Toast.makeText(applicationContext,
+                                    "Failed to delete thread with ${toUser}!", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
+
+                builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                }
+                builder.show()
+            }
+        }
+
+        addBtn.setOnClickListener{
+            val builder = AlertDialog.Builder(this)
+            val inflater = layoutInflater
+            builder.setTitle("Create Thread")
+            val dialogLayout = inflater.inflate(R.layout.alert_edit_text, null)
+            val editText  = dialogLayout.findViewById<EditText>(R.id.editText)
+            builder.setView(dialogLayout)
+            builder.setPositiveButton("OK") { dialogInterface, i ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    var thread: CreateThread? = null
+
+                    Retrofit(this@MessagingActivity).api.createThread(
+                        editText.text.toString()
+                    ).onSuccess {
+                        thread = data
+                    }
+
+                    if(thread?.threadCreated==true){
+                        withContext(Dispatchers.Main){
+                            setupUserSpinner()
+                            Toast.makeText(applicationContext, "Created thread with " + editText.text.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+            builder.show()
         }
     }
 

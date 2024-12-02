@@ -26,32 +26,57 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_marginTop="?attr/actionBarSize">
+            android:padding="16dp">
 
             <!-- User Selection -->
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="369dp"
+                android:layout_height="83dp"
                 android:layout_marginBottom="16dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/threadDropdown"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:hint="Select Thread"
                     android:inputType="none" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/deletebutton"
+                        android:layout_width="151dp"
+                        android:layout_height="37dp"
+                        android:text="Delete" />
+
+                    <Space
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/addbutton"
+                        android:layout_width="151dp"
+                        android:layout_height="37dp"
+                        android:text="Add" />
+                </LinearLayout>
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Messages RecyclerView -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerMessages"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_marginTop="8dp"
+                android:layout_weight="1"
                 android:clipToPadding="false"
                 android:scrollbars="vertical" />
 
@@ -59,30 +84,31 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:background="@color/blue"
+                android:orientation="horizontal"
                 android:padding="8dp">
 
                 <EditText
                     android:id="@+id/etMessageInput"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:hint="Type a message..."
                     android:background="@android:color/white"
+                    android:hint="Type a message..."
                     android:padding="8dp"
-                    android:textColor="@color/black"
-                    android:layout_marginEnd="8dp" />
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/btnSendMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_send"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Send Message"
-                    android:padding="8dp" />
+                    android:padding="8dp"
+                    android:src="@drawable/ic_send" />
             </LinearLayout>
+
         </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

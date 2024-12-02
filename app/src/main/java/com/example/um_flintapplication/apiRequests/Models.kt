@@ -99,3 +99,8 @@ data class MessageThread(
     var sendDate: String,
     var sender: UserDetails
 )
+
+data class CreateThread(
+    val threadCreated: Boolean,
+    val threadUuid: String
+)

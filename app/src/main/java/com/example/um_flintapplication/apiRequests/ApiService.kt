@@ -1,5 +1,6 @@
 package com.example.um_flintapplication.apiRequests
 import com.skydoves.sandwich.ApiResponse
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -62,4 +63,10 @@ interface ApiService {
 
     @GET("/messages/chat/{id}")
     suspend fun getMessages(@Path("id") id: String): ApiResponse<List<MessageThread>>
+
+    @DELETE("/messages/chat/{id}")
+    suspend fun deleteMessageThread(@Path("id") id: String): ApiResponse<GenericResponse>
+
+    @POST("/messages/create/thread")
+    suspend fun createThread(@Query("recipient") email: String): ApiResponse<CreateThread>
 }
