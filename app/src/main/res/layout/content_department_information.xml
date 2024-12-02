@@ -34,17 +34,14 @@
                 android:elevation="4dp">
 
                 <TextView
+                    android:id="@+id/titleSchoolsColleges"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Schools/Colleges"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Department Name/link"
-                    android:paddingTop="8dp"
-                    android:textColor="@color/white" />
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:paddingBottom="8dp" />
 
             </LinearLayout>
 
@@ -60,17 +57,14 @@
                 android:elevation="4dp">
 
                 <TextView
+                    android:id="@+id/titleOfficesCenters"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Offices/Centers"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Department Name/link"
-                    android:paddingTop="8dp"
-                    android:textColor="@color/white" />
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:paddingBottom="8dp" />
 
             </LinearLayout>
 
