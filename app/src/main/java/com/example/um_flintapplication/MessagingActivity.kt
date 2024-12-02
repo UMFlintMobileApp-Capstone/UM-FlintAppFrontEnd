@@ -291,6 +291,7 @@ class MessagingActivity : AppCompatActivity() {
                             threads.remove(toUser)
                             withContext(Dispatchers.Main){
                                 setupUserSpinner()
+                                adapter.clearMessages()
                                 adapter.notifyDataSetChanged()
                             }
                         }else{
