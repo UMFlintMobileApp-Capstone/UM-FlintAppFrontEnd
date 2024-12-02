@@ -65,14 +65,6 @@ class ScheduleAdvisorActivity : AppCompatActivity() {
     private fun loadAdvisors(college: Int) {
         binding.advisorSection.removeAllViews()
 
-//        val advisors = listOf(
-//            Advisor("Cydnee Robertson", "Computer Information Systems Program (BS), Data Science Program (BS), Digital Machining and Automation Technology Program (BS), General Biology (BS) students with last names beginning with letters A-H, Human-Centered Design Program (BS), Information Technology and Informatics Program (BS), Sustainability and Renewable Energy Technology (BS), Wildlife Biology Program (BS)", "cweirauc@umich.edu", "https://calendly.com/cydnee"),
-//            Advisor("Jeff Dobbs", "Computer Information Systems Program (BS), Data Science Program (BS), Digital Machining and Automation Technology Program (BS), General Biology (BS) students with last names beginning with letters A-H, Human-Centered Design Program (BS), Information Technology and Informatics Program (BS), Sustainability and Renewable Energy Technology (BS), Wildlife Biology Program (BS)", "jdobbs@umich.edu", "https://calendly.com/jeffdobbs"),
-//            Advisor("Ashley Bennett", "Artificial Intelligence (BS), Computer Science Program (BS), Cybersecurity Program (BS), Software Engineering Program (BS)", "amarieb@umich.edu", "https://go.umflint.edu/AshleyBennett"),
-//            Advisor("Dan McCabe", "Applied & Engineering Physics Program (BS), Electrical Engineering Program (BSE), General Biology (BS) students with last names beginning with letters Q-Z, Mechanical Engineering Program (BSE), Preferential Admissions Transfer Program with the University of Michigan-Ann Arbor College of Engineering", "dmmccabe@umich.edu", "https://go.umflint.edu/DanMcCabe"),
-//            Advisor("Aubree Kraut", "All CIT Graduate Programs", "arottier@umich.com", "https://go.umflint.edu/AubreeKraut"),
-//            )
-
         CoroutineScope(Dispatchers.IO).launch {
             var advisors: List<Advisors>? = null
             Retrofit(this@ScheduleAdvisorActivity).api.getAdvisors(college).onSuccess {
