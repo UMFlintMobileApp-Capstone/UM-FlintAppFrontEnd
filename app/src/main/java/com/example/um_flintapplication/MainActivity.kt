@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -140,6 +139,28 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> false
             }
+        }
+
+        // Basically to sign in you have to create an instance of the Auth class, making sure to
+        // pass the activity to it (via 'this').
+
+        // You can then call the silentLogin function, which has a callback that will give you a
+        // GoogleSignInAccount where you can get email, names, profile picture, token, and id.
+        //
+        // Call the login function to force a sign in.
+        // If the user has already logged in, then it just logs in automatically.
+        // Else it will try to login the user.
+
+        // Retrofit has an interceptor that will do this all for you, automatically adding a token.
+        // However it uses the silent option, so make sure the user is logged in first.
+        googleSignIn = Auth(this)
+
+        // need to create a launcher if you are using login() in onCreate directly
+        googleSignIn.createLauncher()
+
+        var signInButton = findViewById<LinearLayout>(R.id.SignIn)
+        signInButton.setOnClickListener{
+            googleSignIn.login()
         }
 
         //Begin News
@@ -292,34 +313,6 @@ class MainActivity : AppCompatActivity() {
                         layout.addView(textview)
                     }
                 }
-            }
-        }
-
-        // Basically to sign in you have to create an instance of the Auth class, making sure to
-        // pass the activity to it (via 'this').
-
-        // You can then call the silentLogin function, which has a callback that will give you a
-        // GoogleSignInAccount where you can get email, names, profile picture, token, and id.
-        //
-        // Call the login function to force a sign in.
-        // If the user has already logged in, then it just logs in automatically.
-        // Else it will try to login the user.
-
-        // Retrofit has an interceptor that will do this all for you, automatically adding a token.
-        // However it uses the silent option, so make sure the user is logged in first.
-        googleSignIn = Auth(this)
-
-        // need to create a launcher if you are using login() in onCreate directly
-        googleSignIn.createLauncher()
-
-        var signInButton = findViewById<LinearLayout>(R.id.SignIn)
-        signInButton.setOnClickListener{
-            googleSignIn.login()
-        }
-
-        googleSignIn.silentLogin { cred ->
-            if(cred!=null){
-                Toast.makeText(this, "Logged in silently as "+cred.email, Toast.LENGTH_LONG).show()
             }
         }
     }
