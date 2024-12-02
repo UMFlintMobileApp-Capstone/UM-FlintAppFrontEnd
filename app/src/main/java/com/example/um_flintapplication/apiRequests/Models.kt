@@ -11,13 +11,14 @@ import java.util.StringJoiner
 data class NewsItem(
     val id: Int,
     val title: String,
-    val excerpt: String
+    val excerpt: String,
+    val url: String
 )
 
 data class EventItem(
     val id: Int,
     val title: String,
-    val photo: String
+    val photo: String,
 )
 
 data class AnnouncementItem(
@@ -61,7 +62,8 @@ data class Advisors(
     var id: Int,
     var name: String,
     var email: String,
-    var degrees: ArrayList<AdvisorDegrees>
+    var degrees: ArrayList<AdvisorDegrees>,
+    var curl: String
 )
 
 data class GenericResponse(

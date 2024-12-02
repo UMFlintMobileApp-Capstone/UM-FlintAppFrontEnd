@@ -166,7 +166,6 @@ class MainActivity : AppCompatActivity() {
         //Begin News
         CoroutineScope(Dispatchers.IO).launch {
             var news: List<NewsItem>? = null
-
             Retrofit(this@MainActivity).api.getNews(3).onSuccess {
                 news = data
             }
@@ -179,6 +178,12 @@ class MainActivity : AppCompatActivity() {
                 textView.text = item.title
                 textView.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
                 textView.setPadding(0, 8, 0, 0)
+                textView.setOnClickListener{
+                    val url = item.url
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                }
 
                 val layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT, // Width
@@ -232,32 +237,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-//        //Begin events (NO IMAGE) !! TEMPORARY !!
-//        CoroutineScope(Dispatchers.IO).launch{
-//            val events = Retrofit(this@MainActivity).api.getEvents(3)
-//
-//            withContext(Dispatchers.Main){
-//                val layout = findViewById<LinearLayout>(R.id.EventsSection)
-//
-//                events.forEach{ item ->
-//                    val textview = TextView(this@MainActivity)
-//
-//                    textview.text = item.title
-//                    textview.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
-//                    textview.setPadding(0, 8, 0, 0)
-//
-//                    val layoutParams = LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-//                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
-//                    )
-//                    textview.layoutParams = layoutParams
-//
-//                    layout.addView(textview)
-//                }
-//            }
-//        }
-
-//        Begin events (WITH IMAGE) (and titles now too)
+        //Begin events (WITH IMAGE) (and titles now too)
         CoroutineScope(Dispatchers.IO).launch {
             var events: List<EventItem>? = null
 
@@ -359,7 +339,7 @@ class MainActivity : AppCompatActivity() {
 
     // Function to open the Maps page
     fun openMapsPage(view: View) {
-        val intent = Intent(this, MapsActivity::class.java)
+        val intent = Intent(this, MapsPage::class.java)
         startActivity(intent)
     }
 }
