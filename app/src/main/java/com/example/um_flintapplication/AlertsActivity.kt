@@ -61,6 +61,11 @@ class AlertsActivity : AppCompatActivity() {
                 }
             }
         }
+
+        binding.floatingActionButton2.setOnClickListener{
+            val intent = Intent(this, SendAnnouncementActivity::class.java)
+            startActivity(intent)
+        }
     }
     // Load announcements into the RecyclerView
 //        val announcements = listOf(
