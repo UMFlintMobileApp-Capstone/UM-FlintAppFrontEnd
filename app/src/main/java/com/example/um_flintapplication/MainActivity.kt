@@ -31,6 +31,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,6 +54,14 @@ class MainActivity : AppCompatActivity() {
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
+
+
+        val webView: WebView = findViewById(R.id.webView)
+        webView.webViewClient = WebViewClient() // Ensures links open in the WebView instead of a browser.
+        val webSettings: WebSettings = webView.settings
+        webSettings.javaScriptEnabled = true // Enable JavaScript for maps like Google Maps.
+        // Load the map URL
+        webView.loadUrl("https://www.umflint.edu/campus-map/")
 
         // Initialize AppBarConfiguration with top-level destinations
         appBarConfiguration = AppBarConfiguration(

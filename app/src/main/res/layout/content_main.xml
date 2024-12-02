@@ -173,12 +173,12 @@
             <!-- Maps Section -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="190dp"
                 android:background="@color/blue"
-                android:orientation="vertical"
-                android:padding="16dp"
                 android:elevation="4dp"
-                android:onClick="openMapsPage">
+                android:onClick="openMapsPage"
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -186,6 +186,11 @@
                     android:text="MAPS"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
+
+                <WebView
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="143dp" />
 
             </LinearLayout>
         </LinearLayout>
