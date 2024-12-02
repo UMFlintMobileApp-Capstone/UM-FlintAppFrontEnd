@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -85,11 +86,14 @@ class ScheduleAdvisorActivity : AppCompatActivity() {
                 advisorView.findViewById<TextView>(R.id.advisor_name).text = advisor.name
                 advisorView.findViewById<TextView>(R.id.programs).text = degrees
                 advisorView.findViewById<TextView>(R.id.email).text = "Email: ${advisor.email}"
-//                advisorView.findViewById<Button>(R.id.schedule_button).setOnClickListener {
-//                    // Open advisor's Calendly link
-//                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(advisor.link))
-//                    startActivity(intent)
-//                }
+                if(advisor.curl!=null){
+                    advisorView.findViewById<Button>(R.id.schedule_button).setOnClickListener {
+                        // Open advisor's Calendly link
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(advisor.curl))
+                        startActivity(intent)
+                    }
+                }
+
                 withContext(Dispatchers.Main){
                     binding.advisorSection.addView(advisorView)
                 }
