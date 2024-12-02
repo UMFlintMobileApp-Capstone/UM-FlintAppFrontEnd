@@ -2,7 +2,7 @@
 <resources>
     <style
         name="NavMenuGroupText"
-        parent="TextAppearance.MaterialComponents.Body1">
+        parent="TextAppearance.MaterialComponents.Headline6">
         <item name="android:textColor">#FFD700</item> <!-- Gold color for headings -->
         <item name="android:textSize">14sp</item> <!-- Adjust size if needed -->
     </style>

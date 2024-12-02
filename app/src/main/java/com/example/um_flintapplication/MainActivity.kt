@@ -334,7 +334,7 @@ class MainActivity : AppCompatActivity() {
 
     // Function to open the Maps page
     fun openMapsPage(view: View) {
-        val intent = Intent(this, MapsActivity::class.java)
+        val intent = Intent(this, MapsPage::class.java)
         startActivity(intent)
     }
 }
