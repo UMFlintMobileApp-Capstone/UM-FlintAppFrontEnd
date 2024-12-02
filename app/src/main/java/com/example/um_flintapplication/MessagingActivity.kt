@@ -72,7 +72,7 @@ class MessagingActivity : AppCompatActivity() {
         setupNavigationDrawer()
 
         webSocketClient = WebSocketClient.getInstance(this@MessagingActivity)
-        webSocketClient.setSocketUrl("ws://10.0.0.251:8000/messaging/ws/")
+        webSocketClient.setSocketUrl("wss://umflintapp.troxal.com/messaging/ws/")
         webSocketClient.setListener(socketListener)
 
         // Initialize the Spinner for User Selection
