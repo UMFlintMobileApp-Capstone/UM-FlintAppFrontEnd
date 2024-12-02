@@ -53,4 +53,13 @@ interface ApiService {
                                 @Query("dateStart") dateStart: String,
                                 @Query("dateEnd") dateEnd: String,
                                 @Query("role") role: Int): ApiResponse<GenericResponse>
+
+    @GET("/users/me")
+    suspend fun getMyDetails(): ApiResponse<UserDetails>
+
+    @GET("/messages/")
+    suspend fun getMessageThreads(): ApiResponse<List<Thread>>
+
+    @GET("/messages/chat/{id}")
+    suspend fun getMessages(@Path("id") id: String): ApiResponse<List<MessageThread>>
 }

@@ -5,11 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.um_flintapplication.R
-import com.example.um_flintapplication.Message
 
-class MessageAdapter(private val messages: MutableList<Message>) :
+class MessageAdapter() :
     RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
+    private val messages: MutableList<Message> = mutableListOf<Message>()
 
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val sender: TextView = itemView.findViewById(R.id.tvSender)
@@ -36,6 +35,13 @@ class MessageAdapter(private val messages: MutableList<Message>) :
     fun updateMessages(newMessages: List<Message>) {
         messages.clear()
         messages.addAll(newMessages)
-        notifyDataSetChanged() // Notify RecyclerView to refresh the display
+    }
+
+    fun addMessage(newMessage: Message){
+        messages.add(newMessage)
+    }
+
+    fun clearMessages(){
+        messages.clear()
     }
 }

@@ -31,30 +31,19 @@
             android:layout_marginTop="?attr/actionBarSize">
 
             <!-- User Selection -->
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp"
-                android:background="@color/blue">
+                android:layout_marginBottom="16dp">
 
-                <TextView
-                    android:id="@+id/tvUserSelection"
-                    android:layout_width="wrap_content"
+                <AutoCompleteTextView
+                    android:id="@+id/threadDropdown"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Select User:"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp" />
-
-                <Spinner
-                    android:id="@+id/spinnerUsers"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:drawable/btn_dropdown" />
-            </LinearLayout>
+                    android:hint="Select Thread"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Messages RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView

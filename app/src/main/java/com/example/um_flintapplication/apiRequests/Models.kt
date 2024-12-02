@@ -1,5 +1,7 @@
 package com.example.um_flintapplication.apiRequests
 
+import java.util.StringJoiner
+
 /*
     This is what is used to map the responses from the API so that we can reference them
         Each response will give a list of JSON objects back
@@ -65,4 +67,35 @@ data class Advisors(
 data class GenericResponse(
     var status: String,
     var message: String
+)
+
+data class UserDetails(
+    var id: String,
+    var email: String,
+    var firstname: String,
+    var surname: String,
+    var role: Int
+)
+
+data class Thread(
+    var uuid: String,
+    var users: List<UserDetails>
+){
+    override fun toString(): String {
+        var str: StringJoiner = StringJoiner(",")
+
+        users.forEach { user ->
+            str.add(user.email)
+        }
+
+        return str.toString()
+    }
+}
+
+data class MessageThread(
+    var messageUuid: String,
+    var threadUuid: String,
+    var message: String,
+    var sendDate: String,
+    var sender: UserDetails
 )

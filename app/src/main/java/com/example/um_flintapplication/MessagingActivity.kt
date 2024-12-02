@@ -1,23 +1,61 @@
 package com.example.um_flintapplication
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.um_flintapplication.apiRequests.MessageThread
+import com.example.um_flintapplication.apiRequests.Retrofit
+import com.example.um_flintapplication.apiRequests.Thread
+import com.example.um_flintapplication.apiRequests.WebSocketClient
 import com.example.um_flintapplication.databinding.ActivityMessagingBinding
 import com.google.android.material.navigation.NavigationView
+import com.skydoves.sandwich.onSuccess
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import org.json.JSONObject
+import java.time.LocalDateTime
 
 class MessagingActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMessagingBinding
     private lateinit var toggle: ActionBarDrawerToggle
-    private val users = listOf("User A", "User B", "User C") // Sample users
+    private val threads = ArrayList<Thread>()
+    private lateinit var adapter: MessageAdapter
+    private lateinit var toUser: Thread
+
+    private lateinit var webSocketClient: WebSocketClient
+
+    private val socketListener = object: WebSocketClient.SocketListener {
+        @SuppressLint("NotifyDataSetChanged")
+        override fun onMessage(message: String) {
+            Log.e("socketCheck onMessage", message)
+
+            val m = JSONObject(message)
+
+            runOnUiThread(Runnable{
+                adapter.addMessage(
+                    Message(
+                        m.getString("from"),
+                        m.getString("text"),
+                        m.getString("date")
+                    )
+                )
+
+                adapter.notifyDataSetChanged()
+            })
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,14 +71,15 @@ class MessagingActivity : AppCompatActivity() {
         // Initialize DrawerLayout and NavigationView
         setupNavigationDrawer()
 
+        webSocketClient = WebSocketClient.getInstance(this@MessagingActivity)
+        webSocketClient.setSocketUrl("ws://10.0.0.251:8000/messaging/ws/")
+        webSocketClient.setListener(socketListener)
+
         // Initialize the Spinner for User Selection
         setupUserSpinner()
 
         // Initialize RecyclerView for messages
         setupRecyclerView()
-
-        // Set up message sending functionality
-        setupMessageSending()
     }
 
     private fun setupNavigationDrawer() {
@@ -124,28 +163,67 @@ class MessagingActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setupUserSpinner() {
-        val userSpinner = binding.spinnerUsers
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, users)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        userSpinner.adapter = adapter
+        val sAdapter: ArrayAdapter<Thread?> = ArrayAdapter<Thread?>(this, android.R.layout.simple_dropdown_item_1line, threads as List<Thread?>)
+        binding.threadDropdown.setAdapter(sAdapter)
 
-        // Handle user selection from the spinner
-        userSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: android.view.View?, position: Int, id: Long) {
-                // Logic to load messages for the selected user
-                val selectedUser = users[position]
-                // Load messages for this user
+        // Dropdown Options
+        CoroutineScope(Dispatchers.IO).launch {
+            Retrofit(this@MessagingActivity).api.getMessageThreads().onSuccess {
+                data.forEach{thread ->
+                    threads.add(thread)
+                }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {}
+            withContext(Dispatchers.Main){
+                adapter.notifyDataSetChanged()
+            }
+        }
+
+        // Handle Selection
+        binding.threadDropdown.setOnItemClickListener { _, _, position, _ ->
+            adapter.clearMessages()
+
+            toUser = threads[position]
+            // Logic to load messages for the selected user
+            var messages: List<MessageThread>? = null
+
+            CoroutineScope(Dispatchers.IO).launch {
+                Retrofit(this@MessagingActivity).api.getMessages(
+                    toUser.uuid
+                ).onSuccess {
+                    messages = data
+
+                    Log.e("MESSAGE:", data.toString())
+                }
+
+                messages?.forEach { message ->
+                    adapter.addMessage(
+                        Message(
+                            message.sender.email,
+                            message.message,
+                            message.sendDate
+                        )
+                    )
+
+                    withContext(Dispatchers.Main){
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+
+            // Set up message sending functionality
+            setupMessageSending()
         }
     }
 
     private fun setupRecyclerView() {
         val messageRecyclerView = binding.recyclerMessages
         messageRecyclerView.layoutManager = LinearLayoutManager(this)
-        // Set up your adapter for messages (if implemented)
+        adapter = MessageAdapter()
+
+        messageRecyclerView.adapter=adapter
     }
 
     private fun setupMessageSending() {
@@ -156,6 +234,20 @@ class MessagingActivity : AppCompatActivity() {
             val message = messageInput.text.toString()
             if (message.isNotBlank()) {
                 // Logic to send the message
+                val msg = JSONObject()
+                val users = JSONArray()
+
+                toUser.users.forEach { u ->
+                    users.put(u.email)
+                }
+
+                msg.put("type","message")
+                msg.put("to",users)
+                msg.put("text",message)
+                msg.put("date",LocalDateTime.now())
+
+                webSocketClient.sendMessage(msg.toString())
+
                 messageInput.text.clear()
             }
         }
@@ -166,5 +258,17 @@ class MessagingActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        webSocketClient.disconnect()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        webSocketClient.connect()
     }
 }
