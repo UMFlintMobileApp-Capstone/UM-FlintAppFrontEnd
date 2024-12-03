@@ -31,14 +31,13 @@
             <!-- Content layout from content.xml -->
             <include layout="@layout/content_maps_page" />
 
-        </FrameLayout>
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="60dp" />
 
-        <WebView
-            android:id="@+id/webView"
-            android:layout_width="match_parent"
-            android:layout_height="611dp"
-            app:layout_anchor="@+id/content_frame"
-            app:layout_anchorGravity="center" />
+        </FrameLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 <!--    <include-->
