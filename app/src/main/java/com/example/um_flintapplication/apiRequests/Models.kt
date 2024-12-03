@@ -12,13 +12,15 @@ import java.util.StringJoiner
 data class NewsItem(
     val id: Int,
     val title: String,
-    val excerpt: String
+    val excerpt: String,
+    val url: String,
+    val image_url: String
 )
 
 data class EventItem(
     val id: Int,
     val title: String,
-    val photo: String
+    val photo: String,
 )
 
 data class AnnouncementItem(

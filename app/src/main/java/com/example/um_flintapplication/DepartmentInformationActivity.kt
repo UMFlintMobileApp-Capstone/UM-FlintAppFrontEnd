@@ -2,7 +2,6 @@ package com.example.um_flintapplication
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,14 +11,7 @@ import com.example.um_flintapplication.databinding.ActivityDepartmentInformation
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.jsoup.Jsoup
-
-
-
+import android.net.Uri
 
 class DepartmentInformationActivity : AppCompatActivity() {
 
@@ -37,6 +29,100 @@ class DepartmentInformationActivity : AppCompatActivity() {
         supportActionBar?.title = "Department Information"
 
         setupNavigationDrawer()
+
+        // Find the containers
+        val containerLayout1: LinearLayout = findViewById(R.id.containerLayout)
+        val containerLayout2: LinearLayout = findViewById(R.id.containerLayout2)
+
+        // Populate with static data
+        val schoolsCollegesLinks = listOf(
+            Pair("College of Arts, Sciences & Education", "https://www.umflint.edu/case/"),
+            Pair("College of Health Sciences", "https://www.umflint.edu/chs/"),
+            Pair("College of Innovation & Technology","https://www.umflint.edu/cit/"),
+            Pair("School of Management","https://www.umflint.edu/som/"),
+            Pair("School of Nursing","https://www.umflint.edu/nursing/")
+        )
+        val officesCentersLinks = listOf(
+            Pair("Academic Advising", "https://www.umflint.edu/studentsuccess/academic-advising/"),
+            Pair("Academic Affairs (Provost & Vice Chancellor)", "https://www.umflint.edu/provost/academic-affairs/"),
+            Pair("Admissions","https://www.umflint.edu/admissions/"),
+            Pair("Alumni Relations","https://www.umflint.edu/advancement/alumni-relations/"),
+            Pair("Assessment of Student Learning","https://www.umflint.edu/assessment/"),
+            Pair("Bookstore","https://umflint.bncollege.com/"),
+            Pair("Campus Counselor","https://www.umflint.edu/caps/"),
+            Pair("Cashier/Student Accounts","https://www.umflint.edu/studentaccounts/"),
+            Pair("Center for Gender & Sexuality","https://www.umflint.edu/cgs/"),
+            Pair("Center for Global Engagement","https://www.umflint.edu/cge/"),
+            Pair("Chancellor","https://www.umflint.edu/chancellor/"),
+            Pair("Conference & Events","https://www.umflint.edu/cae/"),
+            Pair("Counseling & Psychological Services","https://www.umflint.edu/caps/"),
+            Pair("Development","https://www.umflint.edu/advancement/development/"),
+            Pair("Dining Services","https://www.umflint.edu/dining-services/"),
+            Pair("Disability & Accessibility Support Services","https://www.umflint.edu/disabilitysupportservices/"),
+            Pair("Early Childhood Development Center","https://www.umflint.edu/ecdc/"),
+            Pair("Education Abroad","https://www.umflint.edu/cge/education-abroad/"),
+            Pair("Education Student Hub","https://www.umflint.edu/case/academic-departments/education/student-hub/"),
+            Pair("Educational Opportunity Initiatives","https://www.umflint.edu/eoi/"),
+            Pair("Emergency Information Center","https://www.umflint.edu/campus-safety-information-and-resources/"),
+            Pair("Engaged Learning","https://www.umflint.edu/engaged-learning-office/"),
+            Pair("Enrollment Management","https://www.umflint.edu/enrollment-management/"),
+            Pair("Environment, Health, & Safety","https://www.umflint.edu/ehs/"),
+            Pair("Equity, Civil Rights & Title IX","https://www.umflint.edu/ecrt/"),
+            Pair("Facilities & Operations","https://www.umflint.edu/facilities/"),
+            Pair("Financial Aid","https://www.umflint.edu/finaid/"),
+            Pair("Financial Services & Contract","https://www.umflint.edu/financialservices/"),
+            Pair("Geographic Information Systems Center","https://www.umflint.edu/gis/"),
+            Pair("Government & Community Relations","https://www.umflint.edu/govrelations/"),
+            Pair("Graduate Programs","https://www.umflint.edu/graduateprograms/"),
+            Pair("Housing & Residential Life","https://www.umflint.edu/housing/"),
+            Pair("Human Subjects Protection – Institutional Review Board","https://www.umflint.edu/research/compliance/institutional-review-board/"),
+            Pair("Information Technology Services","https://www.umflint.edu/its/"),
+            Pair("Institutional Analysis","https://www.umflint.edu/ia/"),
+            Pair("Intercultural Center","https://www.umflint.edu/icc/"),
+            Pair("K-12 Partnerships","https://www.umflint.edu/k12/"),
+            Pair("Library (Frances Willson Thompson Library)","https://libguides.umflint.edu/library?_gl=1*cqofe6*_gcl_aw*R0NMLjE3MzAyMTc0ODAuQ2owS0NRandqNEs1QmhEWUFSSXNBRDFMeTJvZU1NVWhtbU5NU1hWb01HS3kzN0ZFVXdaeF9WZC01VXJSTzgzUlhVZERyYWgtekgwYXQwa2FBcXIxRUFMd193Y0I.*_gcl_au*MjEwMzM5MzU1NC4xNzMxMzU2ODk5*_ga*MjA0NTM3OTI3MC4xNjU5Mzg0MzAw*_ga_64H0Z0BJSB*MTczMzE2OTAwOS4xNTEuMS4xNzMzMTcwNzc4LjQxLjAuMA.."),
+            Pair("Marketing & Communications","https://www.umflint.edu/mac/"),
+            Pair("Office of the Dean of Students","https://www.umflint.edu/deanofstudents/"),
+            Pair("Online & Digital Education","https://www.umflint.edu/ode/"),
+            Pair("Orientation","https://www.umflint.edu/studentsuccess/orientation/"),
+            Pair("Procurement","https://procurement.umich.edu/"),
+            Pair("Provost","https://www.umflint.edu/provost/"),
+            Pair("Public Safety","https://www.umflint.edu/safety/"),
+            Pair("Recreation Services","https://www.umflint.edu/rec/"),
+            Pair("Registrar","https://www.umflint.edu/registrar/"),
+            Pair("Research & Economic Development","https://www.umflint.edu/ored/"),
+            Pair("Staff Council","https://www.umflint.edu/staffcouncil/"),
+            Pair("Student Affairs","https://www.umflint.edu/dsa/"),
+            Pair("Student Government","https://www.umflint.edu/sg/"),
+            Pair("Student Success Center","https://www.umflint.edu/studentsuccess/"),
+            Pair("Student Veterans Resource Center","https://www.umflint.edu/studentveterans/"),
+            Pair("Sustainability","https://www.umflint.edu/sustainability/"),
+            Pair("Thompson Center for Learning & Teaching","https://www.umflint.edu/tclt/"),
+            Pair("Tutoring","https://www.umflint.edu/studentsuccess/tutoring-supplemental-instruction/"),
+            Pair("University Advancement","https://www.umflint.edu/advancement/"),
+            Pair("University Human Resources","https://www.umflint.edu/hr/"),
+            Pair("Vice Chancellor of Business & Finance","https://www.umflint.edu/business-financial-services/"),
+            Pair("Vice Provost for Academic Affairs","https://www.umflint.edu/vice-provost-academic-affairs/"),
+            Pair("Writing Center (Marian E. Wright Writing Center)","https://www.umflint.edu/writingcenter/")
+
+        )
+
+        addLinksToContainer(containerLayout1, schoolsCollegesLinks)
+        addLinksToContainer(containerLayout2, officesCentersLinks)
+    }
+
+    private fun addLinksToContainer(container: LinearLayout, links: List<Pair<String, String>>) {
+        for (link in links) {
+            val textView = TextView(this)
+            textView.text = link.first // Department name
+            textView.setTextColor(resources.getColor(android.R.color.white))
+            textView.setPadding(0, 8, 0, 8)
+            textView.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link.second))
+                startActivity(intent)
+            }
+            container.addView(textView)
+        }
     }
 
     private fun setupNavigationDrawer() {
@@ -57,8 +143,7 @@ class DepartmentInformationActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_home -> {
                     // Navigate to the Home page
-                    val intent =
-                        Intent(this, MainActivity::class.java) // Replace with your Home activity
+                    val intent = Intent(this, MainActivity::class.java) // Replace with your Home activity
                     startActivity(intent)
                     true
                 }
@@ -74,73 +159,51 @@ class DepartmentInformationActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
-
                 R.id.nav_resources_maps -> {
                     // Navigate to Maps page
-                    val intent = Intent(this, MapsActivity::class.java)
+                    val intent = Intent(this, MapsPage::class.java)
                     startActivity(intent)
                     true
                 }
-//                R.id.nav_scheduling_reserve_room -> {
-//                    // Navigate to Reserve Room page
-//                    val intent = Intent(this, ReserveRoomActivity::class.java)
-//                    startActivity(intent)
-//                    true
-//                }
+                R.id.nav_scheduling_reserve_room -> {
+                    // Navigate to Reserve Room page
+                    val intent = Intent(this, ScheduleGroupMeetingActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_scheduling_schedule_advisor -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, ScheduleAdvisorActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_announcements -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, AlertsActivity::class.java)
                     startActivity(intent)
                     true
                 }
-
+                R.id.nav_send_announcements -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, SendAnnouncementActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_discord-> {
+                    val url = "https://discord.gg/AEefzfqSB9"
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                    true
+                }
+                R.id.nav_messaging_student_messaging-> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, MessagingActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 else -> false
             }
-        }
-    }
-
-    private fun fetchDepartmentData() {
-
-        lifecycleScope.launch {
-            val departmentData = scrapeDepartmentData() // Fetch data with scraping function
-            displayData(departmentData) // Display the fetched data in the UI
-        }
-    }
-
-    private suspend fun scrapeDepartmentData(): List<String> = withContext(Dispatchers.IO) {
-        val departmentList = mutableListOf<String>()
-        try {
-            // Connect to the web page and parse content
-            val doc = Jsoup.connect("https://www.umflint.edu/departments/").get()
-            val elements = doc.select("CSS_SELECTOR_OF_DEPARTMENT_INFO") // Select elements
-
-            for (element in elements) {
-                departmentList.add(element.text()) // Add text to list
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        departmentList
-    }
-
-    private fun displayData(departmentData: List<String>) {
-        // Access your LinearLayout where you want to add dynamic data
-        val containerLayout = findViewById<LinearLayout>(R.id.containerLayout) // Replace with actual ID
-
-        departmentData.forEach { data ->
-            // Create a new TextView for each piece of data
-            val textView = TextView(this)
-            textView.text = data
-            textView.setTextColor(resources.getColor(R.color.white, theme))
-            textView.setTextSize(18f)
-            textView.setPadding(16, 16, 16, 16)
-
-            // Optional: add background, margins, etc., similar to XML design
-            textView.setBackgroundColor(resources.getColor(R.color.blue, theme))
-            textView.elevation = 4f
-
-            // Add TextView to the layout
-            containerLayout.addView(textView)
         }
     }
 

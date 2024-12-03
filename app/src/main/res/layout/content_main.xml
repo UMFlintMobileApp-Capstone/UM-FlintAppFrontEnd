@@ -31,19 +31,6 @@
                 android:layout_marginBottom="16dp"
                 android:elevation="4dp"
                 android:onClick="openAlertsPage">
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Alert Title"-->
-<!--                    android:textStyle="bold"-->
-<!--                    android:textColor="@color/black" />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="This is an example alert to showcase the alert/announcement function."-->
-<!--                    android:textColor="@color/black" />-->
             </LinearLayout>
 
             <View
@@ -81,53 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="16dp" />
 
-            <!-- Events Section (Temp until we get bg images working for events)-->
-<!--            <LinearLayout-->
-<!--                android:id="@+id/EventsSection"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:background="@color/blue"-->
-<!--                android:orientation="vertical"-->
-<!--                android:padding="16dp"-->
-<!--                android:layout_marginBottom="16dp"-->
-<!--                android:elevation="4dp"-->
-<!--                android:onClick="openEventsPage">-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="EVENTS"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:textStyle="bold" />-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Example Event 1"-->
-<!--                    android:paddingTop="8dp"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:onClick="openEvents"/>-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Example Event 2"-->
-<!--                    android:paddingTop="8dp"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:onClick="openEvents"/>-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Example Event 3"-->
-<!--                    android:paddingTop="8dp"-->
-<!--                    android:textColor="@color/white"-->
-<!--                    android:onClick="openEvents"/>-->
-
-<!--            </LinearLayout>-->
-
-                <!-- WIP -->
-<!--            <!- Events Section With BG Image-->
+            <!-- Events Section With BG Image-->
             <LinearLayout
                 android:id="@+id/EventsSection"
                 android:layout_width="match_parent"
@@ -145,13 +86,15 @@
                     android:layout_height="wrap_content"
                     android:text="EVENTS"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:onClick="openEventsPage"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingTop="8dp">
+                    android:paddingTop="8dp"
+                    android:onClick="openEventsPage">
 
                     <ImageView
                         android:id="@+id/event1"
@@ -162,7 +105,7 @@
                         android:layout_centerInParent="true"
                         android:background="@color/maize"
                         android:padding="8dp"
-                        android:onClick="openEvent1"/>
+                        android:onClick="openEventsPage"/>
 
                     <ImageView
                         android:id="@+id/event2"
@@ -174,7 +117,7 @@
                         android:background="@color/maize"
                         android:padding="8dp"
                         android:layout_marginStart="8dp"
-                        android:onClick="openEvent2"/>
+                        android:onClick="openEventsPage"/>
 
                     <ImageView
                         android:id="@+id/event3"
@@ -186,43 +129,16 @@
                         android:background="@color/maize"
                         android:padding="8dp"
                         android:layout_marginStart="8dp"
-                        android:onClick="openEvent3"/>
+                        android:onClick="openEventsPage"/>
                 </LinearLayout>
 
-            <LinearLayout
-                    android:id="@+id/EventTitles"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingTop="8dp">
-
-                <!--    <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="openEvents"
-                    android:paddingTop="8dp"
-                    android:text="Example Event 1"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:onClick="openEvents"
-                    android:paddingTop="8dp"
-                    android:text="Example Event 2"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:onClick="openEvents"
-                    android:paddingTop="8dp"
-                    android:text="Example Event 3"
-                    android:textColor="@color/white" />-->
-
-            </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/EventTitles"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:paddingTop="8dp">
+                </LinearLayout>
             </LinearLayout>
 
             <View
@@ -246,32 +162,68 @@
                     android:layout_height="wrap_content"
                     android:text="NEWS"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:onClick="openNewsPage"/>
 
-                <!--Comment these out when using the DB-->
-<!--                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Example News 1"
-                    android:paddingTop="8dp"
-                    android:textColor="@color/white"
-                    android:onClick="openNews1"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Example News 2"
-                    android:paddingTop="8dp"
-                    android:textColor="@color/white"
-                    android:onClick="openNews2"/>
+                <ImageView
+                    android:id="@+id/news1"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:layout_centerInParent="true"
+                    android:background="@color/maize"
+                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:onClick="openNewsPage"/>
 
                 <TextView
+                    android:id="@+id/news1Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Example News 3"
-                    android:paddingTop="8dp"
                     android:textColor="@color/white"
-                    android:onClick="openNews3"/>-->
+                    android:padding="8dp"
+                    android:onClick="openNewsPage"/>
+
+                <ImageView
+                    android:id="@+id/news2"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:layout_centerInParent="true"
+                    android:background="@color/maize"
+                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:onClick="openNewsPage"/>
+
+                <TextView
+                    android:id="@+id/news2Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:padding="8dp"
+                    android:onClick="openNewsPage"/>
+
+                <ImageView
+                    android:id="@+id/news3"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:layout_centerInParent="true"
+                    android:background="@color/maize"
+                    android:padding="8dp"
+                    android:layout_margin="8dp"
+                    android:onClick="openNewsPage"/>
+
+                <TextView
+                    android:id="@+id/news3Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:padding="8dp"
+                    android:onClick="openNewsPage"/>
 
             </LinearLayout>
 
@@ -282,12 +234,12 @@
             <!-- Maps Section -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="190dp"
                 android:background="@color/blue"
-                android:orientation="vertical"
-                android:padding="16dp"
                 android:elevation="4dp"
-                android:onClick="openMapsPage">
+                android:onClick="openMapsPage"
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -295,6 +247,11 @@
                     android:text="MAPS"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
+
+                <WebView
+                    android:id="@+id/webView"
+                    android:layout_width="match_parent"
+                    android:layout_height="143dp" />
 
             </LinearLayout>
         </LinearLayout>
