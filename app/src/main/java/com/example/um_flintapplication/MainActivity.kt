@@ -7,13 +7,15 @@ import android.text.Html
 import android.text.TextUtils
 import android.view.MenuItem
 import android.view.View
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -32,9 +34,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
 
 class MainActivity : AppCompatActivity() {
 
@@ -50,7 +49,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.appBarMain.toolbar)
-        binding.appBarMain.toolbar.title = "University of Michigan - Flint" // Set the toolbar title here
+        binding.appBarMain.toolbar.title =
+            "University of Michigan - Flint" // Set the toolbar title here
 
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
@@ -58,7 +58,8 @@ class MainActivity : AppCompatActivity() {
 
 
         val webView: WebView = findViewById(R.id.webView)
-        webView.webViewClient = WebViewClient() // Ensures links open in the WebView instead of a browser.
+        webView.webViewClient =
+            WebViewClient() // Ensures links open in the WebView instead of a browser.
         val webSettings: WebSettings = webView.settings
         webSettings.javaScriptEnabled = true // Enable JavaScript for maps like Google Maps.
         // Load the map URL
@@ -67,7 +68,14 @@ class MainActivity : AppCompatActivity() {
         // Initialize AppBarConfiguration with top-level destinations
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_resources_departments, R.id.nav_resources_maps, R.id.nav_announcements, R.id.nav_scheduling_reserve_room, R.id.nav_scheduling_schedule_advisor, R.id.nav_scheduling_group_meetings, R.id.nav_messaging_discord
+                R.id.nav_home,
+                R.id.nav_resources_departments,
+                R.id.nav_resources_maps,
+                R.id.nav_announcements,
+                R.id.nav_scheduling_reserve_room,
+                R.id.nav_scheduling_schedule_advisor,
+                R.id.nav_scheduling_group_meetings,
+                R.id.nav_messaging_discord
             ), drawerLayout
         )
 
@@ -90,65 +98,76 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_home -> {
                     // Navigate to the Home page
-                    val intent = Intent(this, MainActivity::class.java) // Replace with your Home activity
+                    val intent =
+                        Intent(this, MainActivity::class.java) // Replace with your Home activity
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_resources_academic_calendar -> {
                     // Navigate to Academic Calendar page
                     val intent = Intent(this, AcademicCalendar::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_resources_departments -> {
                     // Navigate to Departments page
                     val intent = Intent(this, DepartmentInformationActivity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_resources_maps -> {
                     // Navigate to Maps page
                     val intent = Intent(this, MapsPage::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_scheduling_reserve_room -> {
                     // Navigate to Reserve Room page
                     val intent = Intent(this, ScheduleGroupMeetingActivity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_scheduling_schedule_advisor -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, ScheduleAdvisorActivity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_announcements -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, AlertsActivity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_send_announcements -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, SendAnnouncementActivity::class.java)
                     startActivity(intent)
                     true
                 }
-                R.id.nav_messaging_discord-> {
+
+                R.id.nav_messaging_discord -> {
                     val url = "https://discord.gg/AEefzfqSB9"
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(url)
                     startActivity(intent)
                     true
                 }
-                R.id.nav_messaging_student_messaging-> {
+
+                R.id.nav_messaging_student_messaging -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, MessagingActivity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 else -> false
             }
         }
@@ -171,7 +190,7 @@ class MainActivity : AppCompatActivity() {
         googleSignIn.createLauncher()
 
         var signInButton = findViewById<LinearLayout>(R.id.SignIn)
-        signInButton.setOnClickListener{
+        signInButton.setOnClickListener {
             googleSignIn.login()
         }
 
@@ -181,183 +200,189 @@ class MainActivity : AppCompatActivity() {
             Retrofit(this@MainActivity).api.getNews(3).onSuccess {
                 news = data
             }
-            withContext(Dispatchers.Main){
-            val layout = findViewById<LinearLayout>(R.id.NewsSection)
-
             withContext(Dispatchers.Main) {
+                val layout = findViewById<LinearLayout>(R.id.NewsSection)
 
-                val newsurl1 = news?.get(0)?.image_url
-                val newsurl2 = news?.get(1)?.image_url
-                val newsurl3 = news?.get(2)?.image_url
+                withContext(Dispatchers.Main) {
 
-                val newsimg1 = findViewById<ImageView>(R.id.news1)
-                newsimg1.setOnClickListener{
-                    val url = news?.get(0)?.url
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(url)
-                    startActivity(intent)
-                }
+                    val newsurl1 = news?.get(0)?.image_url
+                    val newsurl2 = news?.get(1)?.image_url
+                    val newsurl3 = news?.get(2)?.image_url
 
-                val newsimg2 = findViewById<ImageView>(R.id.news2)
-                newsimg2.setOnClickListener{
-                    val url = news?.get(1)?.url
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(url)
-                    startActivity(intent)
-                }
-
-                val newsimg3 = findViewById<ImageView>(R.id.news3)
-                newsimg3.setOnClickListener{
-                    val url = news?.get(2)?.url
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(url)
-                    startActivity(intent)
-                }
-
-                val news1Title = findViewById<TextView>(R.id.news1Title)
-                news1Title.text = news?.get(0)?.title
-                news1Title.setOnClickListener{
-                    val url = news?.get(0)?.url
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(url)
-                    startActivity(intent)
-                }
-
-                val news2Title = findViewById<TextView>(R.id.news2Title)
-                news2Title.text = news?.get(1)?.title
-                news2Title.setOnClickListener{
-                    val url = news?.get(1)?.url
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(url)
-                    startActivity(intent)
-                }
-
-                val news3Title = findViewById<TextView>(R.id.news3Title)
-                news3Title.text = news?.get(2)?.title
-                news3Title.setOnClickListener{
-                    val url = news?.get(2)?.url
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(url)
-                    startActivity(intent)
-                }
-
-                Glide.with(this@MainActivity)
-                    .load(newsurl1)
-                    .into(newsimg1)
-
-                Glide.with(this@MainActivity)
-                    .load(newsurl2)
-                    .into(newsimg2)
-
-                Glide.with(this@MainActivity)
-                    .load(newsurl3)
-                    .into(newsimg3)
-            }
-        }
-
-        //Begin Alerts
-        CoroutineScope(Dispatchers.IO).launch {
-            var announcements: List<AnnouncementItem>? = null
-
-            Retrofit(this@MainActivity).api.getAnnouncements(1).onSuccess {
-                announcements = data
-            }
-
-            withContext(Dispatchers.Main) {
-                val layout = findViewById<LinearLayout>(R.id.AlertSection)
-
-                announcements?.forEach { item ->
-                    val alertHeader = TextView(this@MainActivity)
-                    alertHeader.text = item.title
-                    alertHeader.setTypeface(null, Typeface.BOLD)
-                    alertHeader.textSize = 16f
-                    alertHeader.setTextColor(
-                        ContextCompat.getColor(
-                            this@MainActivity,
-                            R.color.black
-                        )
-                    )
-
-                    val linearLayout = LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-                        LinearLayout.LayoutParams.WRAP_CONTENT  // Height
-                    )
-                    alertHeader.layoutParams = linearLayout
-                    layout.addView(alertHeader)
-
-                    val alertBody = TextView(this@MainActivity)
-                    try {
-                        alertBody.text = Html.fromHtml(
-                            item.description.substring(0, 150) + "...",
-                            Html.FROM_HTML_MODE_LEGACY
-                        ).trim()
-                    } catch (e: StringIndexOutOfBoundsException) {
-                        alertBody.text =
-                            Html.fromHtml(item.description, Html.FROM_HTML_MODE_LEGACY).trim()
+                    val newsimg1 = findViewById<ImageView>(R.id.news1)
+                    newsimg1.setOnClickListener {
+                        val url = news?.get(0)?.url
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(url)
+                        startActivity(intent)
                     }
 
-                    alertBody.layoutParams = linearLayout
-                    alertBody.setOnClickListener { openAlertsPage(alertBody) }
+                    val newsimg2 = findViewById<ImageView>(R.id.news2)
+                    newsimg2.setOnClickListener {
+                        val url = news?.get(1)?.url
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(url)
+                        startActivity(intent)
+                    }
 
-                    layout.addView(alertBody)
+                    val newsimg3 = findViewById<ImageView>(R.id.news3)
+                    newsimg3.setOnClickListener {
+                        val url = news?.get(2)?.url
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(url)
+                        startActivity(intent)
+                    }
+
+                    val news1Title = findViewById<TextView>(R.id.news1Title)
+                    news1Title.text = news?.get(0)?.title
+                    news1Title.setOnClickListener {
+                        val url = news?.get(0)?.url
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(url)
+                        startActivity(intent)
+                    }
+
+                    val news2Title = findViewById<TextView>(R.id.news2Title)
+                    news2Title.text = news?.get(1)?.title
+                    news2Title.setOnClickListener {
+                        val url = news?.get(1)?.url
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(url)
+                        startActivity(intent)
+                    }
+
+                    val news3Title = findViewById<TextView>(R.id.news3Title)
+                    news3Title.text = news?.get(2)?.title
+                    news3Title.setOnClickListener {
+                        val url = news?.get(2)?.url
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(url)
+                        startActivity(intent)
+                    }
+
+                    Glide.with(this@MainActivity)
+                        .load(newsurl1)
+                        .into(newsimg1)
+
+                    Glide.with(this@MainActivity)
+                        .load(newsurl2)
+                        .into(newsimg2)
+
+                    Glide.with(this@MainActivity)
+                        .load(newsurl3)
+                        .into(newsimg3)
                 }
             }
-        }
 
-        //Begin events (WITH IMAGE) (and titles now too)
-        CoroutineScope(Dispatchers.IO).launch {
-            var events: List<EventItem>? = null
+            //Begin Alerts
+            CoroutineScope(Dispatchers.IO).launch {
+                var announcements: List<AnnouncementItem>? = null
 
-            Retrofit(this@MainActivity).api.getEvents(3).onSuccess {
-                events = data
-            }
+                Retrofit(this@MainActivity).api.getAnnouncements(1).onSuccess {
+                    announcements = data
+                }
 
-            val finalEvents = events
-            if(finalEvents!=null){
-                val event1url = finalEvents[0].photo
-                val event2url = finalEvents[1].photo
-                val event3url = finalEvents[2].photo
+                withContext(Dispatchers.Main) {
+                    val layout = findViewById<LinearLayout>(R.id.AlertSection)
 
-                val eventimg1 = findViewById<ImageView>(R.id.event1)
-                val eventimg2 = findViewById<ImageView>(R.id.event2)
-                val eventimg3 = findViewById<ImageView>(R.id.event3)
+                    announcements?.forEach { item ->
+                        val alertHeader = TextView(this@MainActivity)
+                        alertHeader.text = item.title
+                        alertHeader.setTypeface(null, Typeface.BOLD)
+                        alertHeader.textSize = 16f
+                        alertHeader.setTextColor(
+                            ContextCompat.getColor(
+                                this@MainActivity,
+                                R.color.black
+                            )
+                        )
 
-                val layout = findViewById<LinearLayout>(R.id.EventTitles)
-
-                withContext(Dispatchers.Main){
-                    Glide.with(this@MainActivity)
-                        .load(event1url)
-                        .into(eventimg1)
-
-                    Glide.with(this@MainActivity)
-                        .load(event2url)
-                        .into(eventimg2)
-
-                    Glide.with(this@MainActivity)
-                        .load(event3url)
-                        .into(eventimg3)
-
-                    finalEvents.forEach{item ->
-                        val textview = TextView(this@MainActivity)
-
-                        textview.text = Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY)
-                        textview.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
-                        textview.setPadding(0, 8, 0, 0)
-                        textview.width = layout.measuredWidth / 3
-                        textview.maxLines = 3
-                        textview.ellipsize = TextUtils.TruncateAt.END
-
-
-                        val layoutParams = LinearLayout.LayoutParams(
+                        val linearLayout = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.WRAP_CONTENT, // Width
                             LinearLayout.LayoutParams.WRAP_CONTENT  // Height
                         )
-                        layoutParams.leftMargin = 4
+                        alertHeader.layoutParams = linearLayout
+                        layout.addView(alertHeader)
 
-                        textview.layoutParams = layoutParams
+                        val alertBody = TextView(this@MainActivity)
+                        try {
+                            alertBody.text = Html.fromHtml(
+                                item.description.substring(0, 150) + "...",
+                                Html.FROM_HTML_MODE_LEGACY
+                            ).trim()
+                        } catch (e: StringIndexOutOfBoundsException) {
+                            alertBody.text =
+                                Html.fromHtml(item.description, Html.FROM_HTML_MODE_LEGACY).trim()
+                        }
+
+                        alertBody.layoutParams = linearLayout
+                        alertBody.setOnClickListener { openAlertsPage(alertBody) }
+
+                        layout.addView(alertBody)
+                    }
+                }
+            }
+
+            //Begin events (WITH IMAGE) (and titles now too)
+            CoroutineScope(Dispatchers.IO).launch {
+                var events: List<EventItem>? = null
+
+                Retrofit(this@MainActivity).api.getEvents(3).onSuccess {
+                    events = data
+                }
+
+                val finalEvents = events
+                if (finalEvents != null) {
+                    val event1url = finalEvents[0].photo
+                    val event2url = finalEvents[1].photo
+                    val event3url = finalEvents[2].photo
+
+                    val eventimg1 = findViewById<ImageView>(R.id.event1)
+                    val eventimg2 = findViewById<ImageView>(R.id.event2)
+                    val eventimg3 = findViewById<ImageView>(R.id.event3)
+
+                    val layout = findViewById<LinearLayout>(R.id.EventTitles)
+
+                    withContext(Dispatchers.Main) {
+                        Glide.with(this@MainActivity)
+                            .load(event1url)
+                            .into(eventimg1)
+
+                        Glide.with(this@MainActivity)
+                            .load(event2url)
+                            .into(eventimg2)
+
+                        Glide.with(this@MainActivity)
+                            .load(event3url)
+                            .into(eventimg3)
+
+                        finalEvents.forEach { item ->
+                            val textview = TextView(this@MainActivity)
+
+                            textview.text = Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY)
+                            textview.setTextColor(
+                                ContextCompat.getColor(
+                                    this@MainActivity,
+                                    R.color.white
+                                )
+                            )
+                            textview.setPadding(0, 8, 0, 0)
+                            textview.width = layout.measuredWidth / 3
+                            textview.maxLines = 3
+                            textview.ellipsize = TextUtils.TruncateAt.END
 
 
-                        layout.addView(textview)
+                            val layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+                                LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+                            )
+                            layoutParams.leftMargin = 4
+
+                            textview.layoutParams = layoutParams
+
+
+                            layout.addView(textview)
+                        }
                     }
                 }
             }
