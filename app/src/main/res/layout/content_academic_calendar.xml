@@ -16,6 +16,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
+            android:id="@+id/AcadCalendarParentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -26,29 +27,27 @@
                 android:id="@+id/containerLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/blue"
+                android:background="@color/college_gold"
                 android:orientation="vertical"
                 android:padding="16dp"
                 android:layout_marginBottom="16dp"
                 android:elevation="4dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Event"
-                    android:textColor="@color/white"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Date of event"
-                    android:paddingTop="8dp"
-                    android:textColor="@color/white" />
+                <Spinner
+                    android:id="@+id/SemesterDropDown"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                />
 
             </LinearLayout>
-            <View
+            <TableLayout
+                android:id="@+id/acadTableLayout"
                 android:layout_width="match_parent"
-                android:layout_height="16dp" />
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+
+
+                />
         </LinearLayout>
     </ScrollView>
 

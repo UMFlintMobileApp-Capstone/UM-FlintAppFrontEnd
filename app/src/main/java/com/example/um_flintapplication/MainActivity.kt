@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -170,13 +171,13 @@ class MainActivity : AppCompatActivity() {
             Retrofit(this@MainActivity).api.getNews(3).onSuccess {
                 news = data
             }
-
+            withContext(Dispatchers.Main){
             val layout = findViewById<LinearLayout>(R.id.NewsSection)
 
             news?.forEach { item ->
                 val textView = TextView(this@MainActivity)
 
-                textView.text = item.title
+                textView.text = Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY).trim()
                 textView.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
                 textView.setPadding(0, 8, 0, 0)
 
@@ -185,8 +186,6 @@ class MainActivity : AppCompatActivity() {
                     LinearLayout.LayoutParams.WRAP_CONTENT  // Height
                 )
                 textView.layoutParams = layoutParams
-
-                withContext(Dispatchers.Main){
                     layout.addView(textView)
                 }
             }
@@ -208,7 +207,12 @@ class MainActivity : AppCompatActivity() {
                     alertHeader.text = item.title
                     alertHeader.setTypeface(null, Typeface.BOLD)
                     alertHeader.textSize = 16f
-                    alertHeader.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.black))
+                    alertHeader.setTextColor(
+                        ContextCompat.getColor(
+                            this@MainActivity,
+                            R.color.black
+                        )
+                    )
 
                     val linearLayout = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, // Width
@@ -218,44 +222,23 @@ class MainActivity : AppCompatActivity() {
                     layout.addView(alertHeader)
 
                     val alertBody = TextView(this@MainActivity)
-                    try{
-                        alertBody.text = Html.fromHtml(item.description.substring(0, 150) + "...", Html.FROM_HTML_MODE_LEGACY).trim()
-                    }catch(e: StringIndexOutOfBoundsException){
-                        alertBody.text = Html.fromHtml(item.description, Html.FROM_HTML_MODE_LEGACY).trim()
+                    try {
+                        alertBody.text = Html.fromHtml(
+                            item.description.substring(0, 150) + "...",
+                            Html.FROM_HTML_MODE_LEGACY
+                        ).trim()
+                    } catch (e: StringIndexOutOfBoundsException) {
+                        alertBody.text =
+                            Html.fromHtml(item.description, Html.FROM_HTML_MODE_LEGACY).trim()
                     }
 
                     alertBody.layoutParams = linearLayout
-                    alertBody.setOnClickListener{openAlertsPage(alertBody)}
+                    alertBody.setOnClickListener { openAlertsPage(alertBody) }
 
                     layout.addView(alertBody)
                 }
             }
         }
-
-//        //Begin events (NO IMAGE) !! TEMPORARY !!
-//        CoroutineScope(Dispatchers.IO).launch{
-//            val events = Retrofit(this@MainActivity).api.getEvents(3)
-//
-//            withContext(Dispatchers.Main){
-//                val layout = findViewById<LinearLayout>(R.id.EventsSection)
-//
-//                events.forEach{ item ->
-//                    val textview = TextView(this@MainActivity)
-//
-//                    textview.text = item.title
-//                    textview.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
-//                    textview.setPadding(0, 8, 0, 0)
-//
-//                    val layoutParams = LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-//                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
-//                    )
-//                    textview.layoutParams = layoutParams
-//
-//                    layout.addView(textview)
-//                }
-//            }
-//        }
 
 //        Begin events (WITH IMAGE) (and titles now too)
         CoroutineScope(Dispatchers.IO).launch {
@@ -293,7 +276,7 @@ class MainActivity : AppCompatActivity() {
                     finalEvents.forEach{item ->
                         val textview = TextView(this@MainActivity)
 
-                        textview.text = item.title
+                        textview.text = Html.fromHtml(item.title, Html.FROM_HTML_MODE_LEGACY)
                         textview.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
                         textview.setPadding(0, 8, 0, 0)
                         textview.width = layout.measuredWidth / 3

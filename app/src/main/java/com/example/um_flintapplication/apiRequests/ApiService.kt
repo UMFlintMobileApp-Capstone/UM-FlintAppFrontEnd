@@ -69,4 +69,7 @@ interface ApiService {
 
     @POST("/messages/create/thread")
     suspend fun createThread(@Query("recipient") email: String): ApiResponse<CreateThread>
+
+    @GET("/acadevents/get")
+    suspend fun getAcadEvents(): ApiResponse<AcademicEvents>
 }

@@ -1,5 +1,6 @@
 package com.example.um_flintapplication.apiRequests
 
+import com.google.gson.JsonArray
 import java.util.StringJoiner
 
 /*
@@ -104,4 +105,8 @@ data class MessageThread(
 data class CreateThread(
     val threadCreated: Boolean,
     val threadUuid: String
+)
+
+data class AcademicEvents(
+    val data: JsonArray
 )

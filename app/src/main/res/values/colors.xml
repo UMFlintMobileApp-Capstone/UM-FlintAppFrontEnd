@@ -11,4 +11,6 @@
     <color name="maize">#FFCB05</color>
     <color name="college_blue">#00274C</color>
     <color name="college_gold">#FFCB05</color>
+    <color name="gray">#abb8c3</color>
+    <color name="lightgray">#d3d3d3</color>
 </resources>

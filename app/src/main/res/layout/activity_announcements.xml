@@ -33,15 +33,7 @@
             android:padding="16dp"
             android:clipToPadding="false"
             android:scrollbars="vertical" >
-
         </androidx.recyclerview.widget.RecyclerView>
-
-        <FrameLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </FrameLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton2"
