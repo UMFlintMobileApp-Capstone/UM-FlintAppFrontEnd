@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.google.gson.JsonElement
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
@@ -93,18 +94,26 @@ class AcademicCalendar : AppCompatActivity() {
                                 // loop through each event
                                 for (events: JsonElement in terms.asJsonObject["events"].asJsonArray) {
                                     val eventsObj = events.asJsonObject
+
+                                    // you actually have to do it this way, i dont know why
+                                    var date = LocalDateTime.parse(eventsObj["start_at"].asString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) // yuck
+                                    val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a")
+                                    val startDate = date.format(formatter)
+
                                     if (eventsObj["end_at"].asString.isNotEmpty()) {
+                                        date = LocalDateTime.parse(eventsObj["end_at"].asString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) // yuck
+                                        val endDate = date.format(formatter)
                                         tableData.add(
                                             listOf(
                                                 eventsObj["title"].asString,
-                                                eventsObj["start_at"].asString + " - " + eventsObj["end_at"].asString
+                                                "$startDate - $endDate"
                                             )
                                         )
                                     } else {
                                         tableData.add(
                                             listOf(
                                                 eventsObj["title"].asString,
-                                                eventsObj["start_at"].asString
+                                                startDate
                                             )
                                         )
                                     }

@@ -234,7 +234,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     val news1Title = findViewById<TextView>(R.id.news1Title)
-                    news1Title.text = news?.get(0)?.title
+                    news1Title.text = Html.fromHtml(news?.get(0)?.title, Html.FROM_HTML_MODE_LEGACY)
                     news1Title.setOnClickListener {
                         val url = news?.get(0)?.url
                         val intent = Intent(Intent.ACTION_VIEW)
@@ -243,7 +243,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     val news2Title = findViewById<TextView>(R.id.news2Title)
-                    news2Title.text = news?.get(1)?.title
+                    news2Title.text = Html.fromHtml(news?.get(1)?.title, Html.FROM_HTML_MODE_LEGACY)
                     news2Title.setOnClickListener {
                         val url = news?.get(1)?.url
                         val intent = Intent(Intent.ACTION_VIEW)
@@ -252,7 +252,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     val news3Title = findViewById<TextView>(R.id.news3Title)
-                    news3Title.text = news?.get(2)?.title
+                    news3Title.text = Html.fromHtml(news?.get(2)?.title, Html.FROM_HTML_MODE_LEGACY)
                     news3Title.setOnClickListener {
                         val url = news?.get(2)?.url
                         val intent = Intent(Intent.ACTION_VIEW)
