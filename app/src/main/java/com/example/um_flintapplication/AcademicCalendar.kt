@@ -1,6 +1,7 @@
 package com.example.um_flintapplication
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
@@ -180,12 +181,14 @@ class AcademicCalendar : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_resources_academic_calendar -> {
                     // Navigate to Academic Calendar page
                     val intent = Intent(this, AcademicCalendar::class.java)
                     startActivity(intent)
                     true
                 }
+
                 R.id.nav_resources_departments -> {
                     // Navigate to Departments page
                     val intent = Intent(this, DepartmentInformationActivity::class.java)
@@ -195,19 +198,50 @@ class AcademicCalendar : AppCompatActivity() {
 
                 R.id.nav_resources_maps -> {
                     // Navigate to Maps page
-                    val intent = Intent(this, MapsActivity::class.java)
+                    val intent = Intent(this, MapsPage::class.java)
                     startActivity(intent)
                     true
                 }
-//                R.id.nav_scheduling_reserve_room -> {
-//                    // Navigate to Reserve Room page
-//                    val intent = Intent(this, ReserveRoomActivity::class.java)
-//                    startActivity(intent)
-//                    true
-//                }
+
+                R.id.nav_scheduling_reserve_room -> {
+                    // Navigate to Reserve Room page
+                    val intent = Intent(this, ScheduleGroupMeetingActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_scheduling_schedule_advisor -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, ScheduleAdvisorActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
                 R.id.nav_announcements -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, AlertsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_send_announcements -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, SendAnnouncementActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_messaging_discord -> {
+                    val url = "https://discord.gg/AEefzfqSB9"
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_messaging_student_messaging -> {
+                    // Navigate to Announcements page
+                    val intent = Intent(this, MessagingActivity::class.java)
                     startActivity(intent)
                     true
                 }
