@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -71,6 +72,7 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
     }
 
     private fun loadRoomData(building: String) {
+        // Clear existing cards
         binding.roomSection.removeAllViews()
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -79,7 +81,7 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
                 rooms = data
             }
 
-            rooms?.forEach{item ->
+            rooms?.forEach { item ->
                 var times: List<RoomAvailable>? = null
 
                 Retrofit(this@ScheduleGroupMeetingActivity).api.getRoomTimes(item.id).onSuccess {
@@ -87,6 +89,7 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
                 }
 
                 times?.forEach { time ->
+                    // Inflate the room card view
                     val roomView = layoutInflater.inflate(R.layout.room_card, null)
                     roomView.findViewById<TextView>(R.id.room_name).text = item.name
                     roomView.findViewById<TextView>(R.id.timings).text =
@@ -101,7 +104,16 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
                             schedule(item, time)
                         }
 
-                    withContext(Dispatchers.Main){
+                    // Set layout parameters for proper spacing
+                    val layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                    layoutParams.setMargins(0, 0, 0, 16) // Ensure a 16dp bottom margin
+                    roomView.layoutParams = layoutParams
+
+                    // Add the card to the room section
+                    withContext(Dispatchers.Main) {
                         binding.roomSection.addView(roomView)
                     }
                 }
