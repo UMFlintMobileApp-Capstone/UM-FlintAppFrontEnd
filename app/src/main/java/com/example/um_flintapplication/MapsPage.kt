@@ -4,15 +4,15 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBarDrawerToggle
-import com.google.android.material.navigation.NavigationView
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import com.example.um_flintapplication.databinding.ActivityMapsPageBinding
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.ui.AppBarConfiguration
+import com.example.um_flintapplication.databinding.ActivityMapsPageBinding
+import com.google.android.material.navigation.NavigationView
 
 class MapsPage : AppCompatActivity() {
 
@@ -96,6 +96,13 @@ class MapsPage : AppCompatActivity() {
                 R.id.nav_scheduling_schedule_advisor -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, ScheduleAdvisorActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_scheduling_schedule_student -> {
+                    // Navigate to Schedule Student Meeting page
+                    val intent = Intent(this, ScheduleStudentMeetingActivity::class.java)
                     startActivity(intent)
                     true
                 }

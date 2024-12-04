@@ -147,6 +147,12 @@ class MessagingActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+                R.id.nav_scheduling_schedule_student -> {
+                    // Navigate to Schedule Student Meeting page
+                    val intent = Intent(this, ScheduleStudentMeetingActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
                 R.id.nav_announcements -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, AlertsActivity::class.java)

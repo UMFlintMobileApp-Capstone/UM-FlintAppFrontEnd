@@ -9,9 +9,10 @@ import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import com.example.um_flintapplication.apiRequests.BuildingRooms
 import com.example.um_flintapplication.apiRequests.GenericResponse
 import com.example.um_flintapplication.apiRequests.Retrofit
-import com.example.um_flintapplication.databinding.ActivitySendAnnouncementBinding
+import com.example.um_flintapplication.databinding.ActivityScheduleStudentMeetingBinding
 import com.google.android.material.navigation.NavigationView
 import com.skydoves.sandwich.onSuccess
 import kotlinx.coroutines.CoroutineScope
@@ -19,22 +20,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
+import kotlin.collections.forEach
 
-class SendAnnouncementActivity : AppCompatActivity() {
+class ScheduleStudentMeetingActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySendAnnouncementBinding
+    private lateinit var binding: ActivityScheduleStudentMeetingBinding
     private lateinit var toggle: ActionBarDrawerToggle
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Inflate the layout using the correct binding class
-        binding = ActivitySendAnnouncementBinding.inflate(layoutInflater)
+        binding = ActivityScheduleStudentMeetingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Set up the toolbar
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Send Announcements"
+        supportActionBar?.title = "Schedule Student Meeting"
 
         val justSignedIn = intent.extras?.getBoolean("justLoggedIn")
         if(justSignedIn==null){
@@ -151,6 +153,8 @@ class SendAnnouncementActivity : AppCompatActivity() {
     }
 
     private fun setupFormFunctionality() {
+        val locations = ArrayList<BuildingRooms>()
+
         // Date Picker
         val calendar = Calendar.getInstance()
         binding.btnPickDate.setOnClickListener {
@@ -165,12 +169,22 @@ class SendAnnouncementActivity : AppCompatActivity() {
             }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
         }
 
-        // Populate Spinner
-        val groups = listOf(Role("Student",1),Role("Staff",2),Role("Faculty",3))
-
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, groups)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, locations)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerGroup.adapter = adapter
+        adapter.setNotifyOnChange(true)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            Retrofit(this@ScheduleStudentMeetingActivity).api.getUsableLocations(
+            ).onSuccess {
+                data.forEach { item ->
+                    locations.add(item)
+                }
+            }
+            withContext(Dispatchers.Main){
+                adapter.notifyDataSetChanged()
+            }
+        }
 
         // Send Button
         binding.btnSend.setOnClickListener {
@@ -178,16 +192,18 @@ class SendAnnouncementActivity : AppCompatActivity() {
             val message = binding.etMessage.text.toString()
             val startDate = binding.tvDate.text.toString()
             val endDate = binding.evDate.text.toString()
-            val group = binding.spinnerGroup.selectedItem as Role
+            val users = binding.eUsers.text.toString()
+            val location = binding.spinnerGroup.selectedItem as BuildingRooms
 
             if (subject.isNotBlank() && message.isNotBlank() &&
-                startDate.isNotBlank() && endDate.isNotBlank()) {
+                startDate.isNotBlank() && endDate.isNotBlank() &&
+                users.isNotBlank()) {
 
                 CoroutineScope(Dispatchers.IO).launch {
                     var response: GenericResponse? = null
 
-                    Retrofit(this@SendAnnouncementActivity).api.addAnnouncement(
-                        subject, message, startDate, endDate, group.id
+                    Retrofit(this@ScheduleStudentMeetingActivity).api.scheduleStudentMeeting(
+                        subject, message, startDate, endDate, location.id, users
                     ).onSuccess {
                         response = data
                     }
@@ -201,23 +217,24 @@ class SendAnnouncementActivity : AppCompatActivity() {
                                 binding.etMessage.text.clear()
                                 binding.tvDate.text = "" // Clear the date TextView
                                 binding.evDate.text = ""
+                                binding.eUsers.text.clear()
                                 binding.spinnerGroup.setSelection(0) // Reset the Spinner to the first item
 
-                                Toast.makeText(this@SendAnnouncementActivity,
+                                Toast.makeText(this@ScheduleStudentMeetingActivity,
                                     finalResponse.message, Toast.LENGTH_SHORT).show()
                             }
                         }else if(finalResponse.status=="failure") {
                             withContext(Dispatchers.Main) {
                                 Toast.makeText(
-                                    this@SendAnnouncementActivity,
+                                    this@ScheduleStudentMeetingActivity,
                                     finalResponse.message, Toast.LENGTH_LONG
                                 ).show()
                             }
                         }
                     }else{
                         withContext(Dispatchers.Main){
-                            Toast.makeText(this@SendAnnouncementActivity,
-                               "Unable to send announcement, try again.", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@ScheduleStudentMeetingActivity,
+                                "Unable to schedule meeting, try again.", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -232,9 +249,5 @@ class SendAnnouncementActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    data class Role(val name: String, val id: Int){
-        override fun toString(): String = name
     }
 }

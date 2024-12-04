@@ -5,14 +5,11 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Html
 import android.text.TextUtils
-import android.view.Gravity
 import android.util.Log
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebSettings
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -148,6 +145,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_scheduling_schedule_advisor -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, ScheduleAdvisorActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_scheduling_schedule_student -> {
+                    // Navigate to Schedule Student Meeting page
+                    val intent = Intent(this, ScheduleStudentMeetingActivity::class.java)
                     startActivity(intent)
                     true
                 }
@@ -440,12 +444,6 @@ class MainActivity : AppCompatActivity() {
 
     fun openAlertsPage(view: View) {
         val intent = Intent(this, AlertsActivity::class.java)
-        startActivity(intent)
-    }
-
-    // Function to open the Sign In page
-    fun openSignInPage(view: View) {
-        val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
     }
 

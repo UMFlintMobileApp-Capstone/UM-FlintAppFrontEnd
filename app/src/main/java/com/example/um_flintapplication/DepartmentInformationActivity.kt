@@ -1,23 +1,21 @@
 package com.example.um_flintapplication
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
-import com.google.android.material.navigation.NavigationView
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import com.example.um_flintapplication.databinding.ActivityDepartmentInformationBinding
 import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.appcompat.app.ActionBarDrawerToggle
-import android.net.Uri
 import android.widget.LinearLayout.LayoutParams
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.TextView
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.google.android.material.elevation.ElevationOverlayProvider
-import org.w3c.dom.Text
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.ui.AppBarConfiguration
+import com.example.um_flintapplication.databinding.ActivityDepartmentInformationBinding
+import com.google.android.material.navigation.NavigationView
 
 class DepartmentInformationActivity : AppCompatActivity() {
 
@@ -201,6 +199,13 @@ class DepartmentInformationActivity : AppCompatActivity() {
                 R.id.nav_scheduling_schedule_advisor -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, ScheduleAdvisorActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_scheduling_schedule_student -> {
+                    // Navigate to Schedule Student Meeting page
+                    val intent = Intent(this, ScheduleStudentMeetingActivity::class.java)
                     startActivity(intent)
                     true
                 }

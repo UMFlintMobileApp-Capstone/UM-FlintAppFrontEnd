@@ -21,6 +21,7 @@
     <string name="reserve_room">Reserve Room</string>
     <string name="schedule_advisor">Schedule Advisor</string>
     <string name="group_meetings">Group Meetings</string>
+    <string name="schedule_student">Schedule Student Meeting</string>
     <string name="messaging">Messaging</string>
     <string name="announcements">Announcements</string>
     <string name="discord">Discord</string>

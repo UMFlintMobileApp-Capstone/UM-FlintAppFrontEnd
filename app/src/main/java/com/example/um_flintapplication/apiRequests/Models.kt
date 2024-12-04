@@ -41,7 +41,9 @@ data class Buildings(
 data class BuildingRooms(
     var name: String,
     var id: Int
-)
+){
+    override fun toString(): String = name
+}
 
 data class RoomAvailable(
     var startTime: String,

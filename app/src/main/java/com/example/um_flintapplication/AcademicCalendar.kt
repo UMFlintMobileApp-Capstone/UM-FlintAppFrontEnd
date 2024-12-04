@@ -14,26 +14,22 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import com.google.android.material.navigation.NavigationView
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.res.colorResource
 import androidx.core.content.ContextCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.ui.AppBarConfiguration
 import com.example.um_flintapplication.apiRequests.AcademicEvents
 import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.databinding.ActivityAcademicCalendarBinding
+import com.google.android.material.navigation.NavigationView
+import com.google.gson.JsonElement
 import com.skydoves.sandwich.onSuccess
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.google.gson.JsonElement
-import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
-import java.util.Locale
 
 class AcademicCalendar : AppCompatActivity() {
 
@@ -234,6 +230,13 @@ class AcademicCalendar : AppCompatActivity() {
                 R.id.nav_scheduling_schedule_advisor -> {
                     // Navigate to Announcements page
                     val intent = Intent(this, ScheduleAdvisorActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+
+                R.id.nav_scheduling_schedule_student -> {
+                    // Navigate to Schedule Student Meeting page
+                    val intent = Intent(this, ScheduleStudentMeetingActivity::class.java)
                     startActivity(intent)
                     true
                 }

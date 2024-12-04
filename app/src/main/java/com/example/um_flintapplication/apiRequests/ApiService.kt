@@ -72,4 +72,15 @@ interface ApiService {
 
     @GET("/acadevents/get")
     suspend fun getAcadEvents(): ApiResponse<AcademicEvents>
+
+    @POST("/schedule/student")
+    suspend fun scheduleStudentMeeting(@Query("title") title: String,
+                                       @Query("notes") description: String,
+                                       @Query("startTime") startTime: String,
+                                       @Query("endTime") endTime: String,
+                                       @Query("location") location: Int,
+                                       @Query("users") users: String): ApiResponse<GenericResponse>
+
+    @GET("/schedule/locations/usable")
+    suspend fun getUsableLocations(): ApiResponse<List<BuildingRooms>>
 }
