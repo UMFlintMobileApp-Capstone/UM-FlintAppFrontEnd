@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Html
 import android.text.TextUtils
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.webkit.WebSettings
@@ -13,6 +14,10 @@ import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -41,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var googleSignIn : Auth
+    private lateinit var launcher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -185,13 +191,30 @@ class MainActivity : AppCompatActivity() {
         // Retrofit has an interceptor that will do this all for you, automatically adding a token.
         // However it uses the silent option, so make sure the user is logged in first.
         googleSignIn = Auth(this)
+        var signInButton = findViewById<LinearLayout>(R.id.SignIn)
 
         // need to create a launcher if you are using login() in onCreate directly
-        googleSignIn.createLauncher()
+        // this is a custom launcher because we need to wait for a success. If you don't care
+        // about the result and want just to do a toast, use createLauncher()
+        launcher = (this as ComponentActivity).registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()){ result ->
+            if (result.resultCode == RESULT_OK) {
+                Log.d("GOOGLEAUTH-M","Login successful!")
+                updateLoginButton(signInButton)
+            }
+        }
 
-        var signInButton = findViewById<LinearLayout>(R.id.SignIn)
+        // On click of the sign in button, try to login
         signInButton.setOnClickListener {
-            googleSignIn.login()
+            CoroutineScope(Dispatchers.IO).launch{
+                Log.d("GOOGLEAUTH-M","Bootstrapping login!")
+                googleSignIn.login(launcher)
+            }
+        }
+
+        // On page load update the login button if already logged in
+        CoroutineScope(Dispatchers.IO).launch {
+            updateLoginButton(signInButton)
         }
 
         //Begin News
@@ -433,5 +456,38 @@ class MainActivity : AppCompatActivity() {
     fun openMapsPage(view: View) {
         val intent = Intent(this, MapsPage::class.java)
         startActivity(intent)
+    }
+
+    fun updateLoginButton(signInButton: LinearLayout){
+        googleSignIn.silentLogin { cred ->
+            if (cred != null) {
+                var signInHeader = findViewById<TextView>(R.id.SignInHeader)
+                var signInBody = findViewById<TextView>(R.id.SignInBody)
+
+                signInHeader.text =
+                    getString(R.string.signInHeaderText, cred.givenName, cred.familyName)
+
+                signInBody.text = getString(R.string.signInBodyText)
+
+                signInButton.setOnClickListener {
+                    googleSignIn.logout{ success ->
+                        if(success){
+                            signInHeader.text = getString(R.string.signInHeaderDefault)
+
+                            signInBody.text = getString(R.string.signInBodyDefault)
+
+                            signInButton.setOnClickListener {
+                                googleSignIn.login(launcher)
+                            }
+                            Toast.makeText(this@MainActivity,"Logged out!",
+                                Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@MainActivity,"Couldn't log out, try again!",
+                                Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+        }
     }
 }

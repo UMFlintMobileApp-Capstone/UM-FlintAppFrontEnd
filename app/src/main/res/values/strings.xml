@@ -35,4 +35,8 @@
     <string name="title_schedule_advisor">Schedule Advisor</string>
     <string name="title_schedule_group_meeting">Schedule Group Meeting</string>
     <string name="send_announcements">Send Announcement</string>
+    <string name="signInHeaderText">Hello %1$s %2$s!</string>
+    <string name="signInBodyText">Welcome to the University of Michigan-Flint App, you have access to messaging, scheduling, and role notifications now! Click here to logout.</string>
+    <string name="signInHeaderDefault">SIGN IN WITH UM-GOOGLE</string>
+    <string name="signInBodyDefault">UM-Flint App is better with an account, customize and personalize it so it works for you!</string>
 </resources>

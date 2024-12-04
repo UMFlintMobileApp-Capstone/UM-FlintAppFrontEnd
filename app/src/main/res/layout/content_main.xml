@@ -50,17 +50,19 @@
                 android:onClick="openSignInPage">
 
                 <TextView
+                    android:id="@+id/SignInHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SIGN IN WITH UM-GOOGLE"
+                    android:text="@string/signInHeaderDefault"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:paddingBottom="8dp" />
 
                 <TextView
+                    android:id="@+id/SignInBody"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="UM-Flint App is better with an account, customize and personalize it so it works for you!"
+                    android:text="@string/signInBodyDefault"
                     android:textColor="@color/white" />
             </LinearLayout>
 
