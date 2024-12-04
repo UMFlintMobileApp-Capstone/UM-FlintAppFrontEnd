@@ -33,7 +33,6 @@ import com.example.um_flintapplication.apiRequests.EventItem
 import com.example.um_flintapplication.apiRequests.NewsItem
 import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.databinding.ActivityMainBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.material.navigation.NavigationView
 import com.skydoves.sandwich.onSuccess
@@ -204,9 +203,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("GOOGLEAUTH-M","Login successful!")
 
                 updateLoginButton(signInButton,
-                    googleSignIn.handleLogin(
-                        GoogleSignIn.getSignedInAccountFromIntent(result.data)
-                    )
+                    googleSignIn.handleLogin(result.data)
                 )
             }
         }

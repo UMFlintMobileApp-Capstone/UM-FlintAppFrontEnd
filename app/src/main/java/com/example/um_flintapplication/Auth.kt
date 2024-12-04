@@ -15,7 +15,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 
 class Auth(private val ctx: Context) {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
@@ -51,7 +50,7 @@ class Auth(private val ctx: Context) {
 
         launch = (ctx as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                handleLogin(GoogleSignIn.getSignedInAccountFromIntent(result.data))
+                handleLogin(result.data)
             }
         }
     }
@@ -88,10 +87,12 @@ class Auth(private val ctx: Context) {
         }
     }
 
-    fun handleLogin(completedTask: Task<GoogleSignInAccount>): GoogleSignInAccount{
+    fun handleLogin(intent: Intent?): GoogleSignInAccount{
         Log.i("GOOGLEAUTH", "handleLogin")
 
-        val account = completedTask.getResult(
+        val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
+
+        val account = task.getResult(
             ApiException::class.java
         )
 
