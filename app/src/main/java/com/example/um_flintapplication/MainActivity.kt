@@ -39,6 +39,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.concurrent.fixedRateTimer
 
 class MainActivity : AppCompatActivity() {
 
@@ -314,54 +315,60 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            //Begin Alerts
-            CoroutineScope(Dispatchers.IO).launch {
-                var announcements: List<AnnouncementItem>? = null
+            fixedRateTimer("announcementTimer", false, 0L, 30 * 1000) {
+                Log.d("announcementTimer","called")
+                //Begin Alerts
+                CoroutineScope(Dispatchers.IO).launch {
+                    var announcements: List<AnnouncementItem>? = null
 
-                Retrofit(this@MainActivity).api.getAnnouncements(1).onSuccess {
-                    announcements = data
-                }
+                    Retrofit(this@MainActivity).api.getAnnouncements(1).onSuccess {
+                        announcements = data
+                    }
 
-                withContext(Dispatchers.Main) {
-                    val layout = findViewById<LinearLayout>(R.id.AlertSection)
+                    withContext(Dispatchers.Main) {
+                        val layout = findViewById<LinearLayout>(R.id.AlertSection)
 
-                    announcements?.forEach { item ->
-                        val alertHeader = TextView(this@MainActivity)
-                        alertHeader.text = item.title
-                        alertHeader.setTypeface(null, Typeface.BOLD)
-                        alertHeader.textSize = 16f
-                        alertHeader.setTextColor(
-                            ContextCompat.getColor(
-                                this@MainActivity,
-                                R.color.black
+                        layout.removeAllViews()
+
+                        announcements?.forEach { item ->
+                            val alertHeader = TextView(this@MainActivity)
+                            alertHeader.text = item.title
+                            alertHeader.setTypeface(null, Typeface.BOLD)
+                            alertHeader.textSize = 16f
+                            alertHeader.setTextColor(
+                                ContextCompat.getColor(
+                                    this@MainActivity,
+                                    R.color.black
+                                )
                             )
-                        )
 
-                        val linearLayout = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT, // Width
-                            LinearLayout.LayoutParams.WRAP_CONTENT  // Height
-                        )
-                        alertHeader.layoutParams = linearLayout
-                        layout.addView(alertHeader)
+                            val linearLayout = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT, // Width
+                                LinearLayout.LayoutParams.WRAP_CONTENT  // Height
+                            )
+                            alertHeader.layoutParams = linearLayout
+                            layout.addView(alertHeader)
 
-                        val alertBody = TextView(this@MainActivity)
-                        try {
-                            alertBody.text = Html.fromHtml(
-                                item.description.substring(0, 150) + "...",
-                                Html.FROM_HTML_MODE_LEGACY
-                            ).trim()
-                        } catch (e: StringIndexOutOfBoundsException) {
-                            alertBody.text =
-                                Html.fromHtml(item.description, Html.FROM_HTML_MODE_LEGACY).trim()
+                            val alertBody = TextView(this@MainActivity)
+                            try {
+                                alertBody.text = Html.fromHtml(
+                                    item.description.substring(0, 150) + "...",
+                                    Html.FROM_HTML_MODE_LEGACY
+                                ).trim()
+                            } catch (e: StringIndexOutOfBoundsException) {
+                                alertBody.text =
+                                    Html.fromHtml(item.description, Html.FROM_HTML_MODE_LEGACY).trim()
+                            }
+
+                            alertBody.layoutParams = linearLayout
+                            alertBody.setOnClickListener { openAlertsPage(alertBody) }
+
+                            layout.addView(alertBody)
                         }
-
-                        alertBody.layoutParams = linearLayout
-                        alertBody.setOnClickListener { openAlertsPage(alertBody) }
-
-                        layout.addView(alertBody)
                     }
                 }
             }
+
 
             //Begin events (WITH IMAGE) (and titles now too)
             CoroutineScope(Dispatchers.IO).launch {
