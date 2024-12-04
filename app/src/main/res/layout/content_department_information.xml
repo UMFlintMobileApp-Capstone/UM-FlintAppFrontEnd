@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Schools/Colleges"
-                    android:textColor="@color/white"
+                    android:textColor="@color/college_gold"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:paddingBottom="8dp" />
@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Offices/Centers"
-                    android:textColor="@color/white"
+                    android:textColor="@color/college_gold"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:paddingBottom="8dp" />

@@ -12,6 +12,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.net.Uri
+import android.widget.LinearLayout.LayoutParams
+import android.widget.TableLayout
+import android.widget.TableRow
+import androidx.core.content.ContextCompat
+import com.google.android.material.elevation.ElevationOverlayProvider
+import org.w3c.dom.Text
 
 class DepartmentInformationActivity : AppCompatActivity() {
 
@@ -107,21 +113,36 @@ class DepartmentInformationActivity : AppCompatActivity() {
 
         )
 
-        addLinksToContainer(containerLayout1, schoolsCollegesLinks)
+        val schoolTable = TableLayout(this@DepartmentInformationActivity)
+
+
+
+        addLinksToContainer(schoolTable, schoolsCollegesLinks)
         addLinksToContainer(containerLayout2, officesCentersLinks)
+        containerLayout1.addView(schoolTable)
     }
 
     private fun addLinksToContainer(container: LinearLayout, links: List<Pair<String, String>>) {
-        for (link in links) {
+        links.forEachIndexed {index, link ->
+            val dataRow = TableRow(this)
             val textView = TextView(this)
             textView.text = link.first // Department name
             textView.setTextColor(resources.getColor(android.R.color.white))
-            textView.setPadding(0, 8, 0, 8)
+            textView.setPadding(32, 32, 32, 32)
             textView.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link.second))
                 startActivity(intent)
             }
-            container.addView(textView)
+            textView.setTextSize(16f)
+
+            val fillerView = TextView(this)
+            fillerView.width = LayoutParams.MATCH_PARENT
+            fillerView.height = 2
+            fillerView.setBackgroundColor(ContextCompat.getColor(this, R.color.college_gold))
+
+            dataRow.addView(textView)
+            container.addView(dataRow)
+            container.addView(fillerView)
         }
     }
 

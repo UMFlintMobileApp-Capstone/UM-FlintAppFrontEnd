@@ -161,5 +161,6 @@
             app:menu="@menu/activity_main_drawer"
             app:headerLayout="@layout/nav_header_main"
             android:background="#00274C"
-            app:itemTextColor="#FFFFFF"/>
+            app:itemTextColor="#FFFFFF"
+            app:subheaderTextAppearance="@style/NavMenuGroupText"/>
 </androidx.drawerlayout.widget.DrawerLayout>

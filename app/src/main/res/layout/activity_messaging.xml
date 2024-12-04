@@ -122,5 +122,7 @@
         app:headerLayout="@layout/nav_header_main"
         android:background="@color/blue"
         app:itemTextColor="@color/white"
-        app:itemIconTint="@color/white"/>
+        app:itemIconTint="@color/white"
+        app:subheaderTextAppearance="@style/NavMenuGroupText"
+        />
 </androidx.drawerlayout.widget.DrawerLayout>

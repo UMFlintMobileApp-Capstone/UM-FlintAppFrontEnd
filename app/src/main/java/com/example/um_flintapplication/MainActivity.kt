@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Html
 import android.text.TextUtils
+import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.webkit.WebSettings
@@ -379,7 +380,7 @@ class MainActivity : AppCompatActivity() {
                             layoutParams.leftMargin = 4
 
                             textview.layoutParams = layoutParams
-
+                            textview.gravity = Gravity.CENTER
 
                             layout.addView(textview)
                         }

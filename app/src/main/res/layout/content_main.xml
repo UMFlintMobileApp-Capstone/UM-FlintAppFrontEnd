@@ -85,8 +85,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="EVENTS"
-                    android:textColor="@color/white"
+                    android:textColor="@color/college_gold"
                     android:textStyle="bold"
+                    android:textSize="16sp"
                     android:onClick="openEventsPage"/>
 
                 <LinearLayout
@@ -104,7 +105,7 @@
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true"
                         android:background="@color/maize"
-                        android:padding="8dp"
+                        android:padding="2dp"
                         android:onClick="openEventsPage"/>
 
                     <ImageView
@@ -115,7 +116,7 @@
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true"
                         android:background="@color/maize"
-                        android:padding="8dp"
+                        android:padding="2dp"
                         android:layout_marginStart="8dp"
                         android:onClick="openEventsPage"/>
 
@@ -127,7 +128,7 @@
                         android:scaleType="centerCrop"
                         android:layout_centerInParent="true"
                         android:background="@color/maize"
-                        android:padding="8dp"
+                        android:padding="2dp"
                         android:layout_marginStart="8dp"
                         android:onClick="openEventsPage"/>
                 </LinearLayout>
@@ -161,9 +162,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="NEWS"
-                    android:textColor="@color/white"
+                    android:textColor="@color/college_gold"
                     android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:paddingBottom="2dp"
                     android:onClick="openNewsPage"/>
+
+
 
                 <ImageView
                     android:id="@+id/news1"
@@ -173,7 +178,7 @@
                     android:scaleType="centerCrop"
                     android:layout_centerInParent="true"
                     android:background="@color/maize"
-                    android:padding="8dp"
+                    android:padding="2dp"
                     android:layout_margin="8dp"
                     android:onClick="openNewsPage"/>
 
@@ -183,8 +188,15 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:padding="8dp"
-                    android:onClick="openNewsPage"/>
+                    android:onClick="openNewsPage"
+                    />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:paddingBottom="8dp"
+                    android:background="@color/gray"
+                    />
                 <ImageView
                     android:id="@+id/news2"
                     android:layout_width="match_parent"
@@ -193,7 +205,7 @@
                     android:scaleType="centerCrop"
                     android:layout_centerInParent="true"
                     android:background="@color/maize"
-                    android:padding="8dp"
+                    android:padding="2dp"
                     android:layout_margin="8dp"
                     android:onClick="openNewsPage"/>
 
@@ -204,7 +216,12 @@
                     android:textColor="@color/white"
                     android:padding="8dp"
                     android:onClick="openNewsPage"/>
-
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:paddingBottom="8dp"
+                    android:background="@color/gray"
+                    />
                 <ImageView
                     android:id="@+id/news3"
                     android:layout_width="match_parent"
@@ -213,7 +230,7 @@
                     android:scaleType="centerCrop"
                     android:layout_centerInParent="true"
                     android:background="@color/maize"
-                    android:padding="8dp"
+                    android:padding="2dp"
                     android:layout_margin="8dp"
                     android:onClick="openNewsPage"/>
 
@@ -245,7 +262,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="MAPS"
-                    android:textColor="@color/white"
+                    android:textColor="@color/college_gold"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <WebView

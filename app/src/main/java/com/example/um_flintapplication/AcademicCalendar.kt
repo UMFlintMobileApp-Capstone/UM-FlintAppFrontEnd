@@ -91,17 +91,22 @@ class AcademicCalendar : AppCompatActivity() {
                             for (terms: JsonElement in jsonObj["terms"].asJsonArray) {
                                 tableData.clear()
                                 tableData.add(listOf(terms.asJsonObject["name"].asString)) // start list off with term header
+                                val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                val headerDateTimeFormatter = DateTimeFormatter.ofPattern("MM-dd-yyyy")
+                                val termStartDate = LocalDateTime.parse(terms.asJsonObject["start_at"].asString, dateTimeFormatter).format(headerDateTimeFormatter)
+                                val termEndDate = LocalDateTime.parse(terms.asJsonObject["end_at"].asString, dateTimeFormatter).format(headerDateTimeFormatter)
+                                tableData.add(listOf("$termStartDate - $termEndDate"))
                                 // loop through each event
                                 for (events: JsonElement in terms.asJsonObject["events"].asJsonArray) {
                                     val eventsObj = events.asJsonObject
 
                                     // you actually have to do it this way, i dont know why
-                                    var date = LocalDateTime.parse(eventsObj["start_at"].asString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) // yuck
+                                    var date = LocalDateTime.parse(eventsObj["start_at"].asString, dateTimeFormatter) // yuck
                                     val formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy hh:mm a")
                                     val startDate = date.format(formatter)
 
                                     if (eventsObj["end_at"].asString.isNotEmpty()) {
-                                        date = LocalDateTime.parse(eventsObj["end_at"].asString, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) // yuck
+                                        date = LocalDateTime.parse(eventsObj["end_at"].asString, dateTimeFormatter) // yuck
                                         val endDate = date.format(formatter)
                                         tableData.add(
                                             listOf(
@@ -137,10 +142,17 @@ class AcademicCalendar : AppCompatActivity() {
                                         textView.setPadding(8,8,8,8)
                                         textView.setTextSize(16f)
 
-                                        if (rowData.size == 1) {
+                                        if (index == 0) {
                                             textView.gravity = Gravity.CENTER
                                             textView.setTypeface(null, android.graphics.Typeface.BOLD)
                                             textView.setTextSize(20f)
+                                            textView.setBackgroundColor(ContextCompat.getColor(this@AcademicCalendar, R.color.college_blue))
+                                            textView.setTextColor(ContextCompat.getColor(this@AcademicCalendar, R.color.white))
+                                        }
+                                        else if (index == 1) {
+                                            textView.gravity = Gravity.CENTER
+                                            textView.setTypeface(null, android.graphics.Typeface.BOLD)
+                                            textView.setTextSize(16f)
                                             textView.setBackgroundColor(ContextCompat.getColor(this@AcademicCalendar, R.color.college_blue))
                                             textView.setTextColor(ContextCompat.getColor(this@AcademicCalendar, R.color.white))
                                         }
