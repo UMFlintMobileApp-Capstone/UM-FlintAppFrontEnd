@@ -33,6 +33,8 @@ import com.example.um_flintapplication.apiRequests.EventItem
 import com.example.um_flintapplication.apiRequests.NewsItem
 import com.example.um_flintapplication.apiRequests.Retrofit
 import com.example.um_flintapplication.databinding.ActivityMainBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.material.navigation.NavigationView
 import com.skydoves.sandwich.onSuccess
 import kotlinx.coroutines.CoroutineScope
@@ -200,7 +202,12 @@ class MainActivity : AppCompatActivity() {
             ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == RESULT_OK) {
                 Log.d("GOOGLEAUTH-M","Login successful!")
-                updateLoginButton(signInButton)
+
+                updateLoginButton(signInButton,
+                    googleSignIn.handleLogin(
+                        GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                    )
+                )
             }
         }
 
@@ -214,7 +221,10 @@ class MainActivity : AppCompatActivity() {
 
         // On page load update the login button if already logged in
         CoroutineScope(Dispatchers.IO).launch {
-            updateLoginButton(signInButton)
+            googleSignIn.silentLogin { cred ->
+                if(cred!=null)
+                    updateLoginButton(signInButton, cred)
+            }
         }
 
         //Begin News
@@ -458,34 +468,30 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun updateLoginButton(signInButton: LinearLayout){
-        googleSignIn.silentLogin { cred ->
-            if (cred != null) {
-                var signInHeader = findViewById<TextView>(R.id.SignInHeader)
-                var signInBody = findViewById<TextView>(R.id.SignInBody)
+    fun updateLoginButton(signInButton: LinearLayout, cred: GoogleSignInAccount){
+        var signInHeader = findViewById<TextView>(R.id.SignInHeader)
+        var signInBody = findViewById<TextView>(R.id.SignInBody)
 
-                signInHeader.text =
-                    getString(R.string.signInHeaderText, cred.givenName, cred.familyName)
+        signInHeader.text =
+            getString(R.string.signInHeaderText, cred.givenName, cred.familyName)
 
-                signInBody.text = getString(R.string.signInBodyText)
+        signInBody.text = getString(R.string.signInBodyText)
 
-                signInButton.setOnClickListener {
-                    googleSignIn.logout{ success ->
-                        if(success){
-                            signInHeader.text = getString(R.string.signInHeaderDefault)
+        signInButton.setOnClickListener {
+            googleSignIn.logout{ success ->
+                if(success){
+                    signInHeader.text = getString(R.string.signInHeaderDefault)
 
-                            signInBody.text = getString(R.string.signInBodyDefault)
+                    signInBody.text = getString(R.string.signInBodyDefault)
 
-                            signInButton.setOnClickListener {
-                                googleSignIn.login(launcher)
-                            }
-                            Toast.makeText(this@MainActivity,"Logged out!",
-                                Toast.LENGTH_SHORT).show()
-                        }else{
-                            Toast.makeText(this@MainActivity,"Couldn't log out, try again!",
-                                Toast.LENGTH_SHORT).show()
-                        }
+                    signInButton.setOnClickListener {
+                        googleSignIn.login(launcher)
                     }
+                    Toast.makeText(this@MainActivity,"Logged out!",
+                        Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(this@MainActivity,"Couldn't log out, try again!",
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         }

@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.Task
 class Auth(private val ctx: Context) {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var launch: ActivityResultLauncher<Intent>
-    private var success: Boolean = false
 
     private val gso =
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -89,13 +88,15 @@ class Auth(private val ctx: Context) {
         }
     }
 
-    private fun handleLogin(completedTask: Task<GoogleSignInAccount>){
+    fun handleLogin(completedTask: Task<GoogleSignInAccount>): GoogleSignInAccount{
         Log.i("GOOGLEAUTH", "handleLogin")
 
-        var account = completedTask.getResult(
+        val account = completedTask.getResult(
             ApiException::class.java
         )
 
         Toast.makeText(ctx, ("Hello " + account?.givenName), Toast.LENGTH_LONG).show()
+
+        return account
     }
 }
