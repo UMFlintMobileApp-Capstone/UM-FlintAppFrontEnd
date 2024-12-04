@@ -1,7 +1,6 @@
 package com.example.um_flintapplication
 
 import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -16,11 +15,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 
 class Auth(private val ctx: Context) {
     private lateinit var mGoogleSignInClient: GoogleSignInClient
-    private lateinit var launcher: ActivityResultLauncher<Intent>
+    private lateinit var launch: ActivityResultLauncher<Intent>
 
     private val gso =
         GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -30,6 +28,8 @@ class Auth(private val ctx: Context) {
             .build()
 
     fun silentLogin(callback: (GoogleSignInAccount?) -> Unit){
+        Log.i("GOOGLEAUTH", "silentLogin")
+
         if (ctx !is AppCompatActivity) {
             throw Exception("Please use the activity context")
         }
@@ -46,42 +46,58 @@ class Auth(private val ctx: Context) {
     }
 
     fun createLauncher(){
-        launcher = (ctx as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
+        Log.i("GOOGLEAUTH", "createLauncher")
+
+        launch = (ctx as ComponentActivity).registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                handleLogin(GoogleSignIn.getSignedInAccountFromIntent(result.data))
+                handleLogin(result.data)
             }
         }
     }
 
-    fun login(){
+    fun login(launcher: ActivityResultLauncher<Intent>? = null){
+        var l: ActivityResultLauncher<Intent>? = launcher
+        Log.i("GOOGLEAUTH", "login")
+
         if (ctx !is AppCompatActivity) {
             throw Exception("Please use the activity context")
         }
 
+        if(l==null){
+            if(::launch.isInitialized){
+                l = launch
+            }else{
+                throw Exception("Please either pass a launcher to login() or create a generic with " +
+                        "createLauncher()")
+            }
+        }
+
         mGoogleSignInClient = GoogleSignIn.getClient(ctx, gso)
         val signInIntent = mGoogleSignInClient.signInIntent
-        launcher.launch(signInIntent)
+        l.launch(signInIntent)
     }
 
     fun logout(callback: (Boolean) -> Unit){
+        Log.i("GOOGLEAUTH", "logout")
+
         mGoogleSignInClient = GoogleSignIn.getClient(ctx, gso)
 
-        val task = mGoogleSignInClient.signOut()
-
-        if(task.isSuccessful){
-            callback(true)
-        }else{
-            callback(false)
+        mGoogleSignInClient.signOut().addOnCompleteListener { success ->
+            callback(success.isComplete)
         }
     }
 
-    private fun handleLogin(completedTask: Task<GoogleSignInAccount>){
-        Log.i(TAG, "handleGoogleSignIn")
+    fun handleLogin(intent: Intent?): GoogleSignInAccount{
+        Log.i("GOOGLEAUTH", "handleLogin")
 
-        val account = completedTask.getResult(
+        val task = GoogleSignIn.getSignedInAccountFromIntent(intent)
+
+        val account = task.getResult(
             ApiException::class.java
         )
 
         Toast.makeText(ctx, ("Hello " + account?.givenName), Toast.LENGTH_LONG).show()
+
+        return account
     }
 }
