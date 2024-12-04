@@ -25,6 +25,7 @@ class Auth(private val ctx: Context) {
             .requestIdToken(getString(ctx, R.string.googleClientId))
             .requestEmail()
             .requestProfile()
+            .setHostedDomain("umich.edu")
             .build()
 
     fun silentLogin(callback: (GoogleSignInAccount?) -> Unit){
