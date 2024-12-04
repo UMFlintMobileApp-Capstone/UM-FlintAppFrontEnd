@@ -32,12 +32,16 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityScheduleGroupMeetingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val googleSignIn = Auth(this)
+        val justSignedIn = intent.extras?.getBoolean("justLoggedIn")
+        if(justSignedIn==null){
+            val googleSignIn = Auth(this)
 
-        googleSignIn.goHomeIfUnauthorized()
+            googleSignIn.goHomeIfUnauthorized()
+        }
 
         val buildings = ArrayList<String>()
 

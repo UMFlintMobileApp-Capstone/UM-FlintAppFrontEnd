@@ -76,9 +76,12 @@ class MessagingActivity : AppCompatActivity() {
         // Initialize DrawerLayout and NavigationView
         setupNavigationDrawer()
 
-        val googleSignIn = Auth(this)
+        val justSignedIn = intent.extras?.getBoolean("justLoggedIn")
+        if(justSignedIn==null){
+            val googleSignIn = Auth(this)
 
-        googleSignIn.goHomeIfUnauthorized()
+            googleSignIn.goHomeIfUnauthorized()
+        }
 
         webSocketClient = WebSocketClient.getInstance(this@MessagingActivity)
         webSocketClient.setSocketUrl("wss://umflintapp.troxal.com/messaging/ws/")

@@ -118,6 +118,9 @@ class Auth(private val ctx: Context) {
                 ctx.startActivity(intent)
             }else{
                 Log.d("GOOGLEAUTH", "goHomeIfUnauthorized: Authorized")
+                ctx.startActivity(
+                    ctx.intent.putExtra("justLoggedIn", true)
+                )
             }
         }
 
