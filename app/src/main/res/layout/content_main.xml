@@ -253,7 +253,7 @@
             <!-- Maps Section -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="190dp"
+                android:layout_height="350dp"
                 android:background="@color/blue"
                 android:elevation="4dp"
                 android:onClick="openMapsPage"
@@ -268,10 +268,22 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <WebView
-                    android:id="@+id/webView"
-                    android:layout_width="match_parent"
-                    android:layout_height="143dp" />
+                <ImageView
+                        android:id="@+id/mapsImageView"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/map_image"
+                        android:background="#EEEEEE"
+                        android:padding="2dp"
+                        android:layout_marginTop="8dp"
+                        android:onClick="openMapsPage"/>
+
+
+<!--                <WebView-->
+<!--                    android:id="@+id/webView"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="143dp" />-->
 
             </LinearLayout>
         </LinearLayout>

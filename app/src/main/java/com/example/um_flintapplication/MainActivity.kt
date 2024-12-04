@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -64,14 +65,18 @@ class MainActivity : AppCompatActivity() {
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
 
+        val mapsImageView: ImageView = findViewById(R.id.mapsImageView)
+        mapsImageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+        mapsImageView.layoutParams.height = 800 // Dynamically set height in pixels
+        mapsImageView.scaleType = ImageView.ScaleType.CENTER_CROP
 
-        val webView: WebView = findViewById(R.id.webView)
-        webView.webViewClient =
-            WebViewClient() // Ensures links open in the WebView instead of a browser.
-        val webSettings: WebSettings = webView.settings
-        webSettings.javaScriptEnabled = true // Enable JavaScript for maps like Google Maps.
-        // Load the map URL
-        webView.loadUrl("https://www.umflint.edu/campus-map/")
+//        val webView: WebView = findViewById(R.id.webView)
+//        webView.webViewClient =
+//            WebViewClient() // Ensures links open in the WebView instead of a browser.
+//        val webSettings: WebSettings = webView.settings
+//        webSettings.javaScriptEnabled = true // Enable JavaScript for maps like Google Maps.
+//        // Load the map URL
+//        webView.loadUrl("https://www.umflint.edu/campus-map/")
 
         // Initialize AppBarConfiguration with top-level destinations
         appBarConfiguration = AppBarConfiguration(
