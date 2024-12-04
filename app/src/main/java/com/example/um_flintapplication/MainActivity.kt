@@ -216,6 +216,8 @@ class MainActivity : AppCompatActivity() {
                 updateLoginButton(signInButton,
                     googleSignIn.handleLogin(result.data)
                 )
+            }else{
+                throw Exception(result.resultCode.toString()+": "+result.data)
             }
         }
 
