@@ -1,6 +1,7 @@
 package com.example.um_flintapplication
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -101,4 +102,26 @@ class Auth(private val ctx: Context) {
 
         return account
     }
+
+    fun goHomeIfUnauthorized(){
+        Log.i("GOOGLEAUTH", "goHomeIfUnauthorized")
+
+        val launcher = (ctx as ComponentActivity).registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()){ result ->
+            if (result.resultCode != RESULT_OK) {
+                Log.d("GOOGLEAUTH", "goHomeIfUnauthorized: Unauthorized")
+                Toast.makeText(ctx,"You are not authorized to view this page. Try to login.",
+                    Toast.LENGTH_SHORT).show()
+
+                val intent =
+                    Intent(ctx, MainActivity::class.java)
+                ctx.startActivity(intent)
+            }else{
+                Log.d("GOOGLEAUTH", "goHomeIfUnauthorized: Authorized")
+            }
+        }
+
+        login(launcher)
+    }
+
 }

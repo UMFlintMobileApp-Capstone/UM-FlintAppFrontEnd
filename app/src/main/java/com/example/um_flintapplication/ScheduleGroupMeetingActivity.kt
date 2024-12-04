@@ -35,6 +35,10 @@ class ScheduleGroupMeetingActivity : AppCompatActivity() {
         binding = ActivityScheduleGroupMeetingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val googleSignIn = Auth(this)
+
+        googleSignIn.goHomeIfUnauthorized()
+
         val buildings = ArrayList<String>()
 
         // Set up the toolbar

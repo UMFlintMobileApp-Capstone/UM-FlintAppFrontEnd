@@ -36,6 +36,10 @@ class SendAnnouncementActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = "Send Announcements"
 
+        val googleSignIn = Auth(this)
+
+        googleSignIn.goHomeIfUnauthorized()
+
         // Initialize DrawerLayout and NavigationView
         setupNavigationDrawer()
 
