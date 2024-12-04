@@ -1,6 +1,7 @@
 package com.example.um_flintapplication
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -19,6 +20,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.forEach
 
@@ -158,15 +161,15 @@ class ScheduleStudentMeetingActivity : AppCompatActivity() {
         // Date Picker
         val calendar = Calendar.getInstance()
         binding.btnPickDate.setOnClickListener {
-            DatePickerDialog(this, { _, year, month, dayOfMonth ->
-                binding.tvDate.text = "${month + 1}/$dayOfMonth/$year"
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+            pickDateTime { c ->
+                binding.tvDate.text = c.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm"))
+            }
         }
 
         binding.eBtnPickDate.setOnClickListener {
-            DatePickerDialog(this, { _, year, month, dayOfMonth ->
-                binding.evDate.text = "${month + 1}/$dayOfMonth/$year"
-            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+            pickDateTime { c ->
+                binding.evDate.text = c.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm"))
+            }
         }
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, locations)
@@ -250,4 +253,27 @@ class ScheduleStudentMeetingActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun pickDateTime(callback: (LocalDateTime) -> Unit) {
+        val currentDateTime = Calendar.getInstance()
+        val startYear = currentDateTime.get(Calendar.YEAR)
+        val startMonth = currentDateTime.get(Calendar.MONTH)
+        val startDay = currentDateTime.get(Calendar.DAY_OF_MONTH)
+        val startHour = currentDateTime.get(Calendar.HOUR_OF_DAY)
+        val startMinute = currentDateTime.get(Calendar.MINUTE)
+
+        DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+                val pickedDateTime = Calendar.getInstance()
+                pickedDateTime.set(year, month, day, hour, minute)
+
+                val localDate = LocalDateTime.ofInstant(
+                    pickedDateTime.toInstant(), pickedDateTime.timeZone.toZoneId()
+                )
+
+                callback(localDate)
+            }, startHour, startMinute, false).show()
+        }, startYear, startMonth, startDay).show()
+    }
+
 }
