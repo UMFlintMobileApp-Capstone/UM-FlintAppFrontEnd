@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -63,6 +64,7 @@ class ScheduleAdvisorActivity : AppCompatActivity() {
     }
 
     private fun loadAdvisors(college: Int) {
+        // Clear existing cards
         binding.advisorSection.removeAllViews()
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -71,22 +73,34 @@ class ScheduleAdvisorActivity : AppCompatActivity() {
                 advisors = data
             }
 
-            advisors?.forEach{advisor ->
+            // Add cards dynamically
+            advisors?.forEach { advisor ->
                 val degrees = advisor.degrees.joinToString { it -> it.name }
 
+                // Inflate the card view
                 val advisorView = layoutInflater.inflate(R.layout.advisor_card, null)
                 advisorView.findViewById<TextView>(R.id.advisor_name).text = advisor.name
                 advisorView.findViewById<TextView>(R.id.programs).text = degrees
                 advisorView.findViewById<TextView>(R.id.email).text = "Email: ${advisor.email}"
-                if(advisor.curl!=null){
+
+                // Set button click for scheduling
+                if (advisor.curl != null) {
                     advisorView.findViewById<Button>(R.id.schedule_button).setOnClickListener {
-                        // Open advisor's Calendly link
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(advisor.curl))
                         startActivity(intent)
                     }
                 }
 
-                withContext(Dispatchers.Main){
+                // Ensure proper spacing (use margin if not applied in advisor_card.xml)
+                val layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                layoutParams.setMargins(0, 0, 0, 16) // Add 16dp margin bottom
+                advisorView.layoutParams = layoutParams
+
+                // Add card to the advisor section
+                withContext(Dispatchers.Main) {
                     binding.advisorSection.addView(advisorView)
                 }
             }
