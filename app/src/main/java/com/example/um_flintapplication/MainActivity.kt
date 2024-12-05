@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
         val mapsImageView: ImageView = findViewById(R.id.mapsImageView)
         mapsImageView.layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-        mapsImageView.layoutParams.height = 800 // Dynamically set height in pixels
+        mapsImageView.layoutParams.height = 1000 // Dynamically set height in pixels
         mapsImageView.scaleType = ImageView.ScaleType.CENTER_CROP
 
 //        val webView: WebView = findViewById(R.id.webView)

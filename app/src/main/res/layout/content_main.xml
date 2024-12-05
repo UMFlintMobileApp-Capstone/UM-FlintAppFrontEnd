@@ -252,7 +252,7 @@
             <!-- Maps Section -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="300dp"
                 android:background="@color/blue"
                 android:elevation="4dp"
                 android:onClick="openMapsPage"
@@ -270,7 +270,7 @@
                 <ImageView
                         android:id="@+id/mapsImageView"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
+                        android:layout_height="300dp"
                         android:layout_gravity="center"
                         android:src="@drawable/map_image"
                         android:background="#EEEEEE"
