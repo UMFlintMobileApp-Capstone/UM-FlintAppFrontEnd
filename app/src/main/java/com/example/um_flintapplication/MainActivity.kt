@@ -229,9 +229,14 @@ class MainActivity : AppCompatActivity() {
 
         // On page load update the login button if already logged in
         CoroutineScope(Dispatchers.IO).launch {
-            googleSignIn.silentLogin { cred ->
+            var cred: GoogleSignInAccount? = null
+            googleSignIn.silentLogin { c ->
+                cred = c
+            }
+
+            withContext(Dispatchers.Main){
                 if(cred!=null)
-                    updateLoginButton(signInButton, cred)
+                    updateLoginButton(signInButton, cred!!)
             }
         }
 
