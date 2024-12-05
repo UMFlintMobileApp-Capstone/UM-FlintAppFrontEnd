@@ -38,6 +38,7 @@ class MessagingActivity : AppCompatActivity() {
     private val threads = ArrayList<Thread>()
     private lateinit var adapter: MessageAdapter
     private lateinit var toUser: Thread
+    private val lastMessage: JSONObject? = null
 
     private lateinit var webSocketClient: WebSocketClient
 
@@ -45,20 +46,32 @@ class MessagingActivity : AppCompatActivity() {
         @SuppressLint("NotifyDataSetChanged")
         override fun onMessage(message: String) {
             Log.e("socketCheck onMessage", message)
+            var valid = true
 
             val m = JSONObject(message)
+            lastMessage?.equals(m)?.let {
+                if(it){
+                    valid = false;
+                }
+            }
 
-            runOnUiThread(Runnable{
-                adapter.addMessage(
-                    Message(
-                        m.getString("from"),
-                        m.getString("text"),
-                        m.getString("date")
+            if(!::toUser.isInitialized){
+                valid = false;
+            }
+
+            if(valid==true){
+                runOnUiThread(Runnable{
+                    adapter.addMessage(
+                        Message(
+                            m.getString("from"),
+                            m.getString("text"),
+                            m.getString("date")
+                        )
                     )
-                )
 
-                adapter.notifyDataSetChanged()
-            })
+                    adapter.notifyDataSetChanged()
+                })
+            }
         }
     }
 
