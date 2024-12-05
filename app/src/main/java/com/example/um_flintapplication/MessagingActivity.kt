@@ -38,7 +38,7 @@ class MessagingActivity : AppCompatActivity() {
     private val threads = ArrayList<Thread>()
     private lateinit var adapter: MessageAdapter
     private lateinit var toUser: Thread
-    private val lastMessage: JSONObject? = null
+    private var lastMessage: JSONObject? = null
 
     private lateinit var webSocketClient: WebSocketClient
 
@@ -52,6 +52,8 @@ class MessagingActivity : AppCompatActivity() {
             lastMessage?.equals(m)?.let {
                 if(it){
                     valid = false;
+                }else{
+                    lastMessage = m
                 }
             }
 
