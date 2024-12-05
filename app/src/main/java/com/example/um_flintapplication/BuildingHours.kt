@@ -26,7 +26,7 @@ class BuildingHours : AppCompatActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Campus Map"
+        supportActionBar?.title = "Building Hours"
 
         setupNavigationDrawer()
 
