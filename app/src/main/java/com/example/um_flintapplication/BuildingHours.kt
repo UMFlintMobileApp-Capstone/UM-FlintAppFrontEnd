@@ -11,19 +11,18 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.ui.AppBarConfiguration
-import com.example.um_flintapplication.databinding.ActivityMapsPageBinding
+import com.example.um_flintapplication.databinding.ActivityBuildingHoursBinding
 import com.google.android.material.navigation.NavigationView
 
-class MapsPage : AppCompatActivity() {
-
+class BuildingHours : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var binding: ActivityMapsPageBinding
+    private lateinit var binding: ActivityBuildingHoursBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMapsPageBinding.inflate(layoutInflater)
+        binding = ActivityBuildingHoursBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
@@ -37,7 +36,7 @@ class MapsPage : AppCompatActivity() {
         webSettings.javaScriptEnabled = true // Enable JavaScript for maps like Google Maps.
 
         // Load the map URL
-        webView.loadUrl("https://www.umflint.edu/campus-map/")
+        webView.loadUrl("https://www.umflint.edu/building-hours/")
 
     }
 

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".BuildingHours"
+            android:exported="false" />
+        <activity
             android:name=".AcademicCalendar"
             android:exported="false"
             android:label="@string/title_activity_academic_calendar"
@@ -27,19 +30,20 @@
             android:label="@string/title_activity_alerts"
             android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
         <activity
-                android:name=".SendAnnouncementActivity"
-                android:exported="false"
-                android:label="@string/send_announcements"
-                android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
+            android:name=".SendAnnouncementActivity"
+            android:exported="false"
+            android:label="@string/send_announcements"
+            android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
         <activity
             android:name=".NewsActivity"
             android:exported="false"
             android:label="@string/title_news"
             android:theme="@style/Theme.UMFlintApplication.NoActionBar" /> <!-- <activity -->
-        <activity android:name=".MessagingActivity"
+        <activity
+            android:name=".MessagingActivity"
             android:exported="false"
             android:label="@string/title_student_messaging"
-            android:theme="@style/Theme.UMFlintApplication.NoActionBar"/>
+            android:theme="@style/Theme.UMFlintApplication.NoActionBar" />
         <activity
             android:name=".DepartmentInformationActivity"
             android:exported="false"

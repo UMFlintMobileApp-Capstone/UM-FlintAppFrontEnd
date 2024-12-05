@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.googleid)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.sandwich.retrofit)
+    implementation(libs.androidx.activity)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

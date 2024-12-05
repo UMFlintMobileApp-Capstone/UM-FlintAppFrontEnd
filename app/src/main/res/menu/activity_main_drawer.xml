@@ -23,6 +23,9 @@
                     android:id="@+id/nav_resources_departments"
                     android:title="@string/departments" />
                 <item
+                    android:id="@+id/nav_resources_building_hours"
+                    android:title="@string/building_hours" />
+                <item
                     android:id="@+id/nav_resources_maps"
                     android:title="@string/maps" />
             </menu>
