@@ -19,3 +19,4 @@ app/src/main/res/values/secrets.xml
 .idea/compiler.xml
 .idea/misc.xml
 /.idea
+umflintdebug.keystore
