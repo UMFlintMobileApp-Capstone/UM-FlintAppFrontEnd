@@ -4,6 +4,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        create("umflint") {
+            storeFile = rootProject.file("umflintdebug.keystore")
+            storePassword = "umflint"
+            keyAlias = "key0"
+            keyPassword = "umflint"
+        }
+    }
     namespace = "com.example.um_flintapplication"
     compileSdk = 35
 
@@ -15,6 +23,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig = signingConfigs.getByName("umflint")
     }
 
     buildTypes {
@@ -24,6 +33,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("umflint")
+        }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("umflint")
         }
     }
     compileOptions {
