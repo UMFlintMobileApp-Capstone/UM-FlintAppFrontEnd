@@ -39,6 +39,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Timer
 import kotlin.concurrent.fixedRateTimer
 
 class MainActivity : AppCompatActivity() {
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var googleSignIn : Auth
     private lateinit var launcher: ActivityResultLauncher<Intent>
+    private lateinit var timerTask: Timer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -327,7 +329,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            fixedRateTimer("announcementTimer", false, 0L, 30 * 1000) {
+
+            timerTask = fixedRateTimer("announcementTimer", false, 0L, 30 * 1000) {
                 Log.d("announcementTimer","called")
                 //Begin Alerts
                 CoroutineScope(Dispatchers.IO).launch {
@@ -515,5 +518,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        timerTask.cancel()
     }
 }
