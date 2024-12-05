@@ -129,6 +129,13 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.nav_resources_building_hours -> {
+                    // Navigate to Departments page
+                    val intent = Intent(this, BuildingHours::class.java)
+                    startActivity(intent)
+                    true
+                }
+
                 R.id.nav_resources_maps -> {
                     // Navigate to Maps page
                     val intent = Intent(this, MapsPage::class.java)
